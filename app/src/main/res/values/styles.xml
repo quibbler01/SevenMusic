@@ -1,0 +1,232 @@
+<resources>
+
+    <!-- Base application theme. 使用NoActionBar，不显示标题-->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bg_color</item>    <!--标题栏颜色-->
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="colorAccent">@color/bg_color</item>   <!--控件的颜色-->
+
+    </style>
+
+    <!--侧边栏Item样式-->
+    <!-- <item name="android:background">@android:color/white</item>-->
+    <style name="menu_item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">11dp</item>
+    </style>
+
+    <!--侧边栏子Item对应的TextView样式-->
+    <style name="menu_item_text_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">11dp</item>
+    </style>
+
+    <!--侧边栏Item里面的ImageView样式-->
+    <style name="menu_item_image_view_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--侧边栏Item里面的RelativeLayout样式-->
+    <style name="item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+
+    <!--侧边栏每个Item对应布局中的TextView样式-->
+    <style name="item_text_style">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">#141414</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--侧边栏闹钟提醒频率弹出串口动画效果-->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_popup_alpha_out</item>
+        <item name="android:windowExitAnimation">@anim/anim_popup_alpha_in</item>
+    </style>
+
+
+    <style name="my_activity_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+    </style>
+
+    <style name="my_download_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--设置setDisplayHomeAsUpEnabled 返回按键白色-->
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+    </style>
+
+
+    <!--我的页面底部弹出菜单动画-->
+    <style name="my_create_song_list_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_bottom_dialog_out</item>
+    </style>
+
+    <!--    歌单库tab样式-->
+    <style name="found_playlist_lib_tab">
+        <!--        <item name="tabBackground">@color/colorWhite</item>-->
+        <!--        //tab指示线颜色-->
+        <!--        <item name="tabIndicatorColor">@color/color8</item>-->
+        //tab指示线高度
+        <item name="tabIndicatorHeight">0dp</item>
+
+        //tab选中字体的颜色
+        <item name="tabSelectedTextColor">@color/found_tab_selected</item>
+        //tab未选中字体的颜色
+        <item name="tabTextColor">@color/found_tab_unselected</item>
+        <item name="android:textSize">15sp</item>
+
+    </style>
+
+
+    <!--歌手库tab样式-->
+    <style name="found_singer_lib_tab">
+        <!--        <item name="tabBackground">@color/colorWhite</item>-->
+        <!--        //tab指示线颜色-->
+        <!--        <item name="tabIndicatorColor">@color/color8</item>-->
+        //tab指示线高度
+        <item name="tabIndicatorHeight">0dp</item>
+
+        //tab选中字体的颜色
+        <item name="tabSelectedTextColor">@color/found_tab_selected</item>
+        //tab未选中字体的颜色
+        <item name="tabTextColor">@color/found_tab_unselected</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+
+    <!--歌手库、歌单库actionBar样式-->
+    <style name="found_lib_activity_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--“发现”页面歌手库、歌单库按钮的textView样式-->
+    <style name="found_lib_button_textview_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/found_lib_button_text</item>
+    </style>
+
+    <!--歌单页面actionBar样式-->
+    <style name="playlist_activity_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/playlist_white_color</item>
+    </style>
+
+    <!--歌单页面header样式-->
+    <style name="playlist_activity_header_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/my_fragment_horizontal_line</item>
+        <item name="colorPrimaryDark">@color/playlist_white_color</item>
+        <item name="colorAccent">@color/playlist_white_color</item>
+    </style>
+
+    <!--歌手页面header样式-->
+    <style name="singer_activity_header_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/my_fragment_horizontal_line</item>
+        <item name="colorPrimaryDark">@color/playlist_white_color</item>
+        <item name="colorAccent">@color/playlist_white_color</item>
+    </style>
+
+    <!--歌手页面actionBar样式-->
+    <style name="singer_activity_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="colorPrimaryDark">@color/bg_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/playlist_white_color</item>
+    </style>
+
+    <!--mv播放页面状态栏样式-->
+    <style name="Theme.MvTilteStyle" parent="@android:style/Theme.Light.NoTitleBar" />
+
+    <!--启动页窗体背景样式，该背景能在第一时间显示, 避免启动时白屏，黑屏问题-->
+    <style name="LaunchTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background"></item>
+    </style>
+
+    <!--锁屏页面样式-->
+    <style name="lock_activity_theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.AppCompat.Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+    <!--歌单页面底部全选等TextView的样式-->
+    <style name="playlist_activity_tv_bottom">
+        <item name="android:textColor">@color/playlist_gray_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+
+    </style>
+
+    <!--音乐播放条播放列表出入动画样式-->
+    <style name="play_bar_music_list_dialog_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_play_bar_muisc_list_dialog_in</item>
+        //进入时的动画
+        <item name="android:windowExitAnimation">@anim/anim_play_bar_muisc_list_dialog_out</item>
+        //退出时的动画
+    </style>
+
+    <!--音乐播放条播放对话框样式-->
+    <style name="play_bar_music_list_dialog_attr" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowFrame">@null</item>
+        // 是否有边框
+        <item name="android:windowIsFloating">true</item>
+        // 是否悬浮在Activity之上
+        <item name="android:windowNoTitle">true</item>
+        // 标题
+        <item name="android:windowIsTranslucent">true</item>
+        // 阴影-半透明效果
+        <item name="android:windowAnimationStyle">@style/play_bar_music_list_dialog_anim</item>
+        // 进入和退出动画
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        // 点击外边可以消失
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+
+</resources>
