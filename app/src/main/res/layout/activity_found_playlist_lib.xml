@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/playlist_lib_tablayout"
+        style="@style/found_playlist_lib_tab"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"/>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="@color/light_gray"  />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/playlist_lib_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
