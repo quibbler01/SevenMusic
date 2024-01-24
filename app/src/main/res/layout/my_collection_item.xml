@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:layout_marginLeft="5dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:id="@+id/my_collection_head_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:singleLine="true"
+            android:id="@+id/my_collection_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/my_collection_description_text"
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textSize="12sp">
+
+        </TextView>
+    </LinearLayout>
+
+    <ImageView
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:id="@+id/my_collection_button_icon"
+        android:src="@drawable/my_collection_star"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp">
+
+    </ImageView>
+</LinearLayout>
