@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--去除android:background="@color/playlist_white_color"，避免过度绘制-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:background="@color/playlist_white_color"
+    >
+
+    <ImageButton
+        android:id="@+id/playlist_ib_play_all"
+        android:layout_width="27dp"
+        android:layout_height="25dp"
+        android:src="@drawable/playlist_play_all"
+        android:background="#00000000"
+        android:scaleType="centerInside"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:id="@+id/playlist_tv_play_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放全部"
+        android:textColor="@color/my_download_bar_text_black"
+        android:textSize="18sp"/>
+
+    <!--空view，防止误触点击-->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/playlist_tv_download_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下载"
+        android:textColor="@color/playlist_gray_color"
+        android:textSize="18sp"
+        />
+
+</LinearLayout>
