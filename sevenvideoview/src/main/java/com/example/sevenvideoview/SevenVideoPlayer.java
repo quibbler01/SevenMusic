@@ -330,6 +330,77 @@ public class SevenVideoPlayer extends FrameLayout
         return mMediaPlayer != null ? mMediaPlayer.getCurrentPosition() : 0;
     }
 
+    @Override
+    public int getBufferPercentage() {
+        return mBufferPercentage;
+    }
+
+    @Override
+    public float getSpeed(float speed) {
+        if (mMediaPlayer instanceof IjkMediaPlayer) {
+            return ((IjkMediaPlayer) mMediaPlayer).getSpeed(speed);
+        }
+        return 0;
+    }
+
+    @Override
+    public long getTcpSpeed() {
+        if (mMediaPlayer instanceof IjkMediaPlayer) {
+            return ((IjkMediaPlayer) mMediaPlayer).getTcpSpeed();
+        }
+        return 0;
+    }
+
+    private void initAudioManager() {
+        if (mAudioManager == null) {
+            mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+            mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        }
+    }
+
+    private void initMediaPlayer() {
+        if (mMediaPlayer == null) {
+            switch (mPlayerType) {
+                case TYPE_NATIVE:
+                    mMediaPlayer = new AndroidMediaPlayer();
+                    break;
+                case TYPE_IJK:
+                default:
+                    mMediaPlayer = new AndroidMediaPlayer();
+                    break;
+            }
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
+    }
+
+    private void initTextureView() {
+        if (mTextureView == null) {
+            mTextureView = new SevenTextureView(mContext);
+            mTextureView.setSurfaceTextureListener(this);
+        }
+    }
+
+    private void addTextureView() {
+        mContainer.removeView(mTextureView);
+        LayoutParams params = new LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        mContainer.addView(mTextureView, 0, params);
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+        if (mSurfaceTexture == null) {
+            mSurfaceTexture = surfaceTexture;
+            openMediaPlayer();
+        } else {
+            mTextureView.setSurfaceTexture(mSurfaceTexture);
+        }
+    }
+
+    private void openMediaPlayer() {
+        // 屏幕常亮
         mContainer.setKeepScreenOn(true);
         // 设置监听
         mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
