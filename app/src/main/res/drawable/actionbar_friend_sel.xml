@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/actionbar_mv_sel" android:state_selected="true"></item>
-    <item android:drawable="@mipmap/actionbar_mv_nor" android:state_selected="false"></item>
-    <item android:drawable="@mipmap/actionbar_mv_sel" android:state_pressed="true"></item>
-    <item android:drawable="@mipmap/actionbar_mv_nor" android:state_pressed="false"></item>
-</selector>
