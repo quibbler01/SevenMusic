@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.quibbler.sevenmusic.view.LockScreenUnderView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_lock_under_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/playlist_gray_color">
+
+    <LinearLayout
+        android:id="@+id/activity_lock_ll_move_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/transparent">
+
+        <include layout="@layout/header_lock_screen"/>
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="歌词"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="25sp"-->
+<!--            android:textColor="@color/white"/>-->
+        <FrameLayout
+            android:id="@+id/lock_activity_fl_lyric"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <include layout="@layout/lock_screen_buttons"/>
+
+        <TextView
+            android:id="@+id/activity_lock_tv_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=">>> 右滑以解锁 >>>"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</com.quibbler.sevenmusic.view.LockScreenUnderView>
+
