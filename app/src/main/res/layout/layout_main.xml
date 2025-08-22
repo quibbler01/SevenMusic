@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--主页面的内容布局，嵌套在activity_main.xml布局文件中-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--下方显示Toolbar,用于显示-->
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/bg_color">
+        <!--左上角的菜单选项，点击可打开侧边栏-->
+        <ImageView
+            android:id="@+id/sidebar_iv_menu"
+            android:layout_width="23dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_menu" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <!--显示我的图标-->
+            <ImageView
+                android:id="@+id/my"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/action_my_sel" />
+            <!--显示发现图标-->
+            <ImageView
+                android:id="@+id/found"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/actionbar_found_sel" />
+            <!--显示mv图标-->
+            <ImageView
+                android:id="@+id/mv"
+                android:layout_toRightOf="@id/found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/actionbar_friend_sel" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/music_search"
+            android:layout_width="23dp"
+            android:layout_height="23dp"/>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--ToolBar下方的页面全部设置为ViewPager，除底部部分区域外-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/mainViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </androidx.viewpager.widget.ViewPager>
+    <!--该布局显示主页面下方的歌曲信息，与播放、列表按钮-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="end|bottom">
+        <!--设置显示下方的内容-->
+        <include layout="@layout/layout_music_play_bar"></include>
+    </FrameLayout>
+
+</LinearLayout>
