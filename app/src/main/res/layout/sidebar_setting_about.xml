@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!--ToolBar布局:用于显示返回图标箭头(返回箭头是动态加载生成的)和设置标题-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/sidebar_toolbar_setting_about_back"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:text="关于七音音乐"
+                android:textColor="@color/setting_font_color"
+                android:textSize="20sp"></TextView>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前版本V1.1"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作者信息"
+            android:textSize="16sp"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="30"
+            android:layout_marginStart="5dp"
+            android:ellipsize="end"
+            android:text="@string/seven_music_about"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
