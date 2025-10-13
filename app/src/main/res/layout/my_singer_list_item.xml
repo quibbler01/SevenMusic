@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:id="@+id/my_local_singer_head_icon"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:src="@drawable/my_local_singer">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_marginLeft="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/my_local_music_list_name_item_size"
+            android:singleLine="true"
+            android:id="@+id/singer_list_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+        <TextView
+            android:textColor="@color/my_bottom_song_count"
+            android:singleLine="true"
+            android:id="@+id/singer_list_song_count"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="bottom"
+            android:layout_height="wrap_content">
+
+        </TextView>
+    </LinearLayout>
+</LinearLayout>
