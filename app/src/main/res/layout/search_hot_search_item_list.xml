@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <TextView
+        android:textSize="17sp"
+        android:gravity="center"
+        android:id="@+id/search_hot_position"
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:id="@+id/search_hot_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <ImageView
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="1dp"
+                android:id="@+id/search_top_hot_file_icon"
+                android:layout_width="28dp"
+                android:layout_height="16dp"
+                android:background="@drawable/search_hot_file_icon">
+
+            </ImageView>
+        </LinearLayout>
+
+        <TextView
+            android:textSize="13sp"
+            android:layout_marginTop="3dp"
+            android:singleLine="true"
+            android:id="@+id/search_hot_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TextView>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:id="@+id/search_hot_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
+</LinearLayout>

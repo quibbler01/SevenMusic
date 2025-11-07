@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.my.MyFavouriteMusicActivity">
+
+    <TextView
+        android:id="@+id/my_favourite_no_music"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/my_favourite_no_music"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/my_favourite_music_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
+
+    <include
+        layout="@layout/my_music_bottom_select_layout"
+        android:visibility="gone" />
+</LinearLayout>
