@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/singer_lib_style_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        style="@style/found_singer_lib_tab"
+        />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/singer_lib_gender_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        style="@style/found_singer_lib_tab"
+        />
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="@color/light_gray"  />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="推荐歌手"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/singer_lib_top_recyclerview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="筛选歌手"
+        android:paddingBottom="5dp"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/singer_lib_show_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/singer_lib_tv_dialog"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/singer_lib_siderbar_dialog_text"
+            android:background="@color/singer_lib_siderbar_dialog_background"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+        <com.quibbler.sevenmusic.activity.sidebar.SingerSiderBar
+            android:id="@+id/singer_lib_sidebar"
+            android:layout_width="20dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+</LinearLayout>

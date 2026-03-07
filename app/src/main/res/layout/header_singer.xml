@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/singer_activity_iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/play_disc_halo"/>
+
+    <TextView
+        android:id="@+id/singer_activity_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/singer_activity_iv_cover"
+        android:layout_alignBottom="@+id/singer_activity_iv_cover"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/singer_activity_iv_cover"
+        android:layout_alignBottom="@+id/singer_activity_iv_cover"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
+        <Button
+            android:id="@+id/singer_activity_btn_not_loved"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="+ 关注"
+            android:background="@drawable/button_round_shape_red"
+            android:textColor="@color/colorWhite"
+            android:textSize="11sp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/singer_activity_btn_loved"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="已关注"
+            android:background="@drawable/button_round_shape_white"
+            android:textColor="@color/love_btn_color"
+            android:textSize="11sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/mv_iv_albumpic"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="2"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:layout_weight="8"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp">
+        <TextView
+            android:id="@+id/mv_tv_song_name"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="#000" />
+        <TextView
+            android:id="@+id/mv_tv_artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="9sp"/>
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/mv_iv_music_play"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/mv_song_broad"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="15dp"/>
+</LinearLayout>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--ToolBar布局:用于显示返回图标箭头(返回箭头是动态加载生成的)和设置标题-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/sidebar_toolbar_setting_back"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:text="设置"
+                android:textColor="@color/setting_font_color"
+                android:textSize="20sp"></TextView>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey" />
+
+    <!--该布局:用于显示网络选项-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!--网络标题-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="网络"
+            android:textSize="15sp" />
+
+        <!--显示 网络播放 和 选择按钮-->
+        <RelativeLayout style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:text="使用2G/3G/4G网络播放"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <Switch
+                android:id="@+id/sidebar_switch_setting_network_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:checked="true"/>
+
+
+        </RelativeLayout>
+
+        <!--显示灰色分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_and_outline_grey" />
+
+        <!--显示 网络下载 和 选择按钮-->
+        <RelativeLayout style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:text="使用2G/3G/4G网络下载"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <Switch
+                android:id="@+id/sidebar_switch_setting_network_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey" />
+
+    <!--该布局:用于显示播放和下载选项-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!--播放和下载标题-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="播放和下载"
+            android:textSize="15sp" />
+
+        <!--显示 在线播放音质 -->
+        <RelativeLayout
+            android:id="@+id/sidebar_rl_setting_play_quality"
+            style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:text="在线播放音质"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/sidebar_tv_setting_play_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="自动" />
+
+        </RelativeLayout>
+
+        <!--显示灰色分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_and_outline_grey" />
+
+        <!--显示 下载音质 -->
+        <RelativeLayout
+            android:id="@+id/sidebar_rl_setting_download_quality"
+            style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:text="下载音质"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/sidebar_tv_setting_download_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="标准"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <!--显示灰色分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_and_outline_grey" />
+
+        <!--显示 边听边存 -->
+        <RelativeLayout
+            android:id="@+id/sidebar_rl_setting_listen_save"
+            style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:text="边听边存"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/sidebar_tv_setting_cache_video_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="未开启"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <!--显示灰色分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_and_outline_grey" />
+
+        <!--显示 设置下载目录 -->
+        <RelativeLayout
+            android:id="@+id/sidebar_rl_setting_download_directory"
+            style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:text="设置下载目录"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/sidebar_tv_setting_download_directory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="存储卡1"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <!--显示灰色分割线-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_and_outline_grey" />
+
+        <!--显示 缓存设置 -->
+        <RelativeLayout
+            android:id="@+id/sidebar_rl_setting_cache"
+            style="@style/item_style">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:text="缓存设置"
+                android:textColor="@color/setting_font_color"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey" />
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey" />
+
+
+</LinearLayout>

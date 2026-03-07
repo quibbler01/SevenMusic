@@ -1,0 +1,243 @@
+<resources>
+    <!--侧边栏字符配置-->
+    <string name="str_splash_enter">开启七音音乐播放器</string>
+    <string name="app_name">七音</string>
+    <string name="str_scan">扫一扫</string>
+    <string name="str_my_msg">我的消息</string>
+    <string name="str_membership_center">会员中心</string>
+    <string name="str_mall">商城</string>
+    <string name="str_listen_songs_online">在线听歌免流量</string>
+    <string name="str_about">关于</string>
+    <string name="str_shin_change">个性换肤</string>
+    <string name="str_music_recognition">听歌识曲</string>
+    <string name="str_timing_stop_play">定时停止播放</string>
+    <string name="str_music_alarm">音乐闹钟</string>
+    <string name="str_driving_mode">驾驶模式</string>
+    <string name="str_night_mode">夜间模式</string>
+    <string name="str_day_mode">日间模式</string>
+    <string name="str_setting">设置</string>
+    <string name="str_quit">退出</string>
+
+    <!-- 侧边栏-定时停止播放 -->
+    <string name="str_timing_stop_play_title">定时停止播放</string>
+    <string name="str_timing_stop_play_close">不开启</string>
+    <string name="str_timing_stop_play_close_ten_minute">10分钟后</string>
+    <string name="str_timing_stop_play_close_twenty_minute">20分钟后</string>
+    <string name="str_timing_stop_play_close_thirty_minute">30分钟后</string>
+    <string name="str_timing_stop_play_close_forty_minute">40分钟后</string>
+    <string name="str_timing_stop_play_close_sixty_minute">60分钟后</string>
+    <string name="str_timing_stop_play_close_custom_minute">自定义</string>
+    <string name="str_play_quality_automatic">自动</string>
+    <string name="str_timing_stop_play_dialog_title">定时停止播放</string>
+    <string name="str_timing_stop_play_cancel">定时停止播放已取消</string>
+    <string name="str_timing_stop_play_tips">倒计时结束啦，音乐已停止播放</string>
+    <string name="str_timing_stop_play_set_success_1">设置成功，将于</string>
+    <string name="str_timing_stop_play_set_success_2">分钟后关闭</string>
+
+    <!--对话框按钮字符配置-->
+    <string name="str_dialog_btn_cancel">取消</string>
+    <string name="str_dialog_btn_confirm">确认</string>
+    <string name="str_dialog_btn_sure">确定</string>
+    <string name="str_dialog_btn_eliminate">清除</string>
+    <string name="str_dialog_btn_clear">清空</string>
+    <string name="str_dialog_btn_continue_scan">继续扫</string>
+    <string name="str_dialog_scan_title_tips">扫描结果</string>
+    <string name="str_dialog_scan_message_result">扫描结果</string>
+
+    <!--侧边栏-扫一扫字符配置-->
+    <string name="str_scan_flash_light_open">打开闪光灯</string>
+    <string name="str_scan_flash_light_close">关闭闪光灯</string>
+
+    <!--侧边栏-音乐闹钟字符配置-->
+    <string name="str_alarm_tips_dialog_title">闹钟</string>
+    <string name="str_alarm_default_time">06:15</string>
+    <string name="str_alarm_default_song_name">牧马城市</string>
+    <string name="str_alarm_ring">铃声</string>
+    <string name="str_alarm_repeat">重复</string>
+    <string name="str_alarm_setting_tips">请设置闹钟时间</string>
+    <string name="str_alarm_reminder_frequency_once">一次</string>
+    <string name="str_alarm_reminder_frequency_everyday">每天</string>
+    <string name="str_alarm_reminder_frequency_monday">星期一</string>
+    <string name="str_alarm_reminder_frequency_tuesday">星期二</string>
+    <string name="str_alarm_reminder_frequency_wednesday">星期三</string>
+    <string name="str_alarm_reminder_frequency_thursday">星期四</string>
+    <string name="str_alarm_reminder_frequency_friday">星期五</string>
+    <string name="str_alarm_reminder_frequency_saturday">星期六</string>
+    <string name="str_alarm_reminder_frequency_sunday">星期天</string>
+    <string name="str_alarm_reminder_frequency_week_one">1</string>
+    <string name="str_alarm_reminder_frequency_week_two">2</string>
+    <string name="str_alarm_reminder_frequency_week_three">3</string>
+    <string name="str_alarm_reminder_frequency_week_four">4</string>
+    <string name="str_alarm_reminder_frequency_week_five">5</string>
+    <string name="str_alarm_reminder_frequency_week_six">6</string>
+    <string name="str_alarm_reminder_frequency_week_seven">7</string>
+    <string name="str_alarm_reminder_frequency_btn_sure">确认</string>
+    <string name="str_alarm_tips_dialog_msg">设定时间到了,播放音乐：</string>
+    <string name="str_alarm_setting_toast_msg_1">闹钟将于</string>
+    <string name="str_alarm_setting_toast_msg_2">提醒</string>
+
+    <!--侧边栏-听歌识曲字符配置-->
+    <string name="str_music_recognition_click_recognition">点击识别音乐</string>
+    <string name="str_music_recognition_surround_song">听歌识曲，识别你周围播放的歌</string>
+    <string name="str_music_recognition_identifying">正在识别音乐…</string>
+    <string name="str_music_recognition_click_stop">点击停止识别</string>
+    <string name="str_music_recognition_humming_song">识别哼唱的歌曲</string>
+    <string name="str_music_recognition_init_error">参数初始化错误，请检查</string>
+    <string name="str_music_recognition_network_request_error">请求出现错误，请查看原因！</string>
+    <string name="str_music_recognition_dialog_title">歌曲识别结果</string>
+
+    <!--侧边栏-网络字符配置-->
+    <string name="str_setting_network_play_dialog_title">确定要打开2G/3G/4G网络播放开关吗？</string>
+    <string name="str_setting_network_download_dialog_title">确定要打开2G/3G/4G网络下载开关吗？</string>
+    <string name="str_setting_network_play_download_dialog_msg">2G/3G/4G网络下播放会消耗流量，请参考你的话费套餐情况进行设置。</string>
+
+    <!--侧边栏-设置下载目录字符配置-->
+    <string name="str_setting_download_directory_dialog_title">设置下载目录</string>
+    <string name="str_setting_download_directory_no_sd_card">不存在SD卡</string>
+
+    <!--侧边栏-缓存设置字符配置-->
+    <string name="str_setting_cache_dialog_custom_cache_title">自定义缓存</string>
+    <string name="str_setting_cache_dialog_clear_music_cache_msg">确定要清除音乐缓存吗？</string>
+    <string name="str_setting_cache_dialog_clear_picture_lyrice_msg">确定要清除图片、歌词缓存吗？</string>
+    <string name="str_setting_cache_dialog_clear_video_msg">确定要清除视频缓存吗？</string>
+    <string name="str_setting_cache_no_cache">暂无缓存</string>
+    <!--音乐播放条-播放列表字符配置-->
+    <string name="str_play_bar_play_list_dialog_tips">播放列表为空，请先去播放音乐</string>
+    <string name="str_play_bar_play_list_dialog_title">确定要清空播放列表？</string>
+    <string name="str_play_bar_song_name">七音</string>
+    <string name="str_play_bar_song_word">作者信息</string>
+
+    <!--我的页面-->
+    <string name="my_local_music_text">本地音乐 </string>
+    <string name="my_local_singer_text">歌手 </string>
+    <string name="my_local_album_text">专辑 </string>
+    <string name="my_local_path_text">文件夹 </string>
+    <string name="search_local_music">搜索本地歌曲</string>
+    <string name="my_local_music_scan_permission">没有扫描存储的权限</string>
+    <string name="my_download_music_text">我的下载</string>
+    <string name="my_played_music_text">最近播放</string>
+    <string name="my_favourite_music_text">我喜欢</string>
+    <string name="my_favourite_music_title">喜欢的音乐</string>
+    <string name="my_favourite_music_manager_toast">没有选中任何歌曲</string>
+    <string name="my_favourite_music_manager_edit">还没有喜欢过歌曲哦</string>
+    <string name="my_collection_music_text">我的收藏</string>
+    <string name="my_buy_music_text">我的MV</string>
+    <string name="my_local_music_count">0首</string>
+    <string name="my_local_mv_count">0部</string>
+    <string name="my_search_local_music">搜索本地音乐</string>
+    <string name="my_download_music_done_bar_title">已下载</string>
+    <string name="my_downloading_music_done_bar_title">下载中</string>
+    <string name="my_download_not_downloading_tips">没有正在下载的歌曲</string>
+    <string name="my_download_not_download_tips">没有下载过歌曲哦</string>
+    <string name="my_download_clear_action">清空</string>
+    <string name="my_recently_zero_played_music_text">最近没有听过音乐\n快去发现页面寻找歌曲吧!</string>
+    <string name="my_favourite_no_music">没有喜欢的音乐\n快去发现页面寻找歌曲吧!</string>
+    <string name="my_collection_title_song">歌曲</string>
+    <string name="my_collection_title_singer">歌手</string>
+    <string name="my_collection_title_album">专辑</string>
+    <string name="my_bought_none_music_text">还没有收藏过MV哦\n快去寻找视频吧!</string>
+    <string name="my_collection_text_view">还没有收藏呦\n去发现页面寻找吧!</string>
+    <string name="my_song_lists">自建歌单</string>
+    <string name="my_song_lists_number">(0)</string>
+    <string name="my_song_lists_new_song_list">新建歌单</string>
+    <string name="my_song_lists_new">新建</string>
+    <string name="my_song_lists_new_cancel">取消</string>
+    <string name="my_song_lists_new_conflict">已存在重名歌单</string>
+    <string name="my_song_lists_edit">管理</string>
+    <string name="my_collection_song_lists_edit">收藏歌单</string>
+    <string name="my_song_list_none_text_view">还没有歌单\n点击新建歌单</string>
+    <string name="my_collection_list_none_text_view">还没有收藏过歌单\n去发现页面收藏歌单吧</string>
+    <string name="my_song_list_create_name_list">我的歌单 </string>
+    <string name="my_song_list_context_menu_delete">删除歌单</string>
+    <string name="my_song_list_context_menu_edit">编辑歌单</string>
+    <string name="my_song_list_context_menu_add_to_play">添加播放</string>
+    <string name="my_song_list_no">没有歌单哦</string>
+    <string name="my_create_dialog_cancel">取消</string>
+    <string name="my_music_manager_menu_text">管理</string>
+    <string name="my_music_manager_menu_text_select_all">全选</string>
+    <string name="my_music_manager_menu_text_cancel">取消</string>
+    <string name="my_music_manager_menu_text_delete">删除</string>
+    <string name="my_create_dialog_confirm">创建</string>
+    <string name="my_song_list_no_music_found">歌单中还没歌曲</string>
+    <string name="my_collection_mv_manager">管理MV</string>
+    <string name="my_collection_mv_manager_play">播放MV</string>
+    <string name="my_collection_mv_manager_delete">删除MV</string>
+    <string name="my_collection_mv_onlong_click">点击视频播放，长按标题编辑</string>
+    <string name="my_collection_mv_onlong_know">知道了</string>
+    <string name="my_network_un_avaiable">网络不可用</string>
+    <string name="my_download_failed">下载失败</string>
+    <string name="my_clear_download">清空下载历史</string>
+    <string name="my_clear_download_record">清空下载记录？</string>
+    <string name="my_download_record_cleared">下载歌曲已清空</string>
+    <string name="my_clear_downloading_task">清空下载任务</string>
+    <string name="my_clear_downloading_now">清空正在下载？</string>
+    <string name="my_clear_downloading">下载任务已清空</string>
+    <string name="my_played_record_clear">清空播放历史</string>
+    <string name="my_played_record_clear_all">清空所有歌曲播放记录？</string>
+    <string name="my_played_record_clear_toast">清空最近播放</string>
+    <string name="my_choose_ring">选择音乐铃声</string>
+
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+
+
+    <!--搜索-->
+    <string name="search_history_text_hint">历史记录</string>
+    <string name="search_top_text_hint">热搜榜</string>
+    <string name="network_available">搜索需要联网</string>
+    <string name="search_history_clear">清空搜索历史记录</string>
+    <string name="search_online_wait_error">没有搜索到相关内容</string>
+
+    <!--歌手库、歌单库-->
+    <string name="my_song_list_recommend_text">热门歌单</string>
+    <string name="mv_collection">收藏</string>
+    <string name="mv_discollection">取消收藏</string>
+
+    <!--mv页面-->
+    <string name="mv_download">下载</string>
+    <string name="my_collection_mv">收藏MV</string>
+    <string name="playlist_id">playlist_id</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="str_toast_permission">权限</string>
+    <string name="str_toast_permission_success">申请成功</string>
+    <string name="str_toast_permission_fail">申请失败</string>
+
+
+    <string-array name="playlist_lib_tab_names">
+        <item>华语</item>
+        <item>流行</item>
+        <item>摇滚</item>
+        <item>民谣</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="playlist_lib_category_names">
+        <item>华语</item>
+        <item>流行</item>
+        <item>摇滚</item>
+        <item>民谣</item>
+    </string-array>
+
+    <!--Service-->
+    <string name="service_play_toast_check_network">请检查网络</string>
+    <string name="service_play_toast_network_setting">当前设置不使用移动网络播放</string>
+    <string name="service_download_toast_network_setting">当前设置不使用移动网络下载</string>
+    <string name="mv_choosen">MV精选</string>
+    <string name="mv_more_choosen">更多精彩MV</string>
+
+    <string name="image_cache_folder">/storage/emulated/0/sevenMusic/imgCache/</string>
+
+    <!--歌单popView字符串-->
+    <string name="playlist_pop_not_collected">收藏歌曲</string>
+    <string name="playlist_pop_collected">取消收藏</string>
+    <string name="playlist_pop_add_to_custom_list">添加到歌单</string>
+    <string name="playlist_pop_download">下载本歌曲</string>
+    <string name="playlist_pop_to_play">播放</string>
+    <string name="playlist_pop_to_pause">暂停</string>
+    <string name="seven_music_about">开发者：赵鹏，闫午阳，李世俊，郭金良\n\n开发分工\n赵鹏：首页、我的页面、本地音乐、下载、最近播放、收藏、自建歌单、播放和下载、数据库、搜索等功能
+        \n闫午阳：发现页面、歌单库、歌单页面、歌手库、歌手页面、锁屏播放、图片下载等\n郭金良：播放条和播放列表、设置模块、音乐闹钟、定时停止播放、听歌识曲、扫一扫、夜间模式
+        等\n李世俊：Mv页面、Mv播放页面、音乐播放页面、播放控制、播放条逻辑处理、自定义歌词View、自定义视频View、Mv下载等</string>
+    <string name="local_music_tip">本地音乐暂不支持进入播放页面！</string>
+
+</resources>

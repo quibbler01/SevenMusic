@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sidebar_ll_music_alarm_all_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--ToolBar布局:用于显示返回图标箭头(返回箭头是动态加载生成的)和设置标题-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/sidebar_toolbar_music_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:text="音乐闹钟"
+                android:textColor="@color/setting_font_color"
+                android:textSize="20sp"></TextView>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--显示粗灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey">
+
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/sidebar_rl_alarm_time"
+        style="@style/item_style">
+
+        <TextView
+            android:id="@+id/sidebar_tv_alarm_time"
+            style="@style/item_text_style"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="6dp"
+            android:text="@string/str_alarm_default_time" />
+
+        <Switch
+            android:id="@+id/sidebar_sw_alarm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:padding="8dp" />
+
+    </RelativeLayout>
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey"></TextView>
+
+    <RelativeLayout
+        android:id="@+id/sidebar_rl_alarm_ring"
+        style="@style/item_style">
+
+        <TextView
+            style="@style/item_text_style"
+            android:layout_alignParentLeft="true"
+            android:text="@string/str_alarm_ring" />
+
+        <TextView
+            android:id="@+id/sidebar_tv_alarm_ring_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/str_alarm_default_song_name"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey"></TextView>
+
+
+    <RelativeLayout
+        android:id="@+id/sidebar_rl_alarm_repeat"
+        style="@style/item_style">
+
+        <TextView
+            style="@style/item_text_style"
+            android:layout_alignParentLeft="true"
+            android:text="@string/str_alarm_repeat" />
+
+        <TextView
+            android:id="@+id/sidebar_tv_alarm_repeat_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/str_alarm_reminder_frequency_once"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <!--显示灰色分割线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_and_outline_grey"></TextView>
+
+</LinearLayout>

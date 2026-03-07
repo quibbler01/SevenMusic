@@ -66,7 +66,7 @@ public class SingerActivity extends BaseMusicListActivity<PlaylistAdapter> {
 
     private List<MusicInfo> mMusicInfoList = new ArrayList<>();
 
-    //查询歌手是否被收藏
+    //Check if the singer is bookmarked
     private Thread mQueryThread;
     //更新歌手收藏状态
     private Thread mUpdateThread;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/lock_activity_ib_play_last"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/music_last_button"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="centerInside"
+        android:layout_toLeftOf="@id/lock_activity_ib_play_or_pause"/>
+
+    <ImageButton
+        android:id="@+id/lock_activity_ib_play_or_pause"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/music_play_button"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageButton
+        android:id="@+id/lock_activity_ib_play_next"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/music_next_button"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:scaleType="centerInside"
+        android:layout_toRightOf="@id/lock_activity_ib_play_or_pause"/>
+
+</RelativeLayout>

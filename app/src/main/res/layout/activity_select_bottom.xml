@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/playlist_ll_bottom"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:layout_gravity="bottom"
+android:background="@color/white">
+<!--        android:visibility="gone">-->
+
+    <include layout="@layout/found_gap"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/playlist_tv_select_all"
+            style="@style/playlist_activity_tv_bottom"
+            android:text="全选"
+            />
+
+        <TextView
+            android:id="@+id/playlist_tv_unselect_all"
+            style="@style/playlist_activity_tv_bottom"
+            android:text="清除"
+            />
+
+        <TextView
+            android:id="@+id/playlist_tv_start_download"
+            style="@style/playlist_activity_tv_bottom"
+            android:text="开始下载"
+            />
+    </LinearLayout>
+
+</LinearLayout>

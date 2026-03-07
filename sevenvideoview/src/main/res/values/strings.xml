@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SevenVideoPlayer</string>
+    <string name="video_prepare">稍等片刻，精彩马上就来...</string>
+    <string name="video_replay">重新播放</string>
+    <string name="vedio_share">分享</string>
+    <string name="video_play_error">播放错误，请重试。</string>
+    <string name="video_retry">点击重试</string>
+</resources>

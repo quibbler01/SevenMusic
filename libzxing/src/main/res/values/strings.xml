@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lib-zxing</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="scan_bottom_tips">将条码/二维码放入框内，即可自动扫描</string>
+    <!-- 错误提示 -->
+    <string name="permission_tips">未获得相机授权，请在[设置]中开启</string>
+</resources>

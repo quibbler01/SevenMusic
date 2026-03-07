@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--friend fragment布局文件-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/mv_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:tabIndicatorHeight="3dp"
+        android:layout_marginTop="5dp" />
+        -->
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/mv_xTabs"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:xTabIndicatorHeight="2dp"
+        app:xTabIndicatorWidth="30dp"
+        android:layout_marginTop="10dp"
+        app:xTabIndicatorColor="#f00"
+        app:xTabTextSize="13sp"
+        app:xTabSelectedTextSize="15sp"
+        app:xTabSelectedTextColor="#f00"
+        app:xTabTextColor="#000"
+        app:xTabTextSelectedBold="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEE9E9"
+        android:layout_marginTop="-1dp"/>
+
+    <LinearLayout
+        android:id="@+id/mv_nonet_tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_net_tip"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="您没有网络，请连接网络哦~"/>
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/mv_child_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </androidx.viewpager.widget.ViewPager>
+
+</LinearLayout>

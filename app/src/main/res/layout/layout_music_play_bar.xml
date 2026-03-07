@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--主页面最下方的 音乐播放条 内容视图-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/play_bar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <!--主页面左下方，显示歌曲图片的圆形小图标-->
+    <ImageView
+        android:id="@+id/play_bar_iv_disk"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/music_iv_play_bar_disk"
+        />
+    <!--该布局用于显示歌曲的名字和名字下方出现的歌词-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!--显示歌曲名字-->
+      <!--  <TextView
+            android:id="@+id/play_bar_tv_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_play_bar_song_name"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:maxEms="10"
+            android:ellipsize="end"/>-->
+
+        <TextView
+            android:id="@+id/play_bar_tv_song_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_play_bar_song_name"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="14sp" />
+
+        <!--显示歌曲歌词-->
+        <TextView
+            android:id="@+id/play_bar_tv_song_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_play_bar_song_word"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+    <!--显示歌曲播放按钮-->
+    <ImageView
+        android:id="@+id/play_bar_iv_status"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:background="@mipmap/music_iv_play_bar_pause" />
+
+    <!--显示歌曲列表选项-->
+    <ImageView
+        android:id="@+id/play_bar_iv_music_list"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:background="@mipmap/music_iv_play_bar_playlist" />
+
+</LinearLayout>
