@@ -1,8 +1,8 @@
-package com.quibbler.sevenmusic.adapter.mv;
+package com.quibbler.sevenmusic.adapter.mv
 
-import com.quibbler.sevenmusic.bean.mv.MvInfo;
+import com.quibbler.sevenmusic.bean.mv.MvInfo
 
-public interface TopMvClickListener {
-    void onStartMvPlayActivity(MvInfo mvInfo);
-    void onClickMoreButton(MvInfo mvInfo);
+interface TopMvClickListener {
+    fun onStartMvPlayActivity(mvInfo: MvInfo?)
+    fun onClickMoreButton(mvInfo: MvInfo?)
 }

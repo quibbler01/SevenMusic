@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.bean;
+package com.quibbler.sevenmusic.bean
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -7,15 +7,7 @@ package com.quibbler.sevenmusic.bean;
  * Author:         yanwuyang
  * CreateDate:     2019/9/24 11:23
  */
-public class Creator {
-    private String userId;
-    private String nickname;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
+class Creator {
+    val userId: String? = null
+    val nickname: String? = null
 }

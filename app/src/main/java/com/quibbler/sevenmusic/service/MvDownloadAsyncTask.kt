@@ -1,198 +1,192 @@
-package com.quibbler.sevenmusic.service;
+package com.quibbler.sevenmusic.service
 
-import android.os.AsyncTask;
-import android.os.Environment;
-
-import com.quibbler.sevenmusic.listener.MvDownloadListener;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import android.os.AsyncTask
+import com.quibbler.sevenmusic.listener.MvDownloadListener
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.RandomAccessFile
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.service
-  * ClassName:      MvDownloadAsyncTask
-  * Description:    mv下载异步任务
-  * Author:         lishijun
-  * CreateDate:     2019/9/24 10:45
+ * 
+ * Package:        com.quibbler.sevenmusic.service
+ * ClassName:      MvDownloadAsyncTask
+ * Description:    mv下载异步任务
+ * Author:         lishijun
+ * CreateDate:     2019/9/24 10:45
  */
-public class MvDownloadAsyncTask extends AsyncTask<String, Integer, Integer> {
+class MvDownloadAsyncTask(mMvDownloadListener: MvDownloadListener) :
+    AsyncTask<String?, Int?, Int?>() {
+    private var mIsPaused = false
+    private var mIsCanceled = false
+    private var mLastProgress = 0
 
-    public static final String SAVE_PATH = "/storage/emulated/0/sevenMusic/mv";
+    private var mMvDownloadListener: MvDownloadListener
 
-    public static final int TYPE_SUCCESS = 0;
-    public static final int TYPE_FAILED = 1;
-    public static final int TYPE_PAUSED= 2;
-    public static final int TYPE_CANCELED = 3;
-
-    private boolean mIsPaused = false;
-    private boolean mIsCanceled = false;
-    private int mLastProgress;
-
-    private MvDownloadListener mMvDownloadListener;
-
-    public MvDownloadAsyncTask(MvDownloadListener mMvDownloadListener) {
-        this.mMvDownloadListener = mMvDownloadListener;
+    init {
+        this.mMvDownloadListener = mMvDownloadListener
     }
 
-    public void setMvDownloadListener(MvDownloadListener mvDownloadListener) {
-        this.mMvDownloadListener = mvDownloadListener;
+    fun setMvDownloadListener(mvDownloadListener: MvDownloadListener) {
+        this.mMvDownloadListener = mvDownloadListener
     }
 
-    @Override
-    protected Integer doInBackground(String... strings) {
-        InputStream inputStream = null;
-        RandomAccessFile randomAccessFile = null;
-        File file = null;
-        Response response = null;
+    override fun doInBackground(vararg strings: String): Int {
+        var inputStream: InputStream? = null
+        var randomAccessFile: RandomAccessFile? = null
+        var file: File? = null
+        var response: Response? = null
         try {
-            long downLoadLength = 0;//记录已下载的文件长度
-            String downLoadUrl = strings[0];
+            var downLoadLength: Long = 0 //记录已下载的文件长度
+            val downLoadUrl: String = strings[0]
             //获取文件名称
-            String fileName = strings[1] + ".mp4";
+            val fileName = strings[1] + ".mp4"
             //mv保存目录
-            File newFile = new File(SAVE_PATH);
+            val newFile: File = File(SAVE_PATH)
             if (!newFile.exists()) {
-                newFile.mkdirs();
+                newFile.mkdirs()
             }
-            file = new File(SAVE_PATH, fileName);
+            file = File(SAVE_PATH, fileName)
             if (file.exists()) {
-                downLoadLength = file.length();
+                downLoadLength = file.length()
             }
-            long contentLength = getContentLength(downLoadUrl);
-            if (contentLength == 0) {
-                return TYPE_FAILED;
+            val contentLength = getContentLength(downLoadUrl)
+            if (contentLength == 0L) {
+                return TYPE_FAILED
             } else if (contentLength == downLoadLength) {
                 //如果已下载的字节和文件总字节相等，说明已经下载完成了
-                return TYPE_SUCCESS;
+                return TYPE_SUCCESS
             }
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .addHeader("RANGE", "bytes=" + downLoadLength + "-") //断点继续下载
-                    .url(downLoadUrl)
-                    .build();
-            response = client.newCall(request).execute();
-            if (response.body() != null) {
-                inputStream = response.body().byteStream();
-                randomAccessFile = new RandomAccessFile(file, "rw");
-                randomAccessFile.seek(downLoadLength);//跳过已下载的字节
-                byte[] bytes = new byte[1024];
-                int total = 0;
-                int len;
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .addHeader("RANGE", "bytes=" + downLoadLength + "-") //断点继续下载
+                .url(downLoadUrl)
+                .build()
+            response = client.newCall(request).execute()
+            if (response.body != null) {
+                inputStream = response.body!!.byteStream()
+                randomAccessFile = RandomAccessFile(file, "rw")
+                randomAccessFile.seek(downLoadLength) //跳过已下载的字节
+                val bytes = ByteArray(1024)
+                var total = 0
+                var len: Int
                 //inputStream.read(bytes)--读取多个字节写到bytes中S
-                while ((len = inputStream.read(bytes)) != -1) {
+                while ((inputStream.read(bytes).also { len = it }) != -1) {
                     if (mIsCanceled) {
-                        return TYPE_CANCELED;
+                        return TYPE_CANCELED
                     } else if (mIsPaused) {
-                        return TYPE_PAUSED;
+                        return TYPE_PAUSED
                     } else {
-                        total += len;
-                        randomAccessFile.write(bytes, 0, len);
-                        int progress = (int)((total + downLoadLength) * 100 / contentLength);
-                        publishProgress(progress);
+                        total += len
+                        randomAccessFile.write(bytes, 0, len)
+                        val progress = ((total + downLoadLength) * 100 / contentLength).toInt()
+                        publishProgress(progress)
                     }
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         } finally {
             try {
                 if (inputStream != null) {
-                    inputStream.close();
+                    inputStream.close()
                 }
                 if (randomAccessFile != null) {
-                    randomAccessFile.close();
+                    randomAccessFile.close()
                 }
                 if (mIsCanceled && file != null) {
-                    file.delete();
+                    file.delete()
                 }
-                if(response != null){
-                    response.close();
+                if (response != null) {
+                    response.close()
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-        return TYPE_SUCCESS;
+        return TYPE_SUCCESS
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        int progress = values[0];
+    override fun onProgressUpdate(vararg values: Int?) {
+        val progress: Int = values[0]!!
         if (progress > mLastProgress) {
-            mMvDownloadListener.onProgress(progress);
-            mLastProgress = progress;
+            mMvDownloadListener.onProgress(progress)
+            mLastProgress = progress
         }
     }
 
-    @Override
-    protected void onPostExecute(Integer integer) {
-        switch (integer) {
-            case TYPE_SUCCESS: {
-                mMvDownloadListener.onSuccess();
-                break;
+    override fun onPostExecute(integer: Int) {
+        when (integer) {
+            TYPE_SUCCESS -> {
+                mMvDownloadListener.onSuccess()
             }
-            case TYPE_FAILED: {
-                mMvDownloadListener.onFailed();
-                break;
+
+            TYPE_FAILED -> {
+                mMvDownloadListener.onFailed()
             }
-            case TYPE_PAUSED: {
-                mMvDownloadListener.onPaused();
-                break;
+
+            TYPE_PAUSED -> {
+                mMvDownloadListener.onPaused()
             }
-            case TYPE_CANCELED: {
-                mMvDownloadListener.onCanceled();
-                break;
+
+            TYPE_CANCELED -> {
+                mMvDownloadListener.onCanceled()
             }
-            default:break;
+
+            else -> {}
         }
     }
 
     /**
      * 暂停下载
      */
-    public void pauseDownLoad() {
-        this.mIsPaused = true;
+    fun pauseDownLoad() {
+        this.mIsPaused = true
     }
 
     /**
      * 取消下载
      */
-    public void cancelDownLoad() {
-        this.mIsCanceled = true;
+    fun cancelDownLoad() {
+        this.mIsCanceled = true
     }
 
     /**
      * 获取文件长度
-     *
+     * 
      * @param downLoadUrl
      * @return
      */
-    private long getContentLength(String downLoadUrl) {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(downLoadUrl).build();
+    private fun getContentLength(downLoadUrl: String): Long {
+        val client = OkHttpClient()
+        val request = Request.Builder().url(downLoadUrl).build()
         try {
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful() && response.body() != null) {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful && response.body != null) {
                 try {
-                    long contentLength = response.body().contentLength();
-                    return contentLength;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    response.close();
+                    val contentLength = response.body!!.contentLength()
+                    return contentLength
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    response.close()
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        return 0;
+        return 0
+    }
+
+    companion object {
+        const val SAVE_PATH: String = "/storage/emulated/0/sevenMusic/mv"
+
+        const val TYPE_SUCCESS: Int = 0
+        const val TYPE_FAILED: Int = 1
+        const val TYPE_PAUSED: Int = 2
+        const val TYPE_CANCELED: Int = 3
     }
 }

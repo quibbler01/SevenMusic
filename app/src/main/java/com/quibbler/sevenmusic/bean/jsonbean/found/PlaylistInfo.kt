@@ -1,11 +1,7 @@
-package com.quibbler.sevenmusic.bean.jsonbean.found;
+package com.quibbler.sevenmusic.bean.jsonbean.found
 
-import androidx.annotation.Nullable;
-
-import com.quibbler.sevenmusic.bean.Creator;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-
-import java.util.List;
+import com.quibbler.sevenmusic.bean.Creator
+import com.quibbler.sevenmusic.bean.MusicInfo
 
 /**
  * Package:        com.quibbler.sevenmusic.bean.jsonbean
@@ -14,83 +10,32 @@ import java.util.List;
  * Author:         yanwuyang
  * CreateDate:     2019/9/17 16:50
  */
-public class PlaylistInfo {
-    private String id;
+class PlaylistInfo {
+    var id: String? = null
+
     //歌单封面图片下载url，http开头
-    private String coverImgUrl;
+    var coverImgUrl: String? = null
+
     //歌单名
-    private String name;
+    var name: String? = null
+
     //歌单内歌曲list
-    private List<MusicInfo> tracks;
+    var tracks: MutableList<MusicInfo?>? = null
+
     //歌单包含的歌曲数
-    private int trackCount;
+    var trackCount: Int = 0
+
     //歌单创建者
-    private Creator creator;
+    var creator: Creator? = null
+
     //歌单描述
-    private String description;
+    var description: String? = null
 
-    public String getId() {
-        return id;
-    }
-
-    public String getCoverImgUrl() {
-        return coverImgUrl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<MusicInfo> getTracks() {
-        return tracks;
-    }
-
-    public Creator getCreator() {
-        return creator;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getTrackCount() {
-        return trackCount;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setCoverImgUrl(String coverImgUrl) {
-        this.coverImgUrl = coverImgUrl;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTracks(List<MusicInfo> tracks) {
-        this.tracks = tracks;
-    }
-
-    public void setTrackCount(int trackCount) {
-        this.trackCount = trackCount;
-    }
-
-    public void setCreator(Creator creator) {
-        this.creator = creator;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (obj instanceof PlaylistInfo) {
-            PlaylistInfo playlistInfo = (PlaylistInfo) obj;
-            return playlistInfo.getId().equals(id);
+    override fun equals(obj: Any?): Boolean {
+        if (obj is PlaylistInfo) {
+            val playlistInfo = obj
+            return playlistInfo.id == id
         }
-        return false;
+        return false
     }
 }

@@ -1,7 +1,6 @@
-package com.quibbler.sevenmusic.presenter;
+package com.quibbler.sevenmusic.presenter
 
-import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Context
 
 /**
  * Package:        com.quibbler.sevenmusic.presenter
@@ -10,36 +9,35 @@ import android.graphics.Bitmap;
  * Author:         yanwuyang
  * CreateDate:     2019/10/17 11:09
  */
-public class ImageDownloadPresenter {
-    private static final String TAG = "ImageDownloadPresenter";
-
-    private static volatile ImageDownloadPresenter sInstance;
-
-    public static final int STYLE_ORIGIN = 0; //原始图片
-    public static final int STYLE_ROUND = 1; //圆角图片
-    public static final int STYLE_CIRCLE = 2; // 圆形图片
-
-    private ImageDownloadPresenter() {
-
+class ImageDownloadPresenter private constructor() {
+    fun with(context: Context?): ImageDealer? {
+        return ImageDealer().with(context)
     }
 
-    public static ImageDownloadPresenter getInstance() {
-        if (sInstance == null) {
-            synchronized (ImageDownloadPresenter.class) {
+    interface ResourceCallback<T> {
+        fun onResourceReady(t: T?)
+    }
+
+    companion object {
+        private const val TAG = "ImageDownloadPresenter"
+
+        @Volatile
+        private var sInstance: ImageDownloadPresenter? = null
+
+        const val STYLE_ORIGIN: Int = 0 //原始图片
+        const val STYLE_ROUND: Int = 1 //圆角图片
+        const val STYLE_CIRCLE: Int = 2 // 圆形图片
+
+        val instance: ImageDownloadPresenter?
+            get() {
                 if (sInstance == null) {
-                    sInstance = new ImageDownloadPresenter();
+                    synchronized(ImageDownloadPresenter::class.java) {
+                        if (sInstance == null) {
+                            sInstance = ImageDownloadPresenter()
+                        }
+                    }
                 }
+                return sInstance
             }
-        }
-        return sInstance;
     }
-
-    public ImageDealer with(Context context) {
-        return new ImageDealer().with(context);
-    }
-
-    public interface ResourceCallback<T>{
-        void onResourceReady(T t);
-    }
-
 }

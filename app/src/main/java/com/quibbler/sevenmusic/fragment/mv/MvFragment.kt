@@ -1,111 +1,94 @@
-package com.quibbler.sevenmusic.fragment.mv;
+package com.quibbler.sevenmusic.fragment.mv
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.androidkun.xtablayout.XTabLayout;
-import com.example.sevenvideoview.SevenVideoPlayerManager;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.utils.NetUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.androidkun.xtablayout.XTabLayout
 
 /**
- *
+ * 
  * Package:        com.quibbler.sevenmusic.fragment
  * ClassName:      MvFragment
  * Description:    MvFragment类，由MainActivity托管
  * Author:         lishijun
  * CreateDate:     2019/9/16 17:43
  */
+class MvFragment : Fragment() {
+    private var mChildViewPager: ViewPager? = null
 
-public class MvFragment extends Fragment {
+    private var mChildMvFragmentList: MutableList<Fragment>? = null
 
-    private ViewPager mChildViewPager;
+    private var mView: View? = null
 
-    private List<Fragment> mChildMvFragmentList;
+    private var mTabLayout: XTabLayout? = null
 
-    private View mView;
-
-    private XTabLayout mTabLayout;
-
-    private final static String []TITLES = {"推荐", "全部MV"};
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // 加载fragment_mv布局文件
-        mView = inflater.inflate(R.layout.fragment_mv, null);
-        if(NetUtil.getNetWorkStart(getContext()) == NetUtil.NETWORK_NONE){
-            showNoNetPage();
-        }else{
-            hideNoNetPage();
-            mChildViewPager = mView.findViewById(R.id.mv_child_pager);
-            mTabLayout =mView.findViewById(R.id.mv_xTabs);
-            mChildMvFragmentList = new ArrayList<>();
-            mChildMvFragmentList.add(NewChildMvFragment.newInstance("/top/mv"));
-            mChildMvFragmentList.add(NewTopMvFragment.newInstance("/mv/all"));
-            mChildViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
-                @NonNull
-                @Override
-                public Fragment getItem(int position) {
-                    return mChildMvFragmentList.get(position);
+        mView = inflater.inflate(R.layout.fragment_mv, null)
+        if (NetUtil.getNetWorkStart(getContext()) == NetUtil.NETWORK_NONE) {
+            showNoNetPage()
+        } else {
+            hideNoNetPage()
+            mChildViewPager = mView!!.findViewById<ViewPager>(R.id.mv_child_pager)
+            mTabLayout = mView!!.findViewById(R.id.mv_xTabs)
+            mChildMvFragmentList = ArrayList<Fragment>()
+            mChildMvFragmentList!!.add(NewChildMvFragment.Companion.newInstance("/top/mv"))
+            mChildMvFragmentList!!.add(NewTopMvFragment.Companion.newInstance("/mv/all"))
+            mChildViewPager.setAdapter(object : FragmentPagerAdapter(getFragmentManager()) {
+                override fun getItem(position: Int): Fragment {
+                    return mChildMvFragmentList!!.get(position)
                 }
 
-                @Override
-                public int getCount() {
-                    return mChildMvFragmentList.size();
+                val count: Int
+                    get() = mChildMvFragmentList!!.size
+
+                override fun getPageTitle(position: Int): CharSequence? {
+                    return TITLES[position]
+                }
+            })
+            mTabLayout.setupWithViewPager(mChildViewPager)
+            mChildViewPager.setCurrentItem(0)
+            mChildViewPager.setOffscreenPageLimit(2)
+            mChildViewPager.setOnPageChangeListener(object : OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    releaseVideoPlayer()
                 }
 
-                @Nullable
-                @Override
-                public CharSequence getPageTitle(int position) {
-                    return TITLES[position];
+                override fun onPageSelected(position: Int) {
+                    releaseVideoPlayer()
                 }
-            });
-            mTabLayout.setupWithViewPager(mChildViewPager);
-            mChildViewPager.setCurrentItem(0);
-            mChildViewPager.setOffscreenPageLimit(2);
-            mChildViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    releaseVideoPlayer();
+
+                override fun onPageScrollStateChanged(state: Int) {
+                    releaseVideoPlayer()
                 }
-                @Override
-                public void onPageSelected(int position) {
-                    releaseVideoPlayer();
-                }
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                    releaseVideoPlayer();
-                }
-            });
+            })
         }
-        return mView;
+        return mView!!
     }
 
-    public void releaseVideoPlayer(){
-        if(mChildMvFragmentList != null && mChildMvFragmentList.size() >= 1){
-            SevenVideoPlayerManager.getInstance().releaseSevenVideoPlayer();
+    fun releaseVideoPlayer() {
+        if (mChildMvFragmentList != null && mChildMvFragmentList!!.size >= 1) {
+            SevenVideoPlayerManager.getInstance().releaseSevenVideoPlayer()
         }
     }
 
     //无网络，展示提示页
-    private void showNoNetPage(){
-        mView.findViewById(R.id.mv_nonet_tip).setVisibility(View.VISIBLE);
+    private fun showNoNetPage() {
+        mView!!.findViewById<View?>(R.id.mv_nonet_tip).setVisibility(View.VISIBLE)
     }
+
     //有网络，关闭提示页
-    private void hideNoNetPage(){
-        mView.findViewById(R.id.mv_nonet_tip).setVisibility(View.GONE);
+    private fun hideNoNetPage() {
+        mView!!.findViewById<View?>(R.id.mv_nonet_tip).setVisibility(View.GONE)
+    }
+
+    companion object {
+        private val TITLES = arrayOf<String?>("推荐", "全部MV")
     }
 }

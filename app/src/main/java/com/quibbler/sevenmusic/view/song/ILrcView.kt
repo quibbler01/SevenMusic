@@ -1,29 +1,27 @@
-package com.quibbler.sevenmusic.view.song;
+package com.quibbler.sevenmusic.view.song
 
-import com.quibbler.sevenmusic.bean.song.impl.LrcRow;
-
-import java.util.List;
+import com.quibbler.sevenmusic.bean.song.impl.LrcRow
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.view.song
-  * ClassName:      ILrcView
-  * Description:    歌词view接口
-  * Author:         lishijun
-  * CreateDate:     2019/9/28 15:11
+ * 
+ * Package:        com.quibbler.sevenmusic.view.song
+ * ClassName:      ILrcView
+ * Description:    歌词view接口
+ * Author:         lishijun
+ * CreateDate:     2019/9/28 15:11
  */
-public interface ILrcView {
+interface ILrcView {
+    val isScrolling: Boolean
 
-    boolean isScrolling();
     /**
      * 设置要展示的歌词行集合
      */
-    void setLrc(List<LrcRow> lrcRows);
+    fun setLrc(lrcRows: MutableList<LrcRow?>?)
 
     /**
      * 音乐播放的时候调用该方法滚动歌词，高亮正在播放的那句歌词，cb表示是不是手动调用
      */
-    void seekLrcToTime(long time, boolean cb);
+    fun seekLrcToTime(time: Long, cb: Boolean)
 
-    void seekLrc(int position, boolean cb);
+    fun seekLrc(position: Int, cb: Boolean)
 }

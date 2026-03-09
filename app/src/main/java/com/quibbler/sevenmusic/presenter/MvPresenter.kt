@@ -1,183 +1,180 @@
-package com.quibbler.sevenmusic.presenter;
+package com.quibbler.sevenmusic.presenter
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.mv.MvInfo;
-import com.quibbler.sevenmusic.callback.MusicCallBack;
-import com.quibbler.sevenmusic.callback.MvCollectCallback;
-import com.quibbler.sevenmusic.contentprovider.MusicContentProvider;
-import com.quibbler.sevenmusic.utils.HttpUtil;
-import com.quibbler.sevenmusic.utils.MusicThreadPool;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import android.content.ContentValues
+import android.database.Cursor
+import android.text.TextUtils
+import android.util.Log
+import com.google.gson.Gson
+import com.quibbler.sevenmusic.MusicApplication
+import com.quibbler.sevenmusic.bean.mv.MvInfo
+import com.quibbler.sevenmusic.callback.MusicCallBack
+import com.quibbler.sevenmusic.callback.MvCollectCallback
+import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
+import com.quibbler.sevenmusic.utils.HttpUtil
+import com.quibbler.sevenmusic.utils.MusicThreadPool
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.presenter
-  * ClassName:      MvPresenter
-  * Description:    关于mv的presenter
-  * Author:         lishijun
-  * CreateDate:     2019/9/27 10:04
+ * 
+ * Package:        com.quibbler.sevenmusic.presenter
+ * ClassName:      MvPresenter
+ * Description:    关于mv的presenter
+ * Author:         lishijun
+ * CreateDate:     2019/9/27 10:04
  */
-public class MvPresenter {
+object MvPresenter {
+    private const val SERVER = "http://114.116.128.229:3000"
 
-    private static final String SERVER = "http://114.116.128.229:3000";
+    private const val MV_DETAIL_URL = "/mv/detail?mvid="
 
-    private static final String MV_DETAIL_URL = "/mv/detail?mvid=";
-
-    private static final String MV_URL_URL = "/mv/url?id=";
+    private const val MV_URL_URL = "/mv/url?id="
 
     //获取mv的详细信息
-    public static void getMvInfo(MvInfo mvInfo, MusicCallBack musicCallBack){
-        HttpUtil.sendOkHttpRequest(SERVER + MV_DETAIL_URL + mvInfo.getId(), new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.body() != null){
+    fun getMvInfo(mvInfo: MvInfo, musicCallBack: MusicCallBack) {
+        HttpUtil.sendOkHttpRequest(SERVER + MV_DETAIL_URL + mvInfo.getId(), object : Callback {
+            override fun onResponse(call: Call?, response: Response) {
+                if (response.body != null) {
                     try {
-                        String jsonString = new JSONObject(response.body().string()).getJSONObject("data").toString();
-                        Log.d("QUIBBLER_TAG", "" + jsonString);
-                        MvInfo tempMvInfo = new Gson().fromJson(jsonString, MvInfo.class);
-                        tempMvInfo.setUrl((tempMvInfo.getMvUrl()).getUrl());
-                        mvInfo.copy(tempMvInfo);
-                        musicCallBack.onMusicInfoCompleted();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        val jsonString =
+                            JSONObject(response.body!!.string()).getJSONObject("data").toString()
+                        Log.d("QUIBBLER_TAG", "" + jsonString)
+                        val tempMvInfo = Gson().fromJson<MvInfo>(jsonString, MvInfo::class.java)
+                        tempMvInfo.setUrl((tempMvInfo.getMvUrl()).getUrl())
+                        mvInfo.copy(tempMvInfo)
+                        musicCallBack.onMusicInfoCompleted()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("url", "出错");
+            override fun onFailure(call: Call?, e: IOException?) {
+                Log.d("url", "出错")
             }
-        });
+        })
     }
 
-    public static void getMvUrlList(List<MvInfo> mvInfoList){
-        getMvUrlListFromDetail(0, mvInfoList);
+    fun getMvUrlList(mvInfoList: MutableList<MvInfo?>) {
+        getMvUrlListFromDetail(0, mvInfoList)
     }
 
     //通过detail递归获取mv的url
-    private static void getMvUrlListFromDetail(int i, List<MvInfo> mvInfoList){
-        HttpUtil.sendOkHttpRequest(SERVER + MV_DETAIL_URL + mvInfoList.get(i).getId(), new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.body() != null){
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().string()).getJSONObject("data");
-                        String mvUrl = jsonObject.getJSONObject("brs").optString("480");
-                        if(TextUtils.equals(mvUrl, "")){
-                            mvUrl = jsonObject.getJSONObject("brs").optString("240");
+    private fun getMvUrlListFromDetail(i: Int, mvInfoList: MutableList<MvInfo?>) {
+        HttpUtil.sendOkHttpRequest(
+            SERVER + MV_DETAIL_URL + mvInfoList.get(i)!!.getId(),
+            object : Callback {
+                override fun onResponse(call: Call?, response: Response) {
+                    if (response.body != null) {
+                        try {
+                            val jsonObject =
+                                JSONObject(response.body!!.string()).getJSONObject("data")
+                            var mvUrl = jsonObject.getJSONObject("brs").optString("480")
+                            if (TextUtils.equals(mvUrl, "")) {
+                                mvUrl = jsonObject.getJSONObject("brs").optString("240")
+                            }
+                            mvInfoList.get(i)!!.setUrl(mvUrl)
+                            //获取下一个视频的url
+                            if (i + 1 < mvInfoList.size) {
+                                getMvUrlListFromDetail(i + 1, mvInfoList)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        mvInfoList.get(i).setUrl(mvUrl);
-                        //获取下一个视频的url
-                        if(i + 1 < mvInfoList.size()){
-                            getMvUrlListFromDetail(i + 1, mvInfoList);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("url", "出错");
-            }
-        });
+                override fun onFailure(call: Call?, e: IOException?) {
+                    Log.d("url", "出错")
+                }
+            })
     }
 
     //通过url递归获取mv的url
-    private static void getMvUrlListFromUrl(int i, List<MvInfo> mvInfoList){
-        HttpUtil.sendOkHttpRequest(SERVER + MV_URL_URL + mvInfoList.get(i).getId(), new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().string()).getJSONObject("data");
-                    mvInfoList.get(i).setUrl(jsonObject.getString("url"));
-                    //获取下一个视频的url
-                    if(i + 1 < mvInfoList.size()){
-                        getMvUrlListFromUrl(i + 1, mvInfoList);
+    private fun getMvUrlListFromUrl(i: Int, mvInfoList: MutableList<MvInfo?>) {
+        HttpUtil.sendOkHttpRequest(
+            SERVER + MV_URL_URL + mvInfoList.get(i)!!.getId(),
+            object : Callback {
+                override fun onResponse(call: Call?, response: Response) {
+                    try {
+                        val jsonObject = JSONObject(response.body!!.string()).getJSONObject("data")
+                        mvInfoList.get(i)!!.setUrl(jsonObject.getString("url"))
+                        //获取下一个视频的url
+                        if (i + 1 < mvInfoList.size) {
+                            getMvUrlListFromUrl(i + 1, mvInfoList)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("url", "出错");
-            }
-        });
+                override fun onFailure(call: Call?, e: IOException?) {
+                    Log.d("url", "出错")
+                }
+            })
     }
 
-    public static void isMvCollected(String mvId, MvCollectCallback mvCollectCallback){
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Cursor cursor = null;
+    fun isMvCollected(mvId: String?, mvCollectCallback: MvCollectCallback) {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                var cursor: Cursor? = null
                 try {
-                    cursor = MusicApplication.getContext().getContentResolver().query(MusicContentProvider.MV_URL,
-                            null, "id = ?", new String[]{mvId}, null);
-                    if(cursor == null || cursor.getCount() == 0){
-                        mvCollectCallback.notCollected();
-                    }else{
-                        mvCollectCallback.isCollected();
+                    cursor = MusicApplication.Companion.getContext().getContentResolver().query(
+                        MusicContentProvider.Companion.MV_URL,
+                        null, "id = ?", arrayOf<String?>(mvId), null
+                    )
+                    if (cursor == null || cursor.getCount() == 0) {
+                        mvCollectCallback.notCollected()
+                    } else {
+                        mvCollectCallback.isCollected()
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    if(cursor != null){
-                        cursor.close();
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    if (cursor != null) {
+                        cursor.close()
                     }
                 }
             }
-        });
+        })
     }
 
-    public static void collectMv(MvInfo mvInfo, MvCollectCallback mvCollectCallback){
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Cursor cursor = null;
-                try{
-                    int id = mvInfo.getId();
-                    cursor = MusicApplication.getContext().getContentResolver().query(MusicContentProvider.MV_URL,
-                            null, "id = ?", new String[]{String.valueOf(id)}, null);
-                    if(cursor == null || cursor.getCount() == 0){
-                        ContentValues values = new ContentValues();
-                        values.put("id", id);
-                        values.put("name", mvInfo.getName());
-                        values.put("pictureurl", mvInfo.getPictureUrl());
-                        MusicApplication.getContext().getContentResolver().insert(MusicContentProvider.MV_URL, values);
-                        mvCollectCallback.isCollected();
-                    }else{
-                        MusicApplication.getContext().getContentResolver().delete(MusicContentProvider.MV_URL,
-                                "id = ?", new String[]{String.valueOf(mvInfo.getId())});
-                        mvCollectCallback.notCollected();
+    fun collectMv(mvInfo: MvInfo, mvCollectCallback: MvCollectCallback) {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                var cursor: Cursor? = null
+                try {
+                    val id = mvInfo.getId()
+                    cursor = MusicApplication.Companion.getContext().getContentResolver().query(
+                        MusicContentProvider.Companion.MV_URL,
+                        null, "id = ?", arrayOf<String>(id.toString()), null
+                    )
+                    if (cursor == null || cursor.getCount() == 0) {
+                        val values = ContentValues()
+                        values.put("id", id)
+                        values.put("name", mvInfo.getName())
+                        values.put("pictureurl", mvInfo.getPictureUrl())
+                        MusicApplication.Companion.getContext().getContentResolver()
+                            .insert(MusicContentProvider.Companion.MV_URL, values)
+                        mvCollectCallback.isCollected()
+                    } else {
+                        MusicApplication.Companion.getContext().getContentResolver().delete(
+                            MusicContentProvider.Companion.MV_URL,
+                            "id = ?", arrayOf<String>(mvInfo.getId().toString())
+                        )
+                        mvCollectCallback.notCollected()
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    if(cursor != null){
-                        cursor.close();
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    if (cursor != null) {
+                        cursor.close()
                     }
                 }
             }
-        });
+        })
     }
 }

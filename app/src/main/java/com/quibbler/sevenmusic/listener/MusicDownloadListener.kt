@@ -1,4 +1,5 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
+
 /**
  * Package:        com.quibbler.sevenmusic.listener
  * ClassName:      MusicDownloadListener
@@ -6,14 +7,12 @@ package com.quibbler.sevenmusic.listener;
  * Author:         zhaopeng
  * CreateDate:     2019/9/16 22:51
  */
-public interface MusicDownloadListener {
-    public void onProgress(int progress, String name);
+interface MusicDownloadListener {
+    fun onProgress(progress: Int, name: String?)
 
-    public void isSuccess(boolean result);
-
-//    public void onFaield();
-//
-//    public void onCanceled();
-//
-//    public void onPasued();
+    fun isSuccess(result: Boolean) //    public void onFaield();
+    //
+    //    public void onCanceled();
+    //
+    //    public void onPasued();
 }

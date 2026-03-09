@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
 
 /**
  * Package:        com.quibbler.sevenmusic.listener
@@ -7,6 +7,6 @@ package com.quibbler.sevenmusic.listener;
  * Author:         11103905
  * CreateDate:     2019/9/27 18:54
  */
-public interface BroadcastDatabaseListener extends BroadcastListener {
-    public void onDatabaseChanged();
+interface BroadcastDatabaseListener : BroadcastListener {
+    fun onDatabaseChanged()
 }

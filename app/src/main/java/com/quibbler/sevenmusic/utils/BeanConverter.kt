@@ -1,13 +1,10 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.SingerInfo;
-import com.quibbler.sevenmusic.bean.mv.Artist;
-import com.quibbler.sevenmusic.bean.mv.MvInfo;
-import com.quibbler.sevenmusic.bean.mv.MvMusicInfo;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.SingerInfo
+import com.quibbler.sevenmusic.bean.mv.Artist
+import com.quibbler.sevenmusic.bean.mv.MvInfo
+import com.quibbler.sevenmusic.bean.mv.MvMusicInfo
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -16,37 +13,43 @@ import java.util.List;
  * Author:         yanwuyang
  * CreateDate:     2019/9/25 16:48
  */
-public class BeanConverter {
-
-    public static MvInfo convertMvInfo2MvInfo(MvInfo MvInfo) {
+object BeanConverter {
+    fun convertMvInfo2MvInfo(MvInfo: MvInfo?): MvInfo? {
         if (MvInfo == null) {
-            return null;
+            return null
         }
 
-        MvInfo mvInfo = new MvInfo(Integer.valueOf(MvInfo.getId()), MvInfo.getName(), MvInfo.getArtists(), MvInfo.getPlayCount(), MvInfo.getCopyWriter(), MvInfo.getPictureUrl());
-        mvInfo.setUrl(MvInfo.getUrl());
-        return mvInfo;
+        val mvInfo = MvInfo(
+            MvInfo.getId(),
+            MvInfo.getName(),
+            MvInfo.getArtists(),
+            MvInfo.getPlayCount(),
+            MvInfo.getCopyWriter(),
+            MvInfo.getPictureUrl()
+        )
+        mvInfo.setUrl(MvInfo.getUrl())
+        return mvInfo
     }
 
-    public static Artist convertSingerInfo2Artist(SingerInfo singerInfo) {
+    fun convertSingerInfo2Artist(singerInfo: SingerInfo?): Artist? {
         if (singerInfo == null) {
-            return null;
+            return null
         }
 
-        Artist artist = new Artist(Integer.valueOf(singerInfo.getId()), singerInfo.getName());
-        return artist;
+        val artist = Artist(singerInfo.getId().toInt(), singerInfo.getName())
+        return artist
     }
 
-    public static MvMusicInfo convertMusicInfo2MvMusicInfo(MusicInfo musicInfo) {
-        int id = Integer.valueOf(musicInfo.getId());
-        String name = musicInfo.getMusicSongName();
-        String picUrl = musicInfo.getAlbumPicUrl();
-        List<Artist> artists = new ArrayList<>();
+    fun convertMusicInfo2MvMusicInfo(musicInfo: MusicInfo): MvMusicInfo {
+        val id = musicInfo.getId().toInt()
+        val name = musicInfo.getMusicSongName()
+        val picUrl = musicInfo.getAlbumPicUrl()
+        val artists: MutableList<Artist?> = ArrayList<Artist?>()
         if (musicInfo.getAr() != null) {
-            for (SingerInfo singerInfo : musicInfo.getAr()) {
-                artists.add(convertSingerInfo2Artist(singerInfo));
+            for (singerInfo in musicInfo.getAr()) {
+                artists.add(convertSingerInfo2Artist(singerInfo))
             }
         }
-        return new MvMusicInfo(id, name, picUrl, artists);
+        return MvMusicInfo(id, name, picUrl, artists)
     }
 }

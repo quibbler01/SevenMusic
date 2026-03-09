@@ -1,34 +1,27 @@
-package com.quibbler.sevenmusic.service;
+package com.quibbler.sevenmusic.service
 
-import android.app.Service;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.IBinder;
+import android.app.Service
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.IBinder
+import com.quibbler.sevenmusic.broadcast.LockScreenBroadcastReceiver
 
-import androidx.annotation.Nullable;
-
-import com.quibbler.sevenmusic.broadcast.LockScreenBroadcastReceiver;
-
-public class LockScreenService extends Service {
-    private LockScreenBroadcastReceiver mReceiver;
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+class LockScreenService : Service() {
+    private var mReceiver: LockScreenBroadcastReceiver? = null
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
-    @Override
-    public void onCreate() {
-        mReceiver = new LockScreenBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        intentFilter.addAction(Intent.ACTION_USER_PRESENT);
-        registerReceiver(mReceiver, intentFilter);
+    override fun onCreate() {
+        mReceiver = LockScreenBroadcastReceiver()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
+        intentFilter.addAction(Intent.ACTION_USER_PRESENT)
+        registerReceiver(mReceiver, intentFilter)
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mReceiver);
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mReceiver)
     }
 }

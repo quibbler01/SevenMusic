@@ -1,27 +1,19 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.app.Activity;
-import android.os.Handler;
-import android.os.Looper;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.InputStream;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import android.app.Activity
+import android.content.Context
+import android.os.Handler
+import android.util.Log
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Package:        com.quibbler.sevenmusic.util
@@ -30,154 +22,138 @@ import okhttp3.Response;
  * Author:         lishijun
  * CreateDate:     2019/9/17 17:15
  */
-public class HttpUtil {
-    private static final String TAG = "HttpUtil";
+object HttpUtil {
+    private const val TAG = "HttpUtil"
 
-    private static final OkHttpClient client = new OkHttpClient();
+    private val client = OkHttpClient()
 
     //调用自带的callback,回调时需要切换回主线程
-    public static void sendOkHttpRequest(String address, Callback callback) {
-        Request request = new Request.Builder().url(address).build();
-        client.newCall(request).enqueue(callback);
+    fun sendOkHttpRequest(address: String, callback: Callback) {
+        val request = Request.Builder().url(address).build()
+        client.newCall(request).enqueue(callback)
     }
 
     //调用自己封装的callback，回调时已经在主线程
-    public static void sendOkHttpRequest(String address, final Activity context, final ICallback callback) {
-        Request request = new Request.Builder().url(address).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(final Call call, final IOException e) {
-                if (context == null)
-                    return;
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onFailure();
+    fun sendOkHttpRequest(address: String, context: Activity?, callback: ICallback) {
+        val request = Request.Builder().url(address).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call?, e: IOException?) {
+                if (context == null) return
+                context.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        callback.onFailure()
                     }
-                });
+                })
             }
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (context == null)
-                    return;
-                final String responseText = response.body().string();
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onResponse(responseText);
+            @Throws(IOException::class)
+            override fun onResponse(call: Call?, response: Response) {
+                if (context == null) return
+                val responseText = response.body!!.string()
+                context.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        callback.onResponse(responseText)
                     }
-                });
+                })
             }
-        });
+        })
     }
 
     //使用原生的httpconnection
-    public static void sendHttpRequest(String address, ICallback callback) {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                HttpURLConnection connection = null;
+    fun sendHttpRequest(address: String?, callback: ICallback) {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                var connection: HttpURLConnection? = null
                 try {
-                    URL url = new URL(address);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    connection.connect();
-                    int responseCode = connection.getResponseCode();
+                    val url = URL(address)
+                    connection = url.openConnection() as HttpURLConnection?
+                    connection!!.setRequestMethod("GET")
+                    connection.setConnectTimeout(8000)
+                    connection.setReadTimeout(8000)
+                    connection.connect()
+                    val responseCode = connection.getResponseCode()
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        InputStream inputStream = connection.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                        StringBuilder response = new StringBuilder();
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
+                        val inputStream = connection.getInputStream()
+                        val reader = BufferedReader(InputStreamReader(inputStream))
+                        val response = StringBuilder()
+                        var line: String?
+                        while ((reader.readLine().also { line = it }) != null) {
+                            response.append(line)
                         }
-                        callback.onResponse(response.toString());
+                        callback.onResponse(response.toString())
                     } else {
-                        callback.onFailure();
+                        callback.onFailure()
                     }
-                } catch (IOException e) {
-                    callback.onFailure();
-                    e.printStackTrace();
+                } catch (e: IOException) {
+                    callback.onFailure()
+                    e.printStackTrace()
                 } finally {
                     if (connection != null) {
-                        connection.disconnect();
+                        connection.disconnect()
                     }
                 }
             }
-        });
+        })
     }
 
     //调用自己封装的callback，回调时已经在主线程。context类型不限于Activity
-    public static void sendOkHttpRequest(String address, Context context, final ICallback callback) {
-        Handler handler = new Handler(context.getMainLooper());
-        Request request = new Request.Builder().url(address).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(final Call call, final IOException e) {
-                if (context == null)
-                    return;
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onFailure();
+    fun sendOkHttpRequest(address: String, context: Context, callback: ICallback) {
+        val handler = Handler(context.getMainLooper())
+        val request = Request.Builder().url(address).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call?, e: IOException?) {
+                if (context == null) return
+                handler.post(object : Runnable {
+                    override fun run() {
+                        callback.onFailure()
                     }
-                });
+                })
             }
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (context == null)
-                    return;
-                final String responseText = response.body().string();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onResponse(responseText);
+            @Throws(IOException::class)
+            override fun onResponse(call: Call?, response: Response) {
+                if (context == null) return
+                val responseText = response.body!!.string()
+                handler.post(object : Runnable {
+                    override fun run() {
+                        callback.onResponse(responseText)
                     }
-                });
+                })
             }
-        });
+        })
     }
 
     //调用自己封装的callback，回调时已经在主线程。context类型不限于Activity。返回的是inputStream。
-    public static void sendOkHttpRequest(String address, Context context, final IRequestCallback callback) {
-        Handler handler = new Handler(context.getMainLooper());
-        Request request = new Request.Builder().url(address).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(final Call call, final IOException e) {
-                if (context == null)
-                    return;
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onFailure(call, e);
+    fun sendOkHttpRequest(address: String, context: Context, callback: IRequestCallback) {
+        val handler = Handler(context.getMainLooper())
+        val request = Request.Builder().url(address).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call?, e: IOException?) {
+                if (context == null) return
+                handler.post(object : Runnable {
+                    override fun run() {
+                        callback.onFailure(call, e)
                     }
-                });
+                })
             }
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (context == null)
-                    return;
-                final InputStream inputStream = response.body().byteStream();
-//                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                Bitmap bitmap = BitmapUtils.decodeLowQualityBitmap(inputStream, 400, 200);
-                response.close();
+            @Throws(IOException::class)
+            override fun onResponse(call: Call?, response: Response) {
+                if (context == null) return
+                val inputStream = response.body!!.byteStream()
+                //                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                val bitmap = BitmapUtils.decodeLowQualityBitmap(inputStream, 400, 200)
+                response.close()
                 if (bitmap == null) {
-                    Log.d(TAG, "bitmap is null!");
-                    return;
+                    Log.d(TAG, "bitmap is null!")
+                    return
                 }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onResponse(bitmap);
+                handler.post(object : Runnable {
+                    override fun run() {
+                        callback.onResponse(bitmap)
                     }
-                });
+                })
             }
-        });
+        })
     }
 }

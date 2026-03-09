@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 36
 
     namespace "com.quibbler.sevenmusic"
 
@@ -29,10 +30,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
 
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:1.17.0'
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'

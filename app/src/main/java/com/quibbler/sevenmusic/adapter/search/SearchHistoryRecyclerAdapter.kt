@@ -1,18 +1,14 @@
-package com.quibbler.sevenmusic.adapter.search;
+package com.quibbler.sevenmusic.adapter.search
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.quibbler.sevenmusic.R;
-
-import java.util.List;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.adapter.search.SearchHistoryRecyclerAdapter.SearchHistoryTextHolder
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -21,65 +17,63 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/10/10 9:54
  */
-public class SearchHistoryRecyclerAdapter extends RecyclerView.Adapter<SearchHistoryRecyclerAdapter.SearchHistoryTextHolder> {
-    private Context mContext;
-    private int mResource;
-    private List<String> mHistory;
-    private AdapterView.OnItemClickListener mOnItemClickListener;
+class SearchHistoryRecyclerAdapter(
+    mContext: Context?,
+    mResource: Int,
+    history: MutableList<String?>
+) : RecyclerView.Adapter<SearchHistoryTextHolder?>() {
+    private val mContext: Context?
+    private val mResource: Int
+    private val mHistory: MutableList<String?>
+    private var mOnItemClickListener: OnItemClickListener? = null
 
-    public SearchHistoryRecyclerAdapter(Context mContext, int mResource, List<String> history) {
-        this.mContext = mContext;
-        this.mResource = mResource;
-        this.mHistory = history;
+    init {
+        this.mContext = mContext
+        this.mResource = mResource
+        this.mHistory = history
     }
 
-    @NonNull
-    @Override
-    public SearchHistoryTextHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(mResource, parent, false);
-        return new SearchHistoryTextHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryTextHolder {
+        val view = LayoutInflater.from(mContext).inflate(mResource, parent, false)
+        return SearchHistoryTextHolder(view)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull SearchHistoryTextHolder holder, int position) {
-        holder.searchText.setText(mHistory.get(position));
-        holder.searchText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClick(null, null, position, -1);
+    override fun onBindViewHolder(holder: SearchHistoryTextHolder, position: Int) {
+        holder.searchText.setText(mHistory.get(position))
+        holder.searchText.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                mOnItemClickListener!!.onItemClick(null, null, position, -1)
             }
-        });
+        })
     }
 
-    @Override
-    public int getItemCount() {
-        return mHistory.size();
+    override fun getItemCount(): Int {
+        return mHistory.size
     }
 
-    public class SearchHistoryTextHolder extends RecyclerView.ViewHolder {
-        public TextView searchText;
+    inner class SearchHistoryTextHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var searchText: TextView
 
-        public SearchHistoryTextHolder(@NonNull View itemView) {
-            super(itemView);
-            searchText = itemView.findViewById(R.id.search_history_text_record_item);
+        init {
+            searchText = itemView.findViewById<TextView>(R.id.search_history_text_record_item)
         }
     }
 
-    public void updateSearchDataHistory(List<String> historys) {
-        this.mHistory.clear();
-        this.mHistory.addAll(historys);
-        notifyDataSetChanged();
+    fun updateSearchDataHistory(historys: MutableList<String?>) {
+        this.mHistory.clear()
+        this.mHistory.addAll(historys)
+        notifyDataSetChanged()
     }
 
-    public void clearSearchData() {
-        this.mHistory.clear();
-        notifyDataSetChanged();
+    fun clearSearchData() {
+        this.mHistory.clear()
+        notifyDataSetChanged()
     }
 
     /*
     在SearchMainActivity中处理点击事件
      */
-    public void addOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
+    fun addOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener
     }
 }

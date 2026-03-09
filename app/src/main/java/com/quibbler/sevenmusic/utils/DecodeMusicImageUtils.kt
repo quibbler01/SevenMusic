@@ -1,6 +1,6 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.content.Context;
+import android.content.Context
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -9,10 +9,8 @@ import android.content.Context;
  * Author:         zhaopeng
  * CreateDate:     2019/9/28 9:21
  */
-public class DecodeMusicImageUtils {
-
-    public static DecodeMusicManager with(Context context) {
-        return new DecodeMusicManager(context);
+object DecodeMusicImageUtils {
+    fun with(context: Context): DecodeMusicManager {
+        return DecodeMusicManager(context)
     }
-
 }

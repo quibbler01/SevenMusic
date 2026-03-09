@@ -1,6 +1,6 @@
-package com.quibbler.sevenmusic.view.mv;
+package com.quibbler.sevenmusic.view.mv
 
-public interface MediaControlListener {
+interface MediaControlListener {
     //全屏
-    void actionForFullScreen();
+    fun actionForFullScreen()
 }

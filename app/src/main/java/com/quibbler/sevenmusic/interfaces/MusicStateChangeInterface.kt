@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.interfaces;
+package com.quibbler.sevenmusic.interfaces
 
 /**
  * Package:        com.quibbler.sevenmusic.interfaces
@@ -7,16 +7,16 @@ package com.quibbler.sevenmusic.interfaces;
  * Author:         yanwuyang
  * CreateDate:     2019/10/8 10:10
  */
-public interface MusicStateChangeInterface {
+interface MusicStateChangeInterface {
     //开始播放音乐
-    void onMusicPlay(String musicInfoId);
+    fun onMusicPlay(musicInfoId: String?)
 
     //暂停播放
-    void onMusicPause(String musicInfoId);
+    fun onMusicPause(musicInfoId: String?)
 
     //暂无版权
-    void onNoCopyright(String musicInfoId);
+    fun onNoCopyright(musicInfoId: String?)
 
     //其他错误
-    void onSomethingWrong(String musicInfoId);
+    fun onSomethingWrong(musicInfoId: String?)
 }

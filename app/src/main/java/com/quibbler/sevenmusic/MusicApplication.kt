@@ -1,16 +1,13 @@
-package com.quibbler.sevenmusic;
+package com.quibbler.sevenmusic
 
-import android.app.Application;
-import android.content.Context;
-import android.os.StrictMode;
-
-import androidx.appcompat.app.AppCompatDelegate;
-
-import com.androidkun.xtablayoutlibrary.BuildConfig;
-import com.quibbler.sevenmusic.utils.ActivityLifecycle;
-import com.quibbler.sevenmusic.utils.MusicThreadPool;
-import com.quibbler.sevenmusic.utils.SharedPreferencesUtils;
-
+import android.app.Application
+import android.content.Context
+import android.os.StrictMode
+import androidx.appcompat.app.AppCompatDelegate
+import com.androidkun.xtablayoutlibrary.BuildConfig
+import com.quibbler.sevenmusic.utils.ActivityLifecycle
+import com.quibbler.sevenmusic.utils.MusicThreadPool
+import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -19,25 +16,23 @@ import com.quibbler.sevenmusic.utils.SharedPreferencesUtils;
  * Author:         zhaopeng
  * CreateDate:     2019/9/16 21:34
  */
-public class MusicApplication extends Application {
-    private static Context mContext;
+class MusicApplication : Application() {
     //    private static RefWatcher mRefWatcher = null;
-    private ActivityLifecycle mActivityLifeCycleCallback;
+    private var mActivityLifeCycleCallback: ActivityLifecycle? = null
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mContext = getApplicationContext();
-        mActivityLifeCycleCallback = new ActivityLifecycle();
-        initSharedPreference();
-        initAppMode();
-//        setUpMemoryLeakUtils();
+    override fun onCreate() {
+        super.onCreate()
+        context = this
+        mActivityLifeCycleCallback = ActivityLifecycle()
+        initSharedPreference()
+        initAppMode()
+        //        setUpMemoryLeakUtils();
 //        initStrictMode();
-        MusicThreadPool.initThreadPool();
-        registerActivityLifecycleCallbacks(mActivityLifeCycleCallback); // 注册Activity生命周期回调接口
+        MusicThreadPool.initThreadPool()
+        registerActivityLifecycleCallbacks(mActivityLifeCycleCallback) // 注册Activity生命周期回调接口
     }
 
-   /* private void setUpMemoryLeakUtils() {
+    /* private void setUpMemoryLeakUtils() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             mRefWatcher = RefWatcher.DISABLED;
         } else {
@@ -48,64 +43,66 @@ public class MusicApplication extends Application {
     public static RefWatcher getRefWatcher() {
         return mRefWatcher;
     }*/
-
-    private void initStrictMode() {
+    private fun initStrictMode() {
         if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder()
                     .detectNetwork()
-                    .detectResourceMismatches()
-//                    .detectDiskReads()
+                    .detectResourceMismatches() //                    .detectDiskReads()
                     .detectDiskWrites()
                     .detectCustomSlowCalls()
                     .penaltyLog()
-                    .build());
+                    .build()
+            )
 
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectActivityLeaks()
-//                    .detectCleartextNetwork()
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectActivityLeaks() //                    .detectCleartextNetwork()
                     .detectFileUriExposure()
                     .detectLeakedClosableObjects()
                     .detectLeakedRegistrationObjects()
                     .detectLeakedSqlLiteObjects()
-                    .setClassInstanceLimit(MainActivity.class, 1)
+                    .setClassInstanceLimit(MainActivity::class.java, 1)
                     .penaltyLog()
-                    .build());
+                    .build()
+            )
         }
     }
 
     /**
-     * 描述：获取上下文
-     *
-     * @return
-     */
-    public static Context getContext() {
-        return mContext;
-    }
-
-
-    /**
      * 描述：全局初始化一个SharedPreferencesUtils类的对象，保证全局唯一，用于存储设置参数
      */
-    private void initSharedPreference() {
-        SharedPreferencesUtils.init(MusicApplication.getContext());
+    private fun initSharedPreference() {
+        SharedPreferencesUtils.Companion.init(context)
     }
 
     /**
      * 描述：初始化App的模式-默认是日间模式
      */
-    private void initAppMode() {
-        boolean isNightMode = (Boolean) SharedPreferencesUtils.getInstance().getData(Constant.KEY_NIGHT_MODE, false);  //初始化时，读取保存的夜间模式键值，根据键值为true还是false，设置相应的日间or夜间模式
+    private fun initAppMode() {
+        val isNightMode = SharedPreferencesUtils.Companion.getInstance().getData(
+            Constant.KEY_NIGHT_MODE,
+            false
+        ) as Boolean //初始化时，读取保存的夜间模式键值，根据键值为true还是false，设置相应的日间or夜间模式
         if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 
-    @Override
-    public void onTerminate() {
-        unregisterActivityLifecycleCallbacks(mActivityLifeCycleCallback);
-        super.onTerminate();
+    override fun onTerminate() {
+        unregisterActivityLifecycleCallbacks(mActivityLifeCycleCallback)
+        super.onTerminate()
+    }
+
+    companion object {
+        /**
+         * 描述：获取上下文
+         * 
+         * @return
+         */
+        lateinit var context: Application
     }
 
 }

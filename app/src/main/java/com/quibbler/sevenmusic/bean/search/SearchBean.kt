@@ -1,4 +1,3 @@
-package com.quibbler.sevenmusic.bean.search;
+package com.quibbler.sevenmusic.bean.search
 
-public class SearchBean {
-}
+open class SearchBean 

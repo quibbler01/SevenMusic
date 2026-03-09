@@ -1,85 +1,63 @@
-package com.quibbler.sevenmusic.service;
+package com.quibbler.sevenmusic.service
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Binder;
-import android.os.Build;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
-import androidx.annotation.IntDef;
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
-
-import com.google.gson.Gson;
-import com.quibbler.sevenmusic.Constant;
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.ActivityCollector;
-import com.quibbler.sevenmusic.bean.MusicCoverJsonBean;
-import com.quibbler.sevenmusic.bean.MusicDownloadUrlJsonBean;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager;
-import com.quibbler.sevenmusic.utils.CheckTools;
-import com.quibbler.sevenmusic.utils.CloseResourceUtil;
-import com.quibbler.sevenmusic.utils.MusicIconLoadUtil;
-import com.quibbler.sevenmusic.utils.MusicThreadPool;
-import com.quibbler.sevenmusic.utils.SharedPreferencesUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static android.media.AudioManager.AUDIOFOCUS_REQUEST_FAILED;
-import static android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
-import static com.quibbler.sevenmusic.Constant.SEVEN_MUSIC_IMAGE;
-import static com.quibbler.sevenmusic.bean.MusicURL.API_GET_SONG_DETAIL_AND_IMAGE;
-import static com.quibbler.sevenmusic.bean.MusicURL.API_MUSIC_DOWNLOAD_URL;
-import static com.quibbler.sevenmusic.broadcast.MusicBroadcastManager.AUDIO_BECOMING_NOISY;
-import static com.quibbler.sevenmusic.broadcast.MusicBroadcastManager.MUSIC_GLOBAL_NO_COPYRIGHT;
-import static com.quibbler.sevenmusic.broadcast.MusicBroadcastManager.MUSIC_GLOBAL_PLAY_COMPLETION;
-import static com.quibbler.sevenmusic.broadcast.MusicBroadcastManager.SYSTEM_BROADCAST_NETWORK_CHANGE;
-import static com.quibbler.sevenmusic.contentprovider.MusicContentProvider.FAVOURITE_URL;
-import static com.quibbler.sevenmusic.contentprovider.MusicContentProvider.PLAYED_URL;
-import static com.quibbler.sevenmusic.contentprovider.MusicContentProvider.PLAYLIST_URL;
-import static com.quibbler.sevenmusic.utils.CheckTools.isNotificationPermissionOpen;
-import static com.quibbler.sevenmusic.utils.CheckTools.openNotificationPermissionSetting;
-import static com.quibbler.sevenmusic.utils.CloseResourceUtil.closeInputAndOutput;
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
+import android.media.AudioManager.OnAudioFocusChangeListener
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnCompletionListener
+import android.media.MediaPlayer.OnPreparedListener
+import android.os.Binder
+import android.os.Build
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import android.os.Message
+import android.util.Log
+import android.widget.RemoteViews
+import android.widget.Toast
+import androidx.annotation.IntDef
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
+import com.google.gson.Gson
+import com.quibbler.sevenmusic.Constant
+import com.quibbler.sevenmusic.MusicApplication
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.ActivityCollector
+import com.quibbler.sevenmusic.bean.MusicCoverJsonBean
+import com.quibbler.sevenmusic.bean.MusicDownloadUrlJsonBean
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.MusicURL
+import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager
+import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
+import com.quibbler.sevenmusic.utils.CheckTools
+import com.quibbler.sevenmusic.utils.CloseResourceUtil
+import com.quibbler.sevenmusic.utils.MusicIconLoadUtil
+import com.quibbler.sevenmusic.utils.MusicThreadPool
+import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.Random
 
 /**
  * Package:        com.quibbler.sevenmusic.service
@@ -93,184 +71,125 @@ import static com.quibbler.sevenmusic.utils.CloseResourceUtil.closeInputAndOutpu
  * Author:         zhaopeng
  * CreateDate:     2019/9/27 12:39
  */
-public class MusicPlayerService extends Service {
-    public static final String TAG = "MusicPlayerService";
-    private SharedPreferences sharedPreferences = MusicApplication.getContext().getSharedPreferences(TAG, MODE_PRIVATE);
+class MusicPlayerService : Service() {
+    private val sharedPreferences: SharedPreferences =
+        MusicApplication.context.getSharedPreferences(
+            TAG, MODE_PRIVATE
+        )
 
-    @IntDef(value = {PlayModeType.PLAY_TYPE_RANDOM, PlayModeType.PLAY_TYPE_SINGLE_CYCLE, PlayModeType.PLAY_TYPE_LIST_CYCLE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface PlayModeType {
-        int PLAY_TYPE_RANDOM = 0;
-        int PLAY_TYPE_SINGLE_CYCLE = 1;
-        int PLAY_TYPE_LIST_CYCLE = 2;
-    }
-
-    private MusicBinder mPlayMusicBinder = new MusicBinder();
-    private static MediaPlayer mMusicPlayer = null;
-
-    private static NotificationManager mNotificationManager = null;
-    private static NotificationChannel mChannel = null;
-    private static final String MUSIC_PLAY_NOTIFICATION_CHANNEL = "0";
-    private static RemoteViews mRemoteViews;
-    private static Bitmap mBitmap = null;
-
-    public static final String MUSIC_PREVIOUS_ACTION = "quibbler.com.sevenmusic.nitofication.previous";
-    public static final String MUSIC_NEXT_ACTION = "quibbler.com.sevenmusic.nitofication.next";
-    public static final String MUSIC_PLAY_ACTION = "quibbler.com.sevenmusic.nitofication.play";
-    public static final String MUSIC_FAVOURITE_ACTION = "quibbler.com.sevenmusic.nitofication.favourite";
-    public static final String MUSIC_CLOSE_ACTION = "quibbler.com.sevenmusic.nitofication.close";
-
-    public static final int MUSIC_PREVIOUS_CODE = 0;
-    public static final int MUSIC_NEXT_CODE = 1;
-    public static final int MUSIC_PLAY_CODE = 2;
-    public static final int MUSIC_CLOSE_CODE = 3;
-    public static final int MUSIC_FAVOURITE_CODE = 4;
-    private MusicNotificationReceiver mReceiver = null;
-
-    private StateReceiver mStateChangeListener;
-    private boolean isFirst = true;
-
-    private static AudioManager sAudioManager;
-    private static MusicAudioFocusChangeListener sMusicAudioFocusChangeListener;
-    private static boolean isInterrupted = false;
-    private static AudioAttributes sAudioAttributes;
-    private static AudioFocusRequest sAudioFocusRequest;
-
-    private static final int HANDLER_CODE_DATABASE_DOWN = 0;
-    private static final int HANDLER_CODE_IMAGE_GET = 1;
-    private static final int HANDLER_CODE_URL_GOT = 2;
-    private static final int HANDLER_CODE_IMAGE_FAILED = -1;
-    private static Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what) {
-                case HANDLER_CODE_DATABASE_DOWN:
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                    break;
-                case HANDLER_CODE_IMAGE_GET:
-                    mRemoteViews.setImageViewBitmap(R.id.music_notification_icon, mBitmap);
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                    break;
-                case HANDLER_CODE_URL_GOT:
-                    initMusicIcon(sMusicInfo.getId());
-                    MusicPlayerService.playMusic(sMusicInfo.getId(), sMusicInfo.getUrl());
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                    break;
-                case HANDLER_CODE_IMAGE_FAILED:
-                default:
-                    break;
-            }
+    @IntDef(value = [PlayModeType.Companion.PLAY_TYPE_RANDOM, PlayModeType.Companion.PLAY_TYPE_SINGLE_CYCLE, PlayModeType.Companion.PLAY_TYPE_LIST_CYCLE])
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class PlayModeType {
+        companion object {
+            const val PLAY_TYPE_RANDOM: Int = 0
+            const val PLAY_TYPE_SINGLE_CYCLE: Int = 1
+            const val PLAY_TYPE_LIST_CYCLE: Int = 2
         }
-    };
-
-    private static boolean sPrepared = false;  //播放器有无准备好
-    public static boolean isPlaying = false;
-    public static String sMusicID = null;
-    public static MusicInfo sMusicInfo = null;
-    private static List<MusicInfo> sPlayMusicLists = new ArrayList<>();
-    private static int sPlayMode = PlayModeType.PLAY_TYPE_LIST_CYCLE;
-    public static int sPosition = -1;
-    private static Random sRandom = new Random(47);
-
-    public MusicPlayerService() {
-        super();
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    private val mPlayMusicBinder = MusicBinder()
+    private var mReceiver: MusicNotificationReceiver? = null
 
-        loadMusicPlayInfo();
-        mMusicPlayer = new MediaPlayer();
-        mMusicPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {                                       //异步加载,非阻塞主线程
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                sPrepared = true;
-                mediaPlayer.start();
+    private var mStateChangeListener: StateReceiver? = null
+    private var isFirst = true
+
+    override fun onCreate() {
+        super.onCreate()
+
+        loadMusicPlayInfo()
+        mMusicPlayer = MediaPlayer()
+        mMusicPlayer!!.setOnPreparedListener(object : OnPreparedListener {
+            //异步加载,非阻塞主线程
+            override fun onPrepared(mediaPlayer: MediaPlayer) {
+                sPrepared = true
+                mediaPlayer.start()
             }
-        });
-        mMusicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                isPlaying = false;                                                                                       //必须置位
-                switch (sPlayMode) {
-                    case PlayModeType.PLAY_TYPE_LIST_CYCLE:
-                        if (sPlayMusicLists.size() <= 1) {
-                            MusicPlayerService.playMusic(sMusicInfo);
+        })
+        mMusicPlayer!!.setOnCompletionListener(object : OnCompletionListener {
+            override fun onCompletion(mp: MediaPlayer?) {
+                isPlaying = false //必须置位
+                when (playMode) {
+                    PlayModeType.Companion.PLAY_TYPE_LIST_CYCLE -> if (sPlayMusicLists.size <= 1) {
+                        playMusic(musicInfo)
+                    } else {
+                        val position: Int = sPlayMusicLists.indexOf(musicInfo)
+                        if (position == -1) {
+                            return
+                        } else if (position < sPlayMusicLists.size - 1) {
+                            musicInfo = sPlayMusicLists.get(position + 1)
+                            playMusic(musicInfo)
                         } else {
-                            int position = sPlayMusicLists.indexOf(sMusicInfo);
-                            if (position == -1) {
-                                return;
-                            } else if (position < sPlayMusicLists.size() - 1) {
-                                sMusicInfo = sPlayMusicLists.get(position + 1);
-                                MusicPlayerService.playMusic(sMusicInfo);
-                            } else {
-                                sMusicInfo = sPlayMusicLists.get(0);
-                                MusicPlayerService.playMusic(sMusicInfo);
-                            }
+                            musicInfo = sPlayMusicLists.get(0)
+                            playMusic(musicInfo)
                         }
-                        break;
-                    case PlayModeType.PLAY_TYPE_SINGLE_CYCLE:                                                            //单曲循环
-                        MusicPlayerService.playMusic(sMusicInfo);
-                        break;
-                    case PlayModeType.PLAY_TYPE_RANDOM:                                                                  //列表随机
-                        if (sPlayMusicLists.size() == 0) {
-                            return;
-                        } else {
-                            sMusicInfo = sPlayMusicLists.get(sRandom.nextInt(sPlayMusicLists.size()));
-                            MusicPlayerService.playMusic(sMusicInfo);
-                        }
-                        break;
-                    default:
-                        Intent intent = new Intent(MUSIC_GLOBAL_PLAY_COMPLETION);
-                        intent.putExtra("id", sMusicID);
-                        MusicBroadcastManager.sendBroadcast(intent);
-                        showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                        break;
+                    }
+
+                    PlayModeType.Companion.PLAY_TYPE_SINGLE_CYCLE -> playMusic(musicInfo)
+                    PlayModeType.Companion.PLAY_TYPE_RANDOM -> if (sPlayMusicLists.size == 0) {
+                        return
+                    } else {
+                        musicInfo = sPlayMusicLists.get(sRandom.nextInt(sPlayMusicLists.size))
+                        playMusic(musicInfo)
+                    }
+
+                    else -> {
+                        val intent = Intent(MusicBroadcastManager.MUSIC_GLOBAL_PLAY_COMPLETION)
+                        intent.putExtra("id", sMusicID)
+                        MusicBroadcastManager.sendBroadcast(intent)
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                    }
                 }
             }
-        });
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        })
+        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(MUSIC_PLAY_NOTIFICATION_CHANNEL, "音乐播放通知栏", NotificationManager.IMPORTANCE_LOW);
-            mNotificationManager.createNotificationChannel(mChannel);
+            mChannel = NotificationChannel(
+                MUSIC_PLAY_NOTIFICATION_CHANNEL,
+                "音乐播放通知栏",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            mNotificationManager!!.createNotificationChannel(mChannel!!)
         }
 
-        initAudioFocus();
+        initAudioFocus()
 
-        initNotificationFunction();
+        initNotificationFunction()
 
-        initPlayListData();
+        initPlayListData()
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MUSIC_PREVIOUS_ACTION);
-        intentFilter.addAction(MUSIC_NEXT_ACTION);
-        intentFilter.addAction(MUSIC_PLAY_ACTION);
-        intentFilter.addAction(MUSIC_CLOSE_ACTION);
-        intentFilter.addAction(MUSIC_FAVOURITE_ACTION);
-        mReceiver = new MusicNotificationReceiver();
-        registerReceiver(mReceiver, intentFilter);
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(MUSIC_PREVIOUS_ACTION)
+        intentFilter.addAction(MUSIC_NEXT_ACTION)
+        intentFilter.addAction(MUSIC_PLAY_ACTION)
+        intentFilter.addAction(MUSIC_CLOSE_ACTION)
+        intentFilter.addAction(MUSIC_FAVOURITE_ACTION)
+        mReceiver = MusicNotificationReceiver()
+        registerReceiver(mReceiver, intentFilter)
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(AUDIO_BECOMING_NOISY);
-        filter.addAction(SYSTEM_BROADCAST_NETWORK_CHANGE);
-        mStateChangeListener = new StateReceiver();
-        registerReceiver(mStateChangeListener, filter);
+        val filter = IntentFilter()
+        filter.addAction(MusicBroadcastManager.AUDIO_BECOMING_NOISY)
+        filter.addAction(MusicBroadcastManager.SYSTEM_BROADCAST_NETWORK_CHANGE)
+        mStateChangeListener = StateReceiver()
+        registerReceiver(mStateChangeListener, filter)
     }
 
-    private void initAudioFocus() {
-        sMusicAudioFocusChangeListener = new MusicAudioFocusChangeListener();
-        sAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        sAudioAttributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        sAudioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                .setAudioAttributes(sAudioAttributes)
-                .setAcceptsDelayedFocusGain(true)
-                .setOnAudioFocusChangeListener(sMusicAudioFocusChangeListener).build();
+    private fun initAudioFocus() {
+        sMusicAudioFocusChangeListener = MusicAudioFocusChangeListener()
+        sAudioManager = getSystemService(AUDIO_SERVICE) as AudioManager?
+        sAudioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build()
+        sAudioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            .setAudioAttributes(sAudioAttributes!!)
+            .setAcceptsDelayedFocusGain(true)
+            .setOnAudioFocusChangeListener(sMusicAudioFocusChangeListener!!).build()
 
-//        int focusRequest = sAudioManager.requestAudioFocus(sAudioFocusRequest);
+        //        int focusRequest = sAudioManager.requestAudioFocus(sAudioFocusRequest);
 //        switch (focusRequest) {
 //            case AUDIOFOCUS_REQUEST_FAILED:
 //                Log.e(TAG, "AUDIOFOCUS_REQUEST_FAILED" + AUDIOFOCUS_REQUEST_FAILED);
@@ -283,524 +202,873 @@ public class MusicPlayerService extends Service {
 //        }
     }
 
-    private static void requestAudioFocus() {
-        if (isInterrupted) {
-        }
-        int focusRequest = sAudioManager.requestAudioFocus(sAudioFocusRequest);
-        switch (focusRequest) {
-            case AUDIOFOCUS_REQUEST_FAILED:
-                Log.e(TAG, "AUDIOFOCUS_REQUEST_FAILED" + AUDIOFOCUS_REQUEST_FAILED);
-                break;
-            case AUDIOFOCUS_REQUEST_GRANTED:
-                Log.e(TAG, "AUDIOFOCUS_REQUEST_GRANTED" + AUDIOFOCUS_REQUEST_GRANTED);
-                break;
-            default:
-                break;
-        }
-    }
+    private fun initNotificationFunction() {
+        mRemoteViews = RemoteViews(getPackageName(), R.layout.music_play_notification_layout)
 
-    private void initNotificationFunction() {
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.music_play_notification_layout);
+        val previousIntent: Intent = Intent(MUSIC_PREVIOUS_ACTION)
+        val previousPendingIntent = PendingIntent.getBroadcast(
+            MusicApplication.Companion.getContext(),
+            MUSIC_PREVIOUS_CODE,
+            previousIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        mRemoteViews!!.setOnClickPendingIntent(
+            R.id.music_notification_previous,
+            previousPendingIntent
+        )
 
-        Intent previousIntent = new Intent(MUSIC_PREVIOUS_ACTION);
-        PendingIntent previousPendingIntent = PendingIntent.getBroadcast(MusicApplication.getContext(), MUSIC_PREVIOUS_CODE, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        mRemoteViews.setOnClickPendingIntent(R.id.music_notification_previous, previousPendingIntent);
+        val nextIntent: Intent = Intent(MUSIC_NEXT_ACTION)
+        val nextPendingIntent = PendingIntent.getBroadcast(
+            MusicApplication.Companion.getContext(),
+            MUSIC_NEXT_CODE,
+            nextIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        mRemoteViews!!.setOnClickPendingIntent(R.id.music_notification_next, nextPendingIntent)
 
-        Intent nextIntent = new Intent(MUSIC_NEXT_ACTION);
-        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(MusicApplication.getContext(), MUSIC_NEXT_CODE, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        mRemoteViews.setOnClickPendingIntent(R.id.music_notification_next, nextPendingIntent);
+        val playIntent: Intent = Intent(MUSIC_PLAY_ACTION)
+        val playPendingIntent = PendingIntent.getBroadcast(
+            MusicApplication.Companion.getContext(),
+            MUSIC_PLAY_CODE,
+            playIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        mRemoteViews!!.setOnClickPendingIntent(R.id.music_notification_play, playPendingIntent)
 
-        Intent playIntent = new Intent(MUSIC_PLAY_ACTION);
-        PendingIntent playPendingIntent = PendingIntent.getBroadcast(MusicApplication.getContext(), MUSIC_PLAY_CODE, playIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        mRemoteViews.setOnClickPendingIntent(R.id.music_notification_play, playPendingIntent);
 
+        val closeIntent: Intent = Intent(MUSIC_CLOSE_ACTION)
+        val closePendingIntent = PendingIntent.getBroadcast(
+            MusicApplication.Companion.getContext(),
+            MUSIC_CLOSE_CODE,
+            closeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        mRemoteViews!!.setOnClickPendingIntent(R.id.music_notification_close, closePendingIntent)
 
-        Intent closeIntent = new Intent(MUSIC_CLOSE_ACTION);
-        PendingIntent closePendingIntent = PendingIntent.getBroadcast(MusicApplication.getContext(), MUSIC_CLOSE_CODE, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        mRemoteViews.setOnClickPendingIntent(R.id.music_notification_close, closePendingIntent);
-
-        Intent favouriteIntent = new Intent(MUSIC_FAVOURITE_ACTION);
-        PendingIntent favouritePendingIntent = PendingIntent.getBroadcast(MusicApplication.getContext(), MUSIC_FAVOURITE_CODE, favouriteIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        mRemoteViews.setOnClickPendingIntent(R.id.music_notification_favourite, favouritePendingIntent);
+        val favouriteIntent: Intent = Intent(MUSIC_FAVOURITE_ACTION)
+        val favouritePendingIntent = PendingIntent.getBroadcast(
+            MusicApplication.Companion.getContext(),
+            MUSIC_FAVOURITE_CODE,
+            favouriteIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        mRemoteViews!!.setOnClickPendingIntent(
+            R.id.music_notification_favourite,
+            favouritePendingIntent
+        )
     }
 
     @MainThread
-    private void initPlayListData() {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Cursor cursor = null;
+    private fun initPlayListData() {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                var cursor: Cursor? = null
                 try {
-                    cursor = getContentResolver().query(PLAYLIST_URL, null, null, null, null);
+                    cursor = getContentResolver().query(
+                        MusicContentProvider.Companion.PLAYLIST_URL,
+                        null,
+                        null,
+                        null,
+                        null
+                    )
                     if (cursor != null) {
-                        List<MusicInfo> temp = new ArrayList<>();
+                        val temp: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
                         while (cursor.moveToNext()) {
-                            MusicInfo musicInfo = new MusicInfo();
-                            musicInfo.setId(cursor.getString(cursor.getColumnIndex("id")));
-                            musicInfo.setMusicSongName(cursor.getString(cursor.getColumnIndex("name")));
-                            musicInfo.setSinger(cursor.getString(cursor.getColumnIndex("singer")));
-                            musicInfo.setMusicFilePath(cursor.getString(cursor.getColumnIndex("path")));
-                            temp.add(musicInfo);
+                            val musicInfo = MusicInfo()
+                            musicInfo.setId(cursor.getString(cursor.getColumnIndex("id")))
+                            musicInfo.setMusicSongName(cursor.getString(cursor.getColumnIndex("name")))
+                            musicInfo.setSinger(cursor.getString(cursor.getColumnIndex("singer")))
+                            musicInfo.setMusicFilePath(cursor.getString(cursor.getColumnIndex("path")))
+                            temp.add(musicInfo)
                         }
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                sPlayMusicLists.clear();
-                                sPlayMusicLists.addAll(temp);
+                        mHandler.post(object : Runnable {
+                            override fun run() {
+                                sPlayMusicLists.clear()
+                                sPlayMusicLists.addAll(temp)
                             }
-                        });
+                        })
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 } finally {
-                    closeInputAndOutput(cursor);
+                    CloseResourceUtil.closeInputAndOutput(cursor)
                 }
             }
-        });
+        })
     }
 
-    public static void savePlayList() {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Cursor cursor = null;
-                MusicApplication.getContext().getContentResolver().delete(PLAYLIST_URL, null, null);
-                try {
-                    for (MusicInfo musicInfo : sPlayMusicLists) {
-                        ContentValues values = new ContentValues();
-                        values.put("id", musicInfo.getId());
-                        values.put("name", musicInfo.getMusicSongName());
-                        values.put("singer", musicInfo.getSinger());
-                        values.put("path", musicInfo.getMusicFilePath());
-                        cursor = MusicApplication.getContext().getContentResolver().query(PLAYLIST_URL, null, "id = ?", new String[]{musicInfo.getId()}, null);
-                        if (cursor != null) {
-                            if (cursor.getCount() == 0) {
-                                MusicApplication.getContext().getContentResolver().insert(PLAYLIST_URL, values);
-                            }
-                            cursor.close();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-            }
-        });
+    override fun onBind(intent: Intent?): IBinder? {
+        return mPlayMusicBinder
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mPlayMusicBinder;
-    }
-
-    public static class MusicBinder extends Binder {
-
-        public void playMusic(MusicInfo musicInfo) {
-            MusicPlayerService.playMusic(musicInfo);
+    class MusicBinder : Binder() {
+        fun playMusic(musicInfo: MusicInfo?) {
+            Companion.playMusic(musicInfo)
         }
 
-        public void playMusic(String musicID, String path) {
-            MusicPlayerService.playMusic(musicID, path);
+        fun playMusic(musicID: String, path: String?) {
+            Companion.playMusic(musicID, path)
         }
 
-        public int getDuration() {
-            return MusicPlayerService.getDuration();
-        }
+        val duration: Int
+            get() = Companion.duration
 
-        public int getPlayProgress() {
-            if (mMusicPlayer != null) {
-                return mMusicPlayer.getCurrentPosition();
-            } else {
-                return -1;
-            }
-        }
-
-        public void setPlayProgress(int progress) {
-            if (sMusicInfo != null && mMusicPlayer != null) {
-                mMusicPlayer.seekTo(progress);
-                if (isPlaying) {
-                    MusicPlayerService.continuePlay();
+        var playProgress: Int
+            get() {
+                if (mMusicPlayer != null) {
+                    return mMusicPlayer!!.getCurrentPosition()
                 } else {
-                    mMusicPlayer.pause();
+                    return -1
                 }
             }
+            set(progress) {
+                if (musicInfo != null && mMusicPlayer != null) {
+                    mMusicPlayer!!.seekTo(progress)
+                    if (isPlaying) {
+                        continuePlay()
+                    } else {
+                        mMusicPlayer!!.pause()
+                    }
+                }
+            }
+
+        fun stopPlayMusic() {
+            Companion.stopPlayMusic()
         }
 
-        public void stopPlayMusic() {
-            MusicPlayerService.stopPlayMusic();
+        fun pauseMusic() {
+            Companion.pauseMusic()
         }
 
-        public void pauseMusic() {
-            MusicPlayerService.pauseMusic();
-        }
-
-        public void pausePlayMusic() {
-            mMusicPlayer.pause();
-            isPlaying = false;
-            showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
+        fun pausePlayMusic() {
+            mMusicPlayer!!.pause()
+            isPlaying = false
+            showPlayNotification(
+                musicInfo!!.getId(),
+                musicInfo!!.getMusicSongName(),
+                musicInfo!!.getSinger()
+            )
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        saveCurrentPlayMusicInfo(sMusicInfo);
+    override fun onDestroy() {
+        super.onDestroy()
+        saveCurrentPlayMusicInfo(musicInfo)
 
-        mNotificationManager.cancelAll();
+        mNotificationManager!!.cancelAll()
 
-        mMusicPlayer.release();
-        mMusicPlayer = null;
+        mMusicPlayer!!.release()
+        mMusicPlayer = null
 
-        isPlaying = false;
-        sMusicID = null;
-        sMusicInfo = null;
-        sPosition = -1;
+        isPlaying = false
+        sMusicID = null
+        musicInfo = null
+        sPosition = -1
 
-        unregisterReceiver(mReceiver);
-        mRemoteViews = null;
-        unregisterReceiver(mStateChangeListener);
-        mStateChangeListener = null;
+        unregisterReceiver(mReceiver)
+        mRemoteViews = null
+        unregisterReceiver(mStateChangeListener)
+        mStateChangeListener = null
 
-        mHandler.removeCallbacksAndMessages(null);
+        mHandler.removeCallbacksAndMessages(null)
 
         if (sAudioManager != null) {
-            sAudioManager.abandonAudioFocus(sMusicAudioFocusChangeListener);
-            sAudioManager = null;
-            sMusicAudioFocusChangeListener = null;
+            sAudioManager!!.abandonAudioFocus(sMusicAudioFocusChangeListener)
+            sAudioManager = null
+            sMusicAudioFocusChangeListener = null
         }
     }
 
-    /**
-     * Play Music Service Entry
-     *
-     * @param musicInfo
-     */
-    public static void playMusic(MusicInfo musicInfo) {
-        if (musicInfo == null || mMusicPlayer == null) {
-            return;
-        }
-
-        if (musicInfo.getMusicFilePath() != null && !"".equals(musicInfo.getMusicFilePath()) && isExistAlready(musicInfo.getMusicFilePath())) {
-            sMusicInfo = musicInfo;
-            initMusicIcon(sMusicInfo.getId());
-            playMusic(musicInfo.getId(), musicInfo.getMusicFilePath());
-            showPlayNotification(musicInfo.getId(), musicInfo.getMusicSongName(), musicInfo.getSinger());
-            addToPlayList(sMusicInfo);
-            addToPlayHistory(musicInfo);
-        } else {
-            if (!CheckTools.isNetWordAvailable(MusicApplication.getContext())) {
-                Toast.makeText(MusicApplication.getContext(), MusicApplication.getContext().getString(R.string.service_play_toast_check_network), Toast.LENGTH_SHORT).show();
-                return;
+    inner class MusicNotificationReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val action = intent.getAction()
+            if (action == null) {
+                return
             }
-            //非WiFi情况下播放
-            if (CheckTools.getNetWorkStatus(MusicApplication.getContext()) != CheckTools.NETWORK_WIFI) {
-                //从郭金良那里获取设置，默认播放打开移动网络开关
-                Object setting = SharedPreferencesUtils.getInstance().getData(Constant.KEY_SETTING_NETWORK_PLAY, true);
-                if (setting != null && !((boolean) setting)) {
-                    Toast.makeText(MusicApplication.getContext(), MusicApplication.getContext().getString(R.string.service_play_toast_network_setting), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-            MusicThreadPool.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    MusicDownloadUrlJsonBean.Data musicOnlineData = null;
-                    try {
-                        OkHttpClient client = new OkHttpClient();
-                        Request request = new Request.Builder().url(API_MUSIC_DOWNLOAD_URL + musicInfo.getId() + "&br=128000").build();
-                        Response response = client.newCall(request).execute();
-                        String json = response.body().string();
-                        musicOnlineData = (new Gson().fromJson(json, MusicDownloadUrlJsonBean.class)).getData().get(0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (musicOnlineData == null || musicOnlineData.getUrl() == null || "".equals(musicOnlineData.getUrl())) {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(MusicApplication.getContext(), "暂无版权", Toast.LENGTH_SHORT).show();
-                                MusicBroadcastManager.sendBroadcast(MUSIC_GLOBAL_NO_COPYRIGHT);
-                                playNextMusic();
-                            }
-                        });
+            when (action) {
+                MUSIC_PREVIOUS_ACTION -> playPreviousMusic()
+                MUSIC_NEXT_ACTION -> playNextMusic()
+                MUSIC_PLAY_ACTION -> {
+                    if (isPlaying) {
+                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PAUSE)
+                        mMusicPlayer!!.pause()
                     } else {
-                        sMusicInfo = musicInfo;
-                        addToPlayList(sMusicInfo);
-                        sMusicInfo.setUrl(musicOnlineData.getUrl());
-                        Message message = new Message();
-                        message.what = HANDLER_CODE_URL_GOT;
-                        mHandler.sendMessage(message);
+                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY)
+                        mMusicPlayer!!.start()
+                    }
+                    isPlaying = !isPlaying
+                }
+
+                MUSIC_CLOSE_ACTION -> {
+                    mNotificationManager!!.cancelAll()
+                    ActivityCollector.finishAllActivity()
+                }
+
+                MUSIC_FAVOURITE_ACTION -> if (musicInfo == null) {
+                    return
+                } else {
+                    MusicThreadPool.postRunnable(object : Runnable {
+                        override fun run() {
+                            var cursor: Cursor? = null
+                            try {
+                                cursor =
+                                    MusicApplication.Companion.getContext().getContentResolver()
+                                        .query(
+                                            MusicContentProvider.Companion.FAVOURITE_URL,
+                                            null,
+                                            "id = ?",
+                                            arrayOf<String?>(
+                                                musicInfo!!.getId()
+                                            ),
+                                            null
+                                        )
+                                if (cursor != null && cursor.getCount() == 0) {
+                                    val values = ContentValues()
+                                    values.put("id", musicInfo!!.getId())
+                                    values.put("name", musicInfo!!.getMusicSongName())
+                                    values.put("singer", musicInfo!!.getSinger())
+                                    values.put("path", musicInfo!!.getMusicFilePath())
+                                    MusicApplication.Companion.getContext().getContentResolver()
+                                        .insert(
+                                            MusicContentProvider.Companion.FAVOURITE_URL,
+                                            values
+                                        )
+                                } else {
+                                    MusicApplication.Companion.getContext().getContentResolver()
+                                        .delete(
+                                            MusicContentProvider.Companion.FAVOURITE_URL,
+                                            "id = ?",
+                                            arrayOf<String?>(
+                                                musicInfo!!.getId()
+                                            )
+                                        )
+                                }
+                                MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_DATABASE_UPDATE)
+                                val message = Message()
+                                message.what = HANDLER_CODE_DATABASE_DOWN
+                                mHandler.sendMessage(message)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            } finally {
+                                if (cursor != null) {
+                                    cursor.close()
+                                }
+                            }
+                        }
+                    })
+                }
+
+                else -> {}
+            }
+            showPlayNotification(
+                musicInfo!!.getId(),
+                musicInfo!!.getMusicSongName(),
+                musicInfo!!.getSinger()
+            )
+        }
+    }
+
+    private inner class StateReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val action = intent.getAction()
+            if (action == null) {
+                return
+            }
+            when (action) {
+                MusicBroadcastManager.SYSTEM_BROADCAST_NETWORK_CHANGE -> {
+                    Log.d(TAG, "StateReceiver  " + intent.getAction())
+                    if (isFirst) {
+                        isFirst = false
+                        return
+                    } else {
+                        if ((musicInfo != null && "" == musicInfo!!.getMusicFilePath()) || (musicInfo != null && musicInfo!!.getMusicFilePath() == null)) {
+                            if (!CheckTools.isNetWordAvailable(getApplicationContext())) {
+                                if (mMusicPlayer != null && isPlaying) {
+                                    sendBroadcast(Intent(MUSIC_PLAY_ACTION))
+                                }
+                            } else {
+                                if (mMusicPlayer != null && musicInfo != null && !isPlaying) {
+                                    sendBroadcast(Intent(MUSIC_PLAY_ACTION))
+                                }
+                            }
+                        }
                     }
                 }
-            });
+
+                MusicBroadcastManager.AUDIO_BECOMING_NOISY -> {
+                    isInterrupted = true
+                    pauseMusic()
+                }
+
+                else -> {}
+            }
         }
     }
 
-    /**
-     * play a song:new one or current one:file path or url
-     */
-    public static void playMusic(String musicID, String path) {
-        if (!isNotificationPermissionOpen(MusicApplication.getContext())) {
-            openNotificationPermissionSetting(MusicApplication.getContext());
-            Toast.makeText(MusicApplication.getContext(), "请打开播放通知权限", Toast.LENGTH_SHORT).show();
+    private fun loadMusicPlayInfo() {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                val string = sharedPreferences.getString(TAG, "")
+                if ("" == string || string == null) {
+                    return
+                }
+                val gson = Gson()
+                musicInfo = gson.fromJson<MusicInfo?>(string, MusicInfo::class.java)
+            }
+        })
+    }
+
+    private fun saveCurrentPlayMusicInfo(musicInfo: MusicInfo?) {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                val gson = Gson()
+                val string = gson.toJson(musicInfo)
+                val editor = sharedPreferences.edit()
+                editor.putString(TAG, string)
+                editor.apply()
+            }
+        })
+    }
+
+    private class MusicAudioFocusChangeListener : OnAudioFocusChangeListener {
+        override fun onAudioFocusChange(focusChange: Int) {
+            Log.e(TAG, "focusChange  " + focusChange)
+            when (focusChange) {
+                AudioManager.AUDIOFOCUS_GAIN -> {
+                    Log.e(TAG, "你已经完全获得了音频焦点  ")
+                    //获得了 Audio Focus.
+                    if (isInterrupted) {
+                        isInterrupted = false
+                        playMusic(musicInfo)
+                    }
+                }
+
+                AudioManager.AUDIOFOCUS_LOSS -> {
+                    Log.e(TAG, "你会长时间的失去焦点，所以不要指望在短时间内能获得  ")
+                    sAudioManager!!.abandonAudioFocusRequest(sAudioFocusRequest!!)
+                    isInterrupted = true
+                    pauseMusic()
+                }
+
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                    Log.e(TAG, "暂时失去 Audio Focus，但是很快就会重新获得。")
+                    //暂时失去 Audio Focus，但是很快就会重新获得。应该停止所有的音频播放，但是可以不清里资源，因为可能很快就会再次获取 Audio Focus.
+                    isInterrupted = true
+                    pauseMusic()
+                }
+
+                AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> Log.e(
+                    TAG,
+                    "暂时失去 Audio Focus，但是允许持续播放音频(以很小的声音)，不需要完全停止播放。  "
+                )
+
+                else -> {}
+            }
         }
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                    Thread.sleep(2000);
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                    Thread.sleep(2000);
-                    showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-                } catch (Exception e) {
-                    e.printStackTrace();
+    }
+
+    companion object {
+        const val TAG: String = "MusicPlayerService"
+        private var mMusicPlayer: MediaPlayer? = null
+
+        private var mNotificationManager: NotificationManager? = null
+        private var mChannel: NotificationChannel? = null
+        private const val MUSIC_PLAY_NOTIFICATION_CHANNEL = "0"
+        private var mRemoteViews: RemoteViews? = null
+        private var mBitmap: Bitmap? = null
+
+        const val MUSIC_PREVIOUS_ACTION: String = "quibbler.com.sevenmusic.nitofication.previous"
+        const val MUSIC_NEXT_ACTION: String = "quibbler.com.sevenmusic.nitofication.next"
+        const val MUSIC_PLAY_ACTION: String = "quibbler.com.sevenmusic.nitofication.play"
+        const val MUSIC_FAVOURITE_ACTION: String = "quibbler.com.sevenmusic.nitofication.favourite"
+        const val MUSIC_CLOSE_ACTION: String = "quibbler.com.sevenmusic.nitofication.close"
+
+        const val MUSIC_PREVIOUS_CODE: Int = 0
+        const val MUSIC_NEXT_CODE: Int = 1
+        const val MUSIC_PLAY_CODE: Int = 2
+        const val MUSIC_CLOSE_CODE: Int = 3
+        const val MUSIC_FAVOURITE_CODE: Int = 4
+        private var sAudioManager: AudioManager? = null
+        private var sMusicAudioFocusChangeListener: MusicAudioFocusChangeListener? = null
+        private var isInterrupted = false
+        private var sAudioAttributes: AudioAttributes? = null
+        private var sAudioFocusRequest: AudioFocusRequest? = null
+
+        private const val HANDLER_CODE_DATABASE_DOWN = 0
+        private const val HANDLER_CODE_IMAGE_GET = 1
+        private const val HANDLER_CODE_URL_GOT = 2
+        private val HANDLER_CODE_IMAGE_FAILED = -1
+        private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
+            override fun handleMessage(msg: Message) {
+                when (msg.what) {
+                    HANDLER_CODE_DATABASE_DOWN -> showPlayNotification(
+                        musicInfo!!.getId(),
+                        musicInfo!!.getMusicSongName(),
+                        musicInfo!!.getSinger()
+                    )
+
+                    HANDLER_CODE_IMAGE_GET -> {
+                        mRemoteViews!!.setImageViewBitmap(R.id.music_notification_icon, mBitmap)
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                    }
+
+                    HANDLER_CODE_URL_GOT -> {
+                        initMusicIcon(musicInfo!!.getId())
+                        playMusic(musicInfo!!.getId(), musicInfo!!.getUrl())
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                    }
+
+                    HANDLER_CODE_IMAGE_FAILED -> {}
+                    else -> {}
                 }
             }
-        });
-        requestAudioFocus();
-        addToPlayHistory(sMusicInfo);
-        try {
-            if (isPlaying) {
-                if (musicID.equals(sMusicID)) {
-                    return;
+        }
+
+        private var sPrepared = false //播放器有无准备好
+        var isPlaying: Boolean = false
+        var sMusicID: String? = null
+
+        /**
+         * get getInstance of current music
+         */
+        var musicInfo: MusicInfo? = null
+        private val sPlayMusicLists: MutableList<MusicInfo> = ArrayList<MusicInfo>()
+        /**
+         * get play mode
+         * 
+         * @return
+         */
+        /**
+         * @param mode
+         */
+        var playMode: Int = PlayModeType.Companion.PLAY_TYPE_LIST_CYCLE
+        var sPosition: Int = -1
+        private val sRandom = Random(47)
+
+        private fun requestAudioFocus() {
+            if (isInterrupted) {
+            }
+            val focusRequest: Int = sAudioManager!!.requestAudioFocus(sAudioFocusRequest!!)
+            when (focusRequest) {
+                AudioManager.AUDIOFOCUS_REQUEST_FAILED -> Log.e(
+                    TAG,
+                    "AUDIOFOCUS_REQUEST_FAILED" + AudioManager.AUDIOFOCUS_REQUEST_FAILED
+                )
+
+                AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> Log.e(
+                    TAG,
+                    "AUDIOFOCUS_REQUEST_GRANTED" + AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+                )
+
+                else -> {}
+            }
+        }
+
+        fun savePlayList() {
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    var cursor: Cursor? = null
+                    MusicApplication.Companion.getContext().getContentResolver()
+                        .delete(MusicContentProvider.Companion.PLAYLIST_URL, null, null)
+                    try {
+                        for (musicInfo in sPlayMusicLists) {
+                            val values = ContentValues()
+                            values.put("id", musicInfo.getId())
+                            values.put("name", musicInfo.getMusicSongName())
+                            values.put("singer", musicInfo.getSinger())
+                            values.put("path", musicInfo.getMusicFilePath())
+                            cursor = MusicApplication.Companion.getContext().getContentResolver()
+                                .query(
+                                    MusicContentProvider.Companion.PLAYLIST_URL,
+                                    null,
+                                    "id = ?",
+                                    arrayOf<String?>(musicInfo.getId()),
+                                    null
+                                )
+                            if (cursor != null) {
+                                if (cursor.getCount() == 0) {
+                                    MusicApplication.Companion.getContext().getContentResolver()
+                                        .insert(MusicContentProvider.Companion.PLAYLIST_URL, values)
+                                }
+                                cursor.close()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        if (cursor != null) {
+                            cursor.close()
+                        }
+                    }
+                }
+            })
+        }
+
+        /**
+         * Play Music Service Entry
+         * 
+         * @param musicInfo
+         */
+        fun playMusic(musicInfo: MusicInfo?) {
+            if (musicInfo == null || mMusicPlayer == null) {
+                return
+            }
+
+            if (musicInfo.getMusicFilePath() != null && ("" != musicInfo.getMusicFilePath()) && isExistAlready(
+                    musicInfo.getMusicFilePath()
+                )
+            ) {
+                Companion.musicInfo = musicInfo
+                initMusicIcon(Companion.musicInfo!!.getId())
+                playMusic(musicInfo.getId(), musicInfo.getMusicFilePath())
+                showPlayNotification(
+                    musicInfo.getId(),
+                    musicInfo.getMusicSongName(),
+                    musicInfo.getSinger()
+                )
+                Companion.addToPlayList(Companion.musicInfo!!)
+                addToPlayHistory(musicInfo)
+            } else {
+                if (!CheckTools.isNetWordAvailable(MusicApplication.Companion.getContext())) {
+                    Toast.makeText(
+                        MusicApplication.Companion.getContext(),
+                        MusicApplication.Companion.getContext()
+                            .getString(R.string.service_play_toast_check_network),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
+                }
+                //非WiFi情况下播放
+                if (CheckTools.getNetWorkStatus(MusicApplication.Companion.getContext()) != CheckTools.NETWORK_WIFI) {
+                    //从郭金良那里获取设置，默认播放打开移动网络开关
+                    val setting: Any? = SharedPreferencesUtils.Companion.getInstance().getData(
+                        Constant.KEY_SETTING_NETWORK_PLAY, true
+                    )
+                    if (setting != null && !(setting as Boolean)) {
+                        Toast.makeText(
+                            MusicApplication.Companion.getContext(),
+                            MusicApplication.Companion.getContext()
+                                .getString(R.string.service_play_toast_network_setting),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
+                }
+                MusicThreadPool.postRunnable(object : Runnable {
+                    override fun run() {
+                        var musicOnlineData: MusicDownloadUrlJsonBean.Data? = null
+                        try {
+                            val client = OkHttpClient()
+                            val request = Request.Builder()
+                                .url(MusicURL.API_MUSIC_DOWNLOAD_URL + musicInfo.getId() + "&br=128000")
+                                .build()
+                            val response = client.newCall(request).execute()
+                            val json = response.body!!.string()
+                            musicOnlineData = (Gson().fromJson<MusicDownloadUrlJsonBean?>(
+                                json,
+                                MusicDownloadUrlJsonBean::class.java
+                            )).getData().get(0)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                        if (musicOnlineData == null || musicOnlineData.getUrl() == null || "" == musicOnlineData.getUrl()) {
+                            mHandler.post(object : Runnable {
+                                override fun run() {
+                                    Toast.makeText(
+                                        MusicApplication.Companion.getContext(),
+                                        "暂无版权",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_NO_COPYRIGHT)
+                                    playNextMusic()
+                                }
+                            })
+                        } else {
+                            Companion.musicInfo = musicInfo
+                            Companion.addToPlayList(Companion.musicInfo!!)
+                            Companion.musicInfo!!.setUrl(musicOnlineData.getUrl())
+                            val message = Message()
+                            message.what = HANDLER_CODE_URL_GOT
+                            mHandler.sendMessage(message)
+                        }
+                    }
+                })
+            }
+        }
+
+        /**
+         * play a song:new one or current one:file path or url
+         */
+        fun playMusic(musicID: String, path: String?) {
+            if (!CheckTools.isNotificationPermissionOpen(MusicApplication.Companion.getContext())) {
+                CheckTools.openNotificationPermissionSetting(MusicApplication.Companion.getContext())
+                Toast.makeText(
+                    MusicApplication.Companion.getContext(),
+                    "请打开播放通知权限",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    try {
+                        Thread.sleep(1000)
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                        Thread.sleep(2000)
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                        Thread.sleep(2000)
+                        showPlayNotification(
+                            musicInfo!!.getId(),
+                            musicInfo!!.getMusicSongName(),
+                            musicInfo!!.getSinger()
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+            requestAudioFocus()
+            Companion.addToPlayHistory(musicInfo!!)
+            try {
+                if (isPlaying) {
+                    if (musicID == sMusicID) {
+                        return
+                    } else {
+                        sPrepared = false
+                        mMusicPlayer!!.reset()
+                        mMusicPlayer!!.setDataSource(path)
+                        mMusicPlayer!!.prepareAsync() //改用异步加载,非阻塞主线程
+                        sMusicID = musicID
+                        isPlaying = true
+                    }
                 } else {
-                    sPrepared = false;
-                    mMusicPlayer.reset();
-                    mMusicPlayer.setDataSource(path);
-                    mMusicPlayer.prepareAsync();                                                    //改用异步加载,非阻塞主线程
-                    sMusicID = musicID;
-                    isPlaying = true;
+                    if (musicID != "-1" && musicID == sMusicID) {
+                        continuePlay()
+                        return
+                    } else {
+                        sPrepared = false
+                        mMusicPlayer!!.reset()
+                        mMusicPlayer!!.setDataSource(path)
+                        mMusicPlayer!!.prepareAsync() //异步加载,非阻塞主线程
+                        sMusicID = musicID
+                        isPlaying = true
+                    }
                 }
-            } else {
-                if (!musicID.equals("-1") && musicID.equals(sMusicID)) {
-                    MusicPlayerService.continuePlay();
-                    return;
+                Log.d(TAG, musicInfo!!.getMusicSongName())
+                MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        /**
+         * continue playing music
+         */
+        @Deprecated("")
+        fun continuePlay() {
+            if (mMusicPlayer != null && !isPlaying) {
+                mMusicPlayer!!.start()
+                isPlaying = true
+                MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY)
+            }
+        }
+
+        /**
+         * pause current played music
+         */
+        fun pauseMusic() {
+            if (mMusicPlayer != null && isPlaying) {
+                mMusicPlayer!!.pause()
+                isPlaying = false
+                showPlayNotification(
+                    musicInfo!!.getId(),
+                    musicInfo!!.getMusicSongName(),
+                    musicInfo!!.getSinger()
+                )
+                MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PAUSE)
+            }
+        }
+
+        /**
+         * stop play current music reset all status include bottom status bar
+         */
+        fun stopPlayMusic() {
+            if (mMusicPlayer == null || musicInfo == null) {
+                return
+            }
+            mMusicPlayer!!.stop()
+            mMusicPlayer!!.release()
+            mMusicPlayer = null
+            isPlaying = false
+            sPosition = -1
+            sMusicID = null
+            musicInfo = null
+            mNotificationManager!!.cancelAll()
+        }
+
+        /**
+         * set progress and play or not
+         * 
+         * @param progress
+         * @param play
+         */
+        fun setPlayProgress(progress: Int, play: Boolean) {
+            if (musicInfo != null && mMusicPlayer != null) {
+                mMusicPlayer!!.seekTo(progress)
+                if (play) {
+                    continuePlay()
                 } else {
-                    sPrepared = false;
-                    mMusicPlayer.reset();
-                    mMusicPlayer.setDataSource(path);
-                    mMusicPlayer.prepareAsync();                                                    //异步加载,非阻塞主线程
-                    sMusicID = musicID;
-                    isPlaying = true;
+                    mMusicPlayer!!.pause()
                 }
             }
-            Log.d(TAG, sMusicInfo.getMusicSongName());
-            MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
 
-    /**
-     * continue playing music
-     */
-    @Deprecated
-    public static void continuePlay() {
-        if (mMusicPlayer != null && !isPlaying) {
-            mMusicPlayer.start();
-            isPlaying = true;
-            MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY);
-        }
-    }
-
-    /**
-     * pause current played music
-     */
-    public static void pauseMusic() {
-        if (mMusicPlayer != null && isPlaying) {
-            mMusicPlayer.pause();
-            isPlaying = false;
-            showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-            MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PAUSE);
-        }
-    }
-
-    /**
-     * stop play current music reset all status include bottom status bar
-     */
-    public static void stopPlayMusic() {
-        if (mMusicPlayer == null || sMusicInfo == null) {
-            return;
-        }
-        mMusicPlayer.stop();
-        mMusicPlayer.release();
-        mMusicPlayer = null;
-        isPlaying = false;
-        sPosition = -1;
-        sMusicID = null;
-        sMusicInfo = null;
-        mNotificationManager.cancelAll();
-    }
-
-    /**
-     * @param progress
-     */
-    public static void setPlayProgress(int progress) {
-        if (sMusicInfo != null && mMusicPlayer != null) {
-            mMusicPlayer.seekTo(progress);
-            if (isPlaying) {
-                MusicPlayerService.continuePlay();
-            } else {
-                mMusicPlayer.pause();
+        var playProgress: Int
+            /**
+             * get play progress
+             * 
+             * @return
+             */
+            get() {
+                if (mMusicPlayer != null && sPrepared) {
+                    return mMusicPlayer!!.getCurrentPosition()
+                } else {
+                    return -1
+                }
             }
-        }
-    }
-
-    /**
-     * set progress and play or not
-     *
-     * @param progress
-     * @param play
-     */
-    public static void setPlayProgress(int progress, boolean play) {
-        if (sMusicInfo != null && mMusicPlayer != null) {
-            mMusicPlayer.seekTo(progress);
-            if (play) {
-                MusicPlayerService.continuePlay();
-            } else {
-                mMusicPlayer.pause();
-            }
-        }
-    }
-
-    /**
-     * get play progress
-     *
-     * @return
-     */
-    public static int getPlayProgress() {
-        if (mMusicPlayer != null && sPrepared) {
-            return mMusicPlayer.getCurrentPosition();
-        } else {
-            return -1;
-        }
-    }
-
-    /**
-     * get song duration
-     */
-    public static int getDuration() {
-        if (mMusicPlayer != null && sPrepared) {
-            return mMusicPlayer.getDuration();
-        } else {
-            return -1;
-        }
-    }
-
-    /**
-     * @param mode
-     */
-    public static void setPlayMode(@PlayModeType int mode) {
-        sPlayMode = mode;
-    }
-
-    /**
-     * get play mode
-     *
-     * @return
-     */
-    public static int getPlayMode() {
-        return sPlayMode;
-    }
-
-    /**
-     * get getInstance of current music
-     */
-    public static MusicInfo getMusicInfo() {
-        return sMusicInfo;
-    }
-
-    /**
-     * add one single song to play music list
-     *
-     * @param musicInfo
-     */
-    public static void addToPlayerList(MusicInfo musicInfo) {
-        sPlayMusicLists.add(musicInfo);
-    }
-
-    /**
-     * add two or more music to play list
-     *
-     * @param musicInfos
-     */
-    public static void addToPlayerList(List<MusicInfo> musicInfos) {
-        sPlayMusicLists.clear();
-        sPlayMusicLists.addAll(musicInfos);
-        savePlayList();
-    }
-
-    /**
-     * @return get currently play music list
-     */
-    public static List<MusicInfo> getPlayMusicLists() {
-        Log.d(TAG, "getPlayMusicLists   " + sPlayMusicLists.size());
-        return sPlayMusicLists;
-    }
-
-    /**
-     * remove from play list
-     *
-     * @param musicInfo
-     */
-    public static void removeFromPlayList(MusicInfo musicInfo) {
-        if (musicInfo == null || musicInfo.getId() == null || "".equals(musicInfo.getId())) {
-            return;
-        }
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                for (MusicInfo musicInfo1 : sPlayMusicLists) {
-                    if (musicInfo.getId().equals(musicInfo1.getId())) {
-                        sPlayMusicLists.remove(musicInfo1);
-                        MusicApplication.getContext().getContentResolver().delete(PLAYLIST_URL, "id = ?", new String[]{musicInfo.getId()});
-                        return;
+            /**
+             * @param progress
+             */
+            set(progress) {
+                if (musicInfo != null && mMusicPlayer != null) {
+                    mMusicPlayer!!.seekTo(progress)
+                    if (isPlaying) {
+                        continuePlay()
+                    } else {
+                        mMusicPlayer!!.pause()
                     }
                 }
             }
-        });
-    }
 
-    /**
-     * clear current music play list
-     */
-    public static void clearPlayMusicList() {
-        pauseMusic();
-        sPlayMusicLists.clear();
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                MusicApplication.getContext().getContentResolver().delete(PLAYLIST_URL, null, null);
+        val duration: Int
+            /**
+             * get song duration
+             */
+            get() {
+                if (mMusicPlayer != null && sPrepared) {
+                    return mMusicPlayer!!.getDuration()
+                } else {
+                    return -1
+                }
             }
-        });
-    }
 
-    /**
-     * play previous music
-     */
-    public static void playPreviousMusic() {
-        --sPosition;
-        if (sMusicInfo == null || mMusicPlayer == null) {
-            return;
-        }
-        int position = sPlayMusicLists.indexOf(sMusicInfo);
-        if (position == -1) {
-            return;
-        } else if (position == 0) {
-            sMusicInfo = sPlayMusicLists.get(sPlayMusicLists.size() - 1);
-            MusicPlayerService.playMusic(sMusicInfo);
-        } else {
-            sMusicInfo = sPlayMusicLists.get(position - 1);
-            MusicPlayerService.playMusic(sMusicInfo);
+        /**
+         * add one single song to play music list
+         * 
+         * @param musicInfo
+         */
+        fun addToPlayerList(musicInfo: MusicInfo?) {
+            sPlayMusicLists.add(musicInfo!!)
         }
 
-//        待验证
+        /**
+         * add two or more music to play list
+         * 
+         * @param musicInfos
+         */
+        fun addToPlayerList(musicInfos: MutableList<MusicInfo?>) {
+            sPlayMusicLists.clear()
+            sPlayMusicLists.addAll(musicInfos)
+            savePlayList()
+        }
+
+        val playMusicLists: MutableList<MusicInfo>
+            /**
+             * @return get currently play music list
+             */
+            get() {
+                Log.d(
+                    TAG,
+                    "getPlayMusicLists   " + sPlayMusicLists.size
+                )
+                return sPlayMusicLists
+            }
+
+        /**
+         * remove from play list
+         * 
+         * @param musicInfo
+         */
+        fun removeFromPlayList(musicInfo: MusicInfo?) {
+            if (musicInfo == null || musicInfo.getId() == null || "" == musicInfo.getId()) {
+                return
+            }
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    for (musicInfo1 in sPlayMusicLists) {
+                        if (musicInfo.getId() == musicInfo1.getId()) {
+                            sPlayMusicLists.remove(musicInfo1)
+                            MusicApplication.Companion.getContext().getContentResolver().delete(
+                                MusicContentProvider.Companion.PLAYLIST_URL,
+                                "id = ?",
+                                arrayOf<String?>(musicInfo.getId())
+                            )
+                            return
+                        }
+                    }
+                }
+            })
+        }
+
+        /**
+         * clear current music play list
+         */
+        fun clearPlayMusicList() {
+            pauseMusic()
+            sPlayMusicLists.clear()
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    MusicApplication.Companion.getContext().getContentResolver()
+                        .delete(MusicContentProvider.Companion.PLAYLIST_URL, null, null)
+                }
+            })
+        }
+
+        /**
+         * play previous music
+         */
+        fun playPreviousMusic() {
+            --sPosition
+            if (musicInfo == null || mMusicPlayer == null) {
+                return
+            }
+            val position: Int = sPlayMusicLists.indexOf(musicInfo)
+            if (position == -1) {
+                return
+            } else if (position == 0) {
+                musicInfo = sPlayMusicLists.get(sPlayMusicLists.size - 1)
+                playMusic(musicInfo)
+            } else {
+                musicInfo = sPlayMusicLists.get(position - 1)
+                playMusic(musicInfo)
+            }
+
+            //        待验证
 //        if (sPosition >= 0) {
 //            sMusicInfo = sPlayMusicLists.get(sPosition);
 //
@@ -809,381 +1077,258 @@ public class MusicPlayerService extends Service {
 //            sMusicInfo = sPlayMusicLists.get(sPosition);
 //
 //        }
-    }
-
-    /**
-     * play next music
-     */
-    public static void playNextMusic() {
-        if (sMusicInfo == null || mMusicPlayer == null) {
-            return;
         }
-        int position = sPlayMusicLists.indexOf(sMusicInfo);
-        if (position == -1) {
-            return;
-        } else if (position == sPlayMusicLists.size() - 1) {
-            sMusicInfo = sPlayMusicLists.get(0);
-            MusicPlayerService.playMusic(sMusicInfo);
-        } else {
-            sMusicInfo = sPlayMusicLists.get(position + 1);
-            MusicPlayerService.playMusic(sMusicInfo);
-        }
-    }
 
-    @WorkerThread
-    private static void addToPlayList(MusicInfo musicInfo) {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                for (MusicInfo mi : sPlayMusicLists) {
-                    if (mi.getId().equals(musicInfo.getId())) {
-                        return;
-                    }
-                }
-                sPlayMusicLists.add(musicInfo);
-                //实时保存至数据库
-                try {
-                    ContentValues values = new ContentValues();
-                    values.put("id", musicInfo.getId());
-                    values.put("name", musicInfo.getMusicSongName());
-                    values.put("singer", musicInfo.getSinger());
-                    values.put("path", musicInfo.getMusicFilePath());
-                    Cursor cursor = MusicApplication.getContext().getContentResolver().query(PLAYLIST_URL, null, "id = ?", new String[]{musicInfo.getId()}, null);
-                    if (cursor != null) {
-                        if (cursor.getCount() == 0) {
-                            MusicApplication.getContext().getContentResolver().insert(PLAYLIST_URL, values);
-                        }
-                        cursor.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        /**
+         * play next music
+         */
+        fun playNextMusic() {
+            if (musicInfo == null || mMusicPlayer == null) {
+                return
             }
-        });
-    }
+            val position: Int = sPlayMusicLists.indexOf(musicInfo)
+            if (position == -1) {
+                return
+            } else if (position == sPlayMusicLists.size - 1) {
+                musicInfo = sPlayMusicLists.get(0)
+                playMusic(musicInfo)
+            } else {
+                musicInfo = sPlayMusicLists.get(position + 1)
+                playMusic(musicInfo)
+            }
+        }
 
-    @WorkerThread
-    public static void addToPlayHistory(MusicInfo musicInfo) {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                ContentValues playRecord = new ContentValues();
-                playRecord.put("id", musicInfo.getId());
-                playRecord.put("name", musicInfo.getMusicSongName());
-                playRecord.put("path", musicInfo.getMusicFilePath());
-                playRecord.put("last_played", System.currentTimeMillis());
-                playRecord.put("singer", musicInfo.getSinger());
-                playRecord.put("singer", musicInfo.getSinger());
-                Cursor cursor = null;
-                try {
-                    cursor = MusicApplication.getContext().getContentResolver().query(PLAYED_URL, null, "id = ?", new String[]{musicInfo.getId()}, null);
-                    if (cursor != null) {
-                        if (cursor.getCount() != 0) {
-                            MusicApplication.getContext().getContentResolver().update(PLAYED_URL, playRecord, "id = ?", new String[]{musicInfo.getId()});
-                        } else {
-                            MusicApplication.getContext().getContentResolver().insert(PLAYED_URL, playRecord);
+        @WorkerThread
+        private fun addToPlayList(musicInfo: MusicInfo) {
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    for (mi in sPlayMusicLists) {
+                        if (mi.getId() == musicInfo.getId()) {
+                            return
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    CloseResourceUtil.closeInputAndOutput(cursor);
-                }
-            }
-        });
-    }
-
-    private static void showPlayNotification(String id, String name, String singer) {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Notification.Builder builder = new Notification.Builder(MusicApplication.getContext(), MUSIC_PLAY_NOTIFICATION_CHANNEL);
-                mRemoteViews.setTextViewText(R.id.music_notification_song_name, name);
-                mRemoteViews.setTextViewText(R.id.music_notification_singer, singer);
-                if (isPlaying) {
-                    mRemoteViews.setImageViewResource(R.id.music_notification_play, R.drawable.music_notification_pause);
-                } else {
-                    mRemoteViews.setImageViewResource(R.id.music_notification_play, R.drawable.music_notification_play);
-                }
-                Cursor cursor = null;
-                try {
-                    cursor = MusicApplication.getContext().getContentResolver().query(FAVOURITE_URL, null, "id = ?", new String[]{sMusicInfo.getId()}, null);
-                    if (cursor != null && cursor.getCount() != 0) {
-                        mRemoteViews.setImageViewResource(R.id.music_notification_favourite, R.drawable.music_notification_un_favourite);
-                    } else {
-                        mRemoteViews.setImageViewResource(R.id.music_notification_favourite, R.drawable.music_notification_favourite);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-                builder.setCustomContentView(mRemoteViews).setSmallIcon(R.drawable.music_notification_small_icon).setContentTitle("正在播放:" + name).setAutoCancel(false);
-                Notification notification = builder.build();
-                if (isPlaying) {
-                    notification.flags |= Notification.FLAG_NO_CLEAR;
-                }
-                mNotificationManager.notify(1, notification);
-            }
-        });
-    }
-
-    public class MusicNotificationReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action == null) {
-                return;
-            }
-            switch (action) {
-                case MUSIC_PREVIOUS_ACTION:
-                    MusicPlayerService.playPreviousMusic();
-                    break;
-                case MUSIC_NEXT_ACTION:
-                    MusicPlayerService.playNextMusic();
-                    break;
-                case MUSIC_PLAY_ACTION:
-                    if (isPlaying) {
-                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PAUSE);
-                        mMusicPlayer.pause();
-                    } else {
-                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_PLAY);
-                        mMusicPlayer.start();
-                    }
-                    isPlaying = !isPlaying;
-                    break;
-                case MUSIC_CLOSE_ACTION:
-                    mNotificationManager.cancelAll();
-                    ActivityCollector.finishAllActivity();
-                    break;
-                case MUSIC_FAVOURITE_ACTION:
-                    if (sMusicInfo == null) {
-                        return;
-                    } else {
-                        MusicThreadPool.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                Cursor cursor = null;
-                                try {
-                                    cursor = MusicApplication.getContext().getContentResolver().query(FAVOURITE_URL, null, "id = ?", new String[]{sMusicInfo.getId()}, null);
-                                    if (cursor != null && cursor.getCount() == 0) {
-                                        ContentValues values = new ContentValues();
-                                        values.put("id", sMusicInfo.getId());
-                                        values.put("name", sMusicInfo.getMusicSongName());
-                                        values.put("singer", sMusicInfo.getSinger());
-                                        values.put("path", sMusicInfo.getMusicFilePath());
-                                        MusicApplication.getContext().getContentResolver().insert(FAVOURITE_URL, values);
-                                    } else {
-                                        MusicApplication.getContext().getContentResolver().delete(FAVOURITE_URL, "id = ?", new String[]{sMusicInfo.getId()});
-                                    }
-                                    MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_DATABASE_UPDATE);
-                                    Message message = new Message();
-                                    message.what = HANDLER_CODE_DATABASE_DOWN;
-                                    mHandler.sendMessage(message);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                } finally {
-                                    if (cursor != null) {
-                                        cursor.close();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    break;
-                default:
-                    break;
-            }
-            showPlayNotification(sMusicInfo.getId(), sMusicInfo.getMusicSongName(), sMusicInfo.getSinger());
-        }
-    }
-
-    private static void initMusicIcon(String musicID) {
-        if (musicID == null || "".equals(musicID)) {
-            return;
-        }
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                File file = new File(SEVEN_MUSIC_IMAGE + "/" + sMusicInfo.getId());
-                if (file.exists()) {
-                    mBitmap = BitmapFactory.decodeFile(SEVEN_MUSIC_IMAGE + "/" + sMusicInfo.getId());
-                    Message message = new Message();
-                    message.what = HANDLER_CODE_IMAGE_GET;
-                    mHandler.sendMessage(message);
-                    return;
-                }
-
-                //先解析歌曲详细详细
-                HttpURLConnection connection = null;
-                InputStream inputStream = null;
-                BufferedReader bufferedReader = null;
-                try {
-                    URL musicDetailUrl = new URL(API_GET_SONG_DETAIL_AND_IMAGE + musicID);
-                    connection = (HttpURLConnection) musicDetailUrl.openConnection();
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    connection.setRequestMethod("GET");
-                    if (connection.getResponseCode() != 200) {
-                        return;
-                    }
-                    inputStream = connection.getInputStream();
-                    bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder builder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        builder.append(line);
-                    }
-                    //拿到歌曲封面地址，去获取歌曲封面
-                    String jsonData = builder.toString();
-                    MusicCoverJsonBean musicCoverJsonBean = new Gson().fromJson(jsonData, MusicCoverJsonBean.class);
-                    if (musicCoverJsonBean.getSongs().size() == 0) {
-                        return;
-                    }
-                    String imageUrl = musicCoverJsonBean.getSongs().get(0).getAl().getPicUrl();
-                    if ("".equals(imageUrl) || imageUrl == null) {
-                        return;
-                    }
-                    connection.disconnect();
-                    inputStream.close();
-                    URL musicImageURL = new URL(imageUrl);
-                    connection = (HttpURLConnection) musicImageURL.openConnection();
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    connection.setRequestMethod("GET");
-                    if (connection.getResponseCode() != 200) {
-                        return;
-                    }
-                    inputStream = connection.getInputStream();
-                    mBitmap = BitmapFactory.decodeStream(inputStream);
-                    Message message = new Message();
-                    message.what = HANDLER_CODE_IMAGE_GET;
-                    mHandler.sendMessage(message);
-                    MusicIconLoadUtil.saveBitmapToCache(mBitmap, SEVEN_MUSIC_IMAGE, sMusicInfo.getId());
-
-                } catch (Exception e) {
-                    Message message = new Message();
-                    message.what = -1;
-                    mHandler.sendMessage(message);
-                    e.printStackTrace();
-                } finally {
+                    sPlayMusicLists.add(musicInfo)
+                    //实时保存至数据库
                     try {
-                        CloseResourceUtil.closeInputAndOutput(inputStream);
-                        CloseResourceUtil.disconnect(connection);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        val values = ContentValues()
+                        values.put("id", musicInfo.getId())
+                        values.put("name", musicInfo.getMusicSongName())
+                        values.put("singer", musicInfo.getSinger())
+                        values.put("path", musicInfo.getMusicFilePath())
+                        val cursor: Cursor? =
+                            MusicApplication.Companion.getContext().getContentResolver().query(
+                                MusicContentProvider.Companion.PLAYLIST_URL,
+                                null,
+                                "id = ?",
+                                arrayOf<String?>(musicInfo.getId()),
+                                null
+                            )
+                        if (cursor != null) {
+                            if (cursor.getCount() == 0) {
+                                MusicApplication.Companion.getContext().getContentResolver()
+                                    .insert(MusicContentProvider.Companion.PLAYLIST_URL, values)
+                            }
+                            cursor.close()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
-            }
-        });
+            })
+        }
 
-    }
-
-    private class StateReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action == null) {
-                return;
-            }
-            switch (action) {
-                case SYSTEM_BROADCAST_NETWORK_CHANGE:
-                    Log.d(TAG, "StateReceiver  " + intent.getAction());
-                    if (isFirst) {
-                        isFirst = false;
-                        return;
-                    } else {
-                        if ((sMusicInfo != null && "".equals(sMusicInfo.getMusicFilePath())) || (sMusicInfo != null && sMusicInfo.getMusicFilePath() == null)) {
-                            if (!CheckTools.isNetWordAvailable(getApplicationContext())) {
-                                if (mMusicPlayer != null && isPlaying) {
-                                    sendBroadcast(new Intent(MUSIC_PLAY_ACTION));
-                                }
+        @WorkerThread
+        fun addToPlayHistory(musicInfo: MusicInfo) {
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    val playRecord = ContentValues()
+                    playRecord.put("id", musicInfo.getId())
+                    playRecord.put("name", musicInfo.getMusicSongName())
+                    playRecord.put("path", musicInfo.getMusicFilePath())
+                    playRecord.put("last_played", System.currentTimeMillis())
+                    playRecord.put("singer", musicInfo.getSinger())
+                    playRecord.put("singer", musicInfo.getSinger())
+                    var cursor: Cursor? = null
+                    try {
+                        cursor = MusicApplication.Companion.getContext().getContentResolver().query(
+                            MusicContentProvider.Companion.PLAYED_URL,
+                            null,
+                            "id = ?",
+                            arrayOf<String?>(musicInfo.getId()),
+                            null
+                        )
+                        if (cursor != null) {
+                            if (cursor.getCount() != 0) {
+                                MusicApplication.Companion.getContext().getContentResolver().update(
+                                    MusicContentProvider.Companion.PLAYED_URL,
+                                    playRecord,
+                                    "id = ?",
+                                    arrayOf<String?>(musicInfo.getId())
+                                )
                             } else {
-                                if (mMusicPlayer != null && sMusicInfo != null && !isPlaying) {
-                                    sendBroadcast(new Intent(MUSIC_PLAY_ACTION));
-                                }
+                                MusicApplication.Companion.getContext().getContentResolver()
+                                    .insert(MusicContentProvider.Companion.PLAYED_URL, playRecord)
                             }
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        CloseResourceUtil.closeInputAndOutput(cursor)
                     }
-                    break;
-                case AUDIO_BECOMING_NOISY:
-                    isInterrupted = true;
-                    pauseMusic();
-                    break;
-                default:
-                    break;
-            }
-
-        }
-    }
-
-    private void loadMusicPlayInfo() {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                String string = sharedPreferences.getString(TAG, "");
-                if ("".equals(string) || string == null) {
-                    return;
                 }
-                Gson gson = new Gson();
-                sMusicInfo = gson.fromJson(string, MusicInfo.class);
-            }
-        });
-    }
+            })
+        }
 
-    private void saveCurrentPlayMusicInfo(MusicInfo musicInfo) {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Gson gson = new Gson();
-                String string = gson.toJson(musicInfo);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(TAG, string);
-                editor.apply();
-            }
-        });
-    }
-
-    private static boolean isExistAlready(String path) {
-        File musicFile = new File(path);
-        return musicFile.exists();
-    }
-
-    private static class MusicAudioFocusChangeListener implements AudioManager.OnAudioFocusChangeListener {
-
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            Log.e(TAG, "focusChange  " + focusChange);
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_GAIN:
-                    Log.e(TAG, "你已经完全获得了音频焦点  ");
-                    //获得了 Audio Focus.
-                    if (isInterrupted) {
-                        isInterrupted = false;
-                        playMusic(sMusicInfo);
+        private fun showPlayNotification(id: String?, name: String?, singer: String?) {
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    val builder = Notification.Builder(
+                        MusicApplication.Companion.getContext(),
+                        MUSIC_PLAY_NOTIFICATION_CHANNEL
+                    )
+                    mRemoteViews!!.setTextViewText(R.id.music_notification_song_name, name)
+                    mRemoteViews!!.setTextViewText(R.id.music_notification_singer, singer)
+                    if (isPlaying) {
+                        mRemoteViews!!.setImageViewResource(
+                            R.id.music_notification_play,
+                            R.drawable.music_notification_pause
+                        )
+                    } else {
+                        mRemoteViews!!.setImageViewResource(
+                            R.id.music_notification_play,
+                            R.drawable.music_notification_play
+                        )
                     }
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    Log.e(TAG, "你会长时间的失去焦点，所以不要指望在短时间内能获得  ");
-                    sAudioManager.abandonAudioFocusRequest(sAudioFocusRequest);
-                    isInterrupted = true;
-                    pauseMusic();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    Log.e(TAG, "暂时失去 Audio Focus，但是很快就会重新获得。");
-                    //暂时失去 Audio Focus，但是很快就会重新获得。应该停止所有的音频播放，但是可以不清里资源，因为可能很快就会再次获取 Audio Focus.
-                    isInterrupted = true;
-                    pauseMusic();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    Log.e(TAG, "暂时失去 Audio Focus，但是允许持续播放音频(以很小的声音)，不需要完全停止播放。  ");
-                    //暂时失去 Audio Focus，但是允许持续播放音频(以很小的声音)，不需要完全停止播放。
-                    break;
-                default:
-                    break;
+                    var cursor: Cursor? = null
+                    try {
+                        cursor = MusicApplication.Companion.getContext().getContentResolver().query(
+                            MusicContentProvider.Companion.FAVOURITE_URL,
+                            null,
+                            "id = ?",
+                            arrayOf<String?>(
+                                musicInfo!!.getId()
+                            ),
+                            null
+                        )
+                        if (cursor != null && cursor.getCount() != 0) {
+                            mRemoteViews!!.setImageViewResource(
+                                R.id.music_notification_favourite,
+                                R.drawable.music_notification_un_favourite
+                            )
+                        } else {
+                            mRemoteViews!!.setImageViewResource(
+                                R.id.music_notification_favourite,
+                                R.drawable.music_notification_favourite
+                            )
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        if (cursor != null) {
+                            cursor.close()
+                        }
+                    }
+                    builder.setCustomContentView(mRemoteViews)
+                        .setSmallIcon(R.drawable.music_notification_small_icon)
+                        .setContentTitle("正在播放:" + name).setAutoCancel(false)
+                    val notification = builder.build()
+                    if (isPlaying) {
+                        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
+                    }
+                    mNotificationManager!!.notify(1, notification)
+                }
+            })
+        }
+
+        private fun initMusicIcon(musicID: String?) {
+            if (musicID == null || "" == musicID) {
+                return
             }
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    val file = File(Constant.SEVEN_MUSIC_IMAGE + "/" + musicInfo!!.getId())
+                    if (file.exists()) {
+                        mBitmap =
+                            BitmapFactory.decodeFile(Constant.SEVEN_MUSIC_IMAGE + "/" + musicInfo!!.getId())
+                        val message = Message()
+                        message.what = HANDLER_CODE_IMAGE_GET
+                        mHandler.sendMessage(message)
+                        return
+                    }
+
+                    //先解析歌曲详细详细
+                    var connection: HttpURLConnection? = null
+                    var inputStream: InputStream? = null
+                    var bufferedReader: BufferedReader? = null
+                    try {
+                        val musicDetailUrl = URL(MusicURL.API_GET_SONG_DETAIL_AND_IMAGE + musicID)
+                        connection = musicDetailUrl.openConnection() as HttpURLConnection?
+                        connection!!.setConnectTimeout(8000)
+                        connection.setReadTimeout(8000)
+                        connection.setRequestMethod("GET")
+                        if (connection.getResponseCode() != 200) {
+                            return
+                        }
+                        inputStream = connection.getInputStream()
+                        bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                        val builder = StringBuilder()
+                        var line: String?
+                        while ((bufferedReader.readLine().also { line = it }) != null) {
+                            builder.append(line)
+                        }
+                        //拿到歌曲封面地址，去获取歌曲封面
+                        val jsonData = builder.toString()
+                        val musicCoverJsonBean = Gson().fromJson<MusicCoverJsonBean>(
+                            jsonData,
+                            MusicCoverJsonBean::class.java
+                        )
+                        if (musicCoverJsonBean.getSongs().size == 0) {
+                            return
+                        }
+                        val imageUrl = musicCoverJsonBean.getSongs().get(0).getAl().getPicUrl()
+                        if ("" == imageUrl || imageUrl == null) {
+                            return
+                        }
+                        connection.disconnect()
+                        inputStream.close()
+                        val musicImageURL = URL(imageUrl)
+                        connection = musicImageURL.openConnection() as HttpURLConnection?
+                        connection!!.setConnectTimeout(8000)
+                        connection.setReadTimeout(8000)
+                        connection.setRequestMethod("GET")
+                        if (connection.getResponseCode() != 200) {
+                            return
+                        }
+                        inputStream = connection.getInputStream()
+                        mBitmap = BitmapFactory.decodeStream(inputStream)
+                        val message = Message()
+                        message.what = HANDLER_CODE_IMAGE_GET
+                        mHandler.sendMessage(message)
+                        MusicIconLoadUtil.Companion.saveBitmapToCache(
+                            mBitmap,
+                            Constant.SEVEN_MUSIC_IMAGE,
+                            musicInfo!!.getId()
+                        )
+                    } catch (e: Exception) {
+                        val message = Message()
+                        message.what = -1
+                        mHandler.sendMessage(message)
+                        e.printStackTrace()
+                    } finally {
+                        try {
+                            CloseResourceUtil.closeInputAndOutput(inputStream)
+                            CloseResourceUtil.disconnect(connection)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            })
+        }
+
+        private fun isExistAlready(path: String): Boolean {
+            val musicFile = File(path)
+            return musicFile.exists()
         }
     }
 }

@@ -1,8 +1,8 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -11,68 +11,70 @@ import android.os.Looper;
  * Author:         yanwuyang
  * CreateDate:     2019/11/27 15:05
  */
-public class ThreadDispatcher {
-    private static final String THREAD_WORK = "magazine_work_thread";
+class ThreadDispatcher private constructor() {
+    private var mWorkerHandler: Handler? = null
+    private var mMainHandler: Handler? = null
 
-    private Handler mWorkerHandler;
-    private Handler mMainHandler;
+    private var mReportThread: HandlerThread? = null
+    private var mWorkerThread: HandlerThread? = null
 
-    private HandlerThread mReportThread;
-    private HandlerThread mWorkerThread;
-
-    private static ThreadDispatcher sInstance;
-
-    public static ThreadDispatcher getInstance() {
-        if (sInstance == null) {
-            synchronized (ThreadDispatcher.class) {
-                if (sInstance == null) {
-                    sInstance = new ThreadDispatcher();
-                }
-            }
-        }
-        return sInstance;
+    init {
+        init()
     }
 
-    private ThreadDispatcher() {
-        init();
-    }
-
-    private void init() {
+    private fun init() {
         if (mWorkerThread == null) {
-            mWorkerThread = new HandlerThread(THREAD_WORK);
-            mWorkerThread.start();
-            mWorkerHandler = new Handler(mWorkerThread.getLooper());
+            mWorkerThread = HandlerThread(THREAD_WORK)
+            mWorkerThread!!.start()
+            mWorkerHandler = Handler(mWorkerThread!!.getLooper())
         }
 
         if (mMainHandler == null) {
-            mMainHandler = new Handler(Looper.getMainLooper());
+            mMainHandler = Handler(Looper.getMainLooper())
         }
     }
 
-    public void stop() {
-        mWorkerHandler.removeCallbacksAndMessages(null);
-        mMainHandler.removeCallbacksAndMessages(null);
+    fun stop() {
+        mWorkerHandler!!.removeCallbacksAndMessages(null)
+        mMainHandler!!.removeCallbacksAndMessages(null)
         if (mWorkerThread != null) {
-            mWorkerThread.quit();
-            mWorkerThread = null;
+            mWorkerThread!!.quit()
+            mWorkerThread = null
         }
 
         if (mReportThread != null) {
-            mReportThread.quit();
-            mReportThread = null;
+            mReportThread!!.quit()
+            mReportThread = null
         }
-        sInstance = null;
+        sInstance = null
     }
 
-    public Looper getWorkerLooper() {
-        return mWorkerThread.getLooper();
+    val workerLooper: Looper?
+        get() = mWorkerThread!!.getLooper()
+
+    fun runOnWorkerThread(runnable: Runnable) {
+        mWorkerHandler!!.post(runnable)
     }
 
-    public void runOnWorkerThread(Runnable runnable) {
-        mWorkerHandler.post(runnable);
+    fun runOnUiThread(runnable: Runnable) {
+        mMainHandler!!.post(runnable)
     }
 
-    public void runOnUiThread(Runnable runnable) {
-        mMainHandler.post(runnable);
+    companion object {
+        private const val THREAD_WORK = "magazine_work_thread"
+
+        private var sInstance: ThreadDispatcher? = null
+
+        val instance: ThreadDispatcher
+            get() {
+                if (sInstance == null) {
+                    synchronized(ThreadDispatcher::class.java) {
+                        if (sInstance == null) {
+                            sInstance = ThreadDispatcher()
+                        }
+                    }
+                }
+                return sInstance!!
+            }
     }
 }

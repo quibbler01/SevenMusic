@@ -1,62 +1,68 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import java.security.MessageDigest
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-
-import java.security.MessageDigest;
-
-public class GlideRoundTransform extends CenterCrop {
-
-    private static float radius = 10f;
-
-    public GlideRoundTransform(Context context) {
-        this(context, 10);
+class GlideRoundTransform @JvmOverloads constructor(context: Context?, dp: Int = 10) :
+    CenterCrop() {
+    init {
+        radius = dp.toFloat()
     }
 
-    public GlideRoundTransform(Context context, int dp) {
-        super();
-        this.radius = dp;
-    }
-
-    @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+    override fun transform(
+        pool: BitmapPool,
+        toTransform: Bitmap,
+        outWidth: Int,
+        outHeight: Int
+    ): Bitmap? {
         //glide4.0+
-        Bitmap transform = super.transform(pool, toTransform, outWidth, outHeight);
-        return roundCrop(pool, transform);
+        val transform = super.transform(pool, toTransform, outWidth, outHeight)
+        return roundCrop(pool, transform)
         //glide3.0
         //return roundCrop(pool, toTransform);
     }
 
-    private static Bitmap roundCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
+    val id: String
+        get() = javaClass.getName() + Math.round(radius)
 
-        Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+    override fun updateDiskCacheKey(messageDigest: MessageDigest?) {
+    }
+
+    companion object {
+        private var radius = 10f
+
+        private fun roundCrop(pool: BitmapPool, source: Bitmap?): Bitmap? {
+            if (source == null) return null
+
+            var result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888)
+            if (result == null) {
+                result = Bitmap.createBitmap(
+                    source.getWidth(),
+                    source.getHeight(),
+                    Bitmap.Config.ARGB_8888
+                )
+            }
+
+            val canvas = Canvas(result)
+            val paint = Paint()
+            paint.setShader(
+                BitmapShader(
+                    source,
+                    BitmapShader.TileMode.CLAMP,
+                    BitmapShader.TileMode.CLAMP
+                )
+            )
+            paint.setAntiAlias(true)
+            val rectF = RectF(0f, 0f, source.getWidth().toFloat(), source.getHeight().toFloat())
+            canvas.drawRoundRect(rectF, radius, radius, paint)
+            return result
         }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        RectF rectF = new RectF(0f, 0f, source.getWidth(), source.getHeight());
-        canvas.drawRoundRect(rectF, radius, radius, paint);
-        return result;
-    }
-
-    public String getId() {
-        return getClass().getName() + Math.round(radius);
-    }
-
-    @Override
-    public void updateDiskCacheKey(MessageDigest messageDigest) {
-
     }
 }

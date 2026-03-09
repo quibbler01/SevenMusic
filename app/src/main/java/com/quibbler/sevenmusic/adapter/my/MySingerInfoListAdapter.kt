@@ -1,28 +1,20 @@
-package com.quibbler.sevenmusic.adapter.my;
+package com.quibbler.sevenmusic.adapter.my
 
-import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.my.MyLocalMusicDetailActivity;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.SingerInfo;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.quibbler.sevenmusic.Constant.SEVEN_MUSIC_SINGER;
+import android.content.Context
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.quibbler.sevenmusic.Constant
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.my.MyLocalMusicDetailActivity
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.SingerInfo
+import java.io.Serializable
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -31,58 +23,59 @@ import static com.quibbler.sevenmusic.Constant.SEVEN_MUSIC_SINGER;
  * Author:         zhaopeng
  * CreateDate:     2019/9/17 21:56
  */
-public class MySingerInfoListAdapter extends ArrayAdapter<SingerInfo> {
-    private Context mContext;
-    private List<SingerInfo> mSingerMusicInfoLists;
-    private int mResource;
-    private List<View> mViews;
+class MySingerInfoListAdapter(context: Context, resource: Int, objects: MutableList<SingerInfo>) :
+    ArrayAdapter<SingerInfo?>(context, resource, objects) {
+    private val mContext: Context
+    private val mSingerMusicInfoLists: MutableList<SingerInfo>
+    private val mResource: Int
+    private val mViews: MutableList<View?>?
 
-    public MySingerInfoListAdapter(@NonNull Context context, int resource, @NonNull List<SingerInfo> objects) {
-        super(context, resource, objects);
-        mResource = resource;
-        mContext = context;
-        mSingerMusicInfoLists = objects;
-        mViews = new ArrayList<>(objects.size());
+    init {
+        mResource = resource
+        mContext = context
+        mSingerMusicInfoLists = objects
+        mViews = ArrayList<View?>(objects.size)
     }
 
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        SingerInfo singerInfo = mSingerMusicInfoLists.get(position);
-        ViewHolder viewHolder = null;
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var convertView = convertView
+        val singerInfo = mSingerMusicInfoLists.get(position)
+        var viewHolder: ViewHolder? = null
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(mResource, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.icon = convertView.findViewById(R.id.my_local_singer_head_icon);
-            viewHolder.name = convertView.findViewById(R.id.singer_list_item_name);
-            viewHolder.number = convertView.findViewById(R.id.singer_list_song_count);
-            convertView.setTag(viewHolder);
+            convertView = LayoutInflater.from(mContext).inflate(mResource, parent, false)
+            viewHolder = ViewHolder()
+            viewHolder.icon = convertView.findViewById<ImageView>(R.id.my_local_singer_head_icon)
+            viewHolder.name = convertView.findViewById<TextView>(R.id.singer_list_item_name)
+            viewHolder.number = convertView.findViewById<TextView>(R.id.singer_list_song_count)
+            convertView.setTag(viewHolder)
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = convertView.getTag() as ViewHolder?
         }
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MyLocalMusicDetailActivity.class);
-                intent.putExtra("title", "歌手:" + singerInfo.getName());
-                List<MusicInfo> list = new ArrayList<>();
-                list.addAll(singerInfo.getSongLists());
-                intent.putExtra("music", (Serializable) list);
-                mContext.startActivity(intent);
+        convertView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
+                intent.putExtra("title", "歌手:" + singerInfo.getName())
+                val list: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
+                list.addAll(singerInfo.getSongLists())
+                intent.putExtra("music", list as Serializable)
+                mContext.startActivity(intent)
             }
-        });
+        })
 
-        Glide.with(mContext).load(SEVEN_MUSIC_SINGER + "/" + singerInfo.getName()).placeholder(R.drawable.my_collection_singer_icon_item).into(viewHolder.icon);
-        viewHolder.name.setText(mSingerMusicInfoLists.get(position).getName());
-        viewHolder.number.setText(mSingerMusicInfoLists.get(position).getSongLists().size() + "首");
-        return convertView;
+        Glide.with(mContext).load(Constant.SEVEN_MUSIC_SINGER + "/" + singerInfo.getName())
+            .placeholder(R.drawable.my_collection_singer_icon_item).into(viewHolder!!.icon!!)
+        viewHolder.name!!.setText(mSingerMusicInfoLists.get(position).getName())
+        viewHolder.number!!.setText(
+            mSingerMusicInfoLists.get(position).getSongLists().size.toString() + "首"
+        )
+        return convertView
     }
 
-    private static class ViewHolder {
-        public ImageView icon;
-        public TextView name;
-        public TextView number;
+    private class ViewHolder {
+        var icon: ImageView? = null
+        var name: TextView? = null
+        var number: TextView? = null
     }
 }

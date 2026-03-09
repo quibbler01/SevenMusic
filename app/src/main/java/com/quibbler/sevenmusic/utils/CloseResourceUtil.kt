@@ -1,8 +1,8 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import java.io.Closeable;
-import java.io.Reader;
-import java.net.HttpURLConnection;
+import java.io.Closeable
+import java.io.Reader
+import java.net.HttpURLConnection
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -11,31 +11,30 @@ import java.net.HttpURLConnection;
  * Author:         zhaopeng
  * CreateDate:     2019/9/29 18:55
  */
-public class CloseResourceUtil {
-
-    public static void closeInputAndOutput(Closeable closeable) {
+object CloseResourceUtil {
+    fun closeInputAndOutput(closeable: Closeable?) {
         try {
             if (closeable != null) {
-                closeable.close();
+                closeable.close()
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    public static void closeReader(Reader reader) {
+    fun closeReader(reader: Reader?) {
         if (reader != null) {
             try {
-                reader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                reader.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
-    public static void disconnect(HttpURLConnection urlConnection) {
+    fun disconnect(urlConnection: HttpURLConnection?) {
         if (urlConnection != null) {
-            urlConnection.disconnect();
+            urlConnection.disconnect()
         }
     }
 }

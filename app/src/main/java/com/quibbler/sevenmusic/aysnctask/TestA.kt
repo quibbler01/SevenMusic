@@ -1,4 +1,3 @@
-package com.quibbler.sevenmusic.aysnctask;
+package com.quibbler.sevenmusic.aysnctask
 
-public class TestA {
-}
+class TestA 

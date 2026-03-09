@@ -1,11 +1,10 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.app.Activity;
-import android.app.Application;
-import android.os.Bundle;
-import android.util.Log;
-
-import com.quibbler.sevenmusic.activity.ActivityCollector;
+import android.app.Activity
+import android.app.Application.ActivityLifecycleCallbacks
+import android.os.Bundle
+import android.util.Log
+import com.quibbler.sevenmusic.activity.ActivityCollector
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -14,44 +13,38 @@ import com.quibbler.sevenmusic.activity.ActivityCollector;
  * Author:         11103876
  * CreateDate:     2019/11/5 21:40
  */
-public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks {
-    private static final String TAG = ActivityLifecycle.class.getSimpleName();
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onCreate");
-        ActivityCollector.addActivity(activity);   // 添加当前Activity到集合中
+class ActivityLifecycle : ActivityLifecycleCallbacks {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onCreate")
+        ActivityCollector.addActivity(activity) // 添加当前Activity到集合中
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onStarted");
+    override fun onActivityStarted(activity: Activity) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onStarted")
     }
 
-    @Override
-    public void onActivityResumed(Activity activity) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onResumed");
-
+    override fun onActivityResumed(activity: Activity) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onResumed")
     }
 
-    @Override
-    public void onActivityPaused(Activity activity) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onPaused");
+    override fun onActivityPaused(activity: Activity) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onPaused")
     }
 
-    @Override
-    public void onActivityStopped(Activity activity) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onStopped");
+    override fun onActivityStopped(activity: Activity) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onStopped")
     }
 
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onSaveInstanceState");
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onSaveInstanceState")
     }
 
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        Log.d(TAG, activity.getClass().getSimpleName() + "...onDestroyed");
-        ActivityCollector.removeActivity(activity);   // 移除当前Activity到集合中
+    override fun onActivityDestroyed(activity: Activity) {
+        Log.d(TAG, activity.javaClass.getSimpleName() + "...onDestroyed")
+        ActivityCollector.removeActivity(activity) // 移除当前Activity到集合中
+    }
+
+    companion object {
+        private val TAG: String = ActivityLifecycle::class.java.getSimpleName()
     }
 }

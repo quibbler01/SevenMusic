@@ -1,26 +1,17 @@
-package com.quibbler.sevenmusic.adapter.found;
+package com.quibbler.sevenmusic.adapter.found
 
-import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.found.PlaylistActivity;
-import com.quibbler.sevenmusic.bean.jsonbean.found.PlaylistInfo;
-import com.quibbler.sevenmusic.presenter.ImageDownloadPresenter;
-
-import java.util.List;
+import android.content.Intent
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.found.PlaylistActivity
+import com.quibbler.sevenmusic.bean.jsonbean.found.PlaylistInfo
+import com.quibbler.sevenmusic.presenter.ImageDownloadPresenter
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.found
@@ -29,64 +20,62 @@ import java.util.List;
  * Author:         yanwuyang
  * CreateDate:     2019/9/20 10:54
  */
-public class FoundShowPlaylistAdapter extends RecyclerBaseAdapter<PlaylistInfo, FoundShowPlaylistAdapter.PlaylistViewHolder> {
-    private static final String TAG = "FoundShowPlaylistAdapter";
-
+class FoundShowPlaylistAdapter(topPlaylistInfoList: MutableList<PlaylistInfo?>?) :
+    RecyclerBaseAdapter<PlaylistInfo?, FoundShowPlaylistAdapter.PlaylistViewHolder?>(
+        topPlaylistInfoList
+    ) {
     //实际使用的数据源
-    private List<PlaylistInfo> mTopPlaylistInfoList = mSourceList;
+    private val mTopPlaylistInfoList: MutableList<PlaylistInfo> = mSourceList
 
-    static class PlaylistViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        ImageView mImageView;
-        TextView mTextView;
+    internal class PlaylistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var mView: View
+        var mImageView: ImageView
+        var mTextView: TextView
 
-        public PlaylistViewHolder(View view) {
-            super(view);
-            mView = view;
-            mImageView = view.findViewById(R.id.found_list_item_top_playlist_iv);
-            mTextView = view.findViewById(R.id.found_list_item_top_playlist_tv);
+        init {
+            mView = view
+            mImageView = view.findViewById<ImageView>(R.id.found_list_item_top_playlist_iv)
+            mTextView = view.findViewById<TextView>(R.id.found_list_item_top_playlist_tv)
         }
     }
 
-    public FoundShowPlaylistAdapter(List<PlaylistInfo> topPlaylistInfoList) {
-        super(topPlaylistInfoList);
-    }
-
-    @NonNull
-    @Override
-    public PlaylistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.found_list_item_playlist, parent, false);
-        PlaylistViewHolder viewHolder = new PlaylistViewHolder(view);
-        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = viewHolder.getAdapterPosition();
-                PlaylistInfo playlistInfo = mTopPlaylistInfoList.get(position);
-                String id = playlistInfo.getId();
-                Intent intent = new Intent(viewHolder.mView.getContext(), PlaylistActivity.class);
-                intent.putExtra(viewHolder.mView.getContext().getResources().getString(R.string.playlist_id), id);
-                viewHolder.mView.getContext().startActivity(intent);
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
+        val view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.found_list_item_playlist, parent, false)
+        val viewHolder = PlaylistViewHolder(view)
+        viewHolder.mView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val position = viewHolder.getAdapterPosition()
+                val playlistInfo = mTopPlaylistInfoList.get(position)
+                val id = playlistInfo.getId()
+                val intent = Intent(viewHolder.mView.getContext(), PlaylistActivity::class.java)
+                intent.putExtra(
+                    viewHolder.mView.getContext().getResources().getString(R.string.playlist_id), id
+                )
+                viewHolder.mView.getContext().startActivity(intent)
             }
-        });
-        return viewHolder;
+        })
+        return viewHolder
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull PlaylistViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
 
-        PlaylistInfo playlistInfo = mTopPlaylistInfoList.get(position);
+        val playlistInfo = mTopPlaylistInfoList.get(position)
 
         //显示歌单名
-        holder.mTextView.setText(playlistInfo.getName());
-        Log.d(TAG, "playlistInfo.getCoverImgUrl() is: " + playlistInfo.getCoverImgUrl());
+        holder.mTextView.setText(playlistInfo.getName())
+        Log.d(TAG, "playlistInfo.getCoverImgUrl() is: " + playlistInfo.getCoverImgUrl())
 
         //下载歌单封面并显示
         //最好在这里给imageView一个占位图片，否则textView可能错乱
-        ImageDownloadPresenter.getInstance().with(holder.mImageView.getContext())
-                .load(playlistInfo.getCoverImgUrl())
-                .imageStyle(ImageDownloadPresenter.STYLE_ROUND)
-                .into(holder.mImageView);
+        ImageDownloadPresenter.Companion.getInstance().with(holder.mImageView.getContext())
+            .load(playlistInfo.getCoverImgUrl())
+            .imageStyle(ImageDownloadPresenter.Companion.STYLE_ROUND)
+            .into(holder.mImageView)
+    }
+
+    companion object {
+        private const val TAG = "FoundShowPlaylistAdapter"
     }
 }

@@ -1,6 +1,6 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.content.Context;
+import android.content.Context
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -9,8 +9,8 @@ import android.content.Context;
  * Author:         zhaopeng
  * CreateDate:     2019/9/29 17:40
  */
-public class GetMusicImage {
-    public static MusicIconLoadUtil with(Context context) {
-        return new MusicIconLoadUtil(context);
+object GetMusicImage {
+    fun with(context: Context): MusicIconLoadUtil {
+        return MusicIconLoadUtil(context)
     }
 }

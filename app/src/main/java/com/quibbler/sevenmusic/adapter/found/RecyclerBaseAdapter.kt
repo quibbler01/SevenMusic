@@ -1,10 +1,6 @@
-package com.quibbler.sevenmusic.adapter.found;
+package com.quibbler.sevenmusic.adapter.found
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.found
@@ -13,55 +9,53 @@ import java.util.List;
  * Author:         yanwuyang
  * CreateDate:     2019/9/28 11:16
  */
-public abstract class RecyclerBaseAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-
+abstract class RecyclerBaseAdapter<T, VH : RecyclerView.ViewHolder?>(infoList: MutableList<T?>) :
+    RecyclerView.Adapter<VH?>() {
     //实际使用的数据源
-    protected List<T> mSourceList = new ArrayList<>();
+    protected var mSourceList: MutableList<T?> = ArrayList<T?>()
+
     //是否停止更新RecyclerView
-    protected boolean mShouldStop = false;
+    protected var mShouldStop: Boolean = false
 
     /**
      * 当数据源list改变时，通知recyclerView更新
-     *
+     * 
      * @param list 新的数据源
      */
-    public void updateData(List<T> list) {
-        mShouldStop = false;
+    open fun updateData(list: MutableList<T?>?) {
+        mShouldStop = false
         if (list == null) {
-            return;
+            return
         }
         //如果传入的就是数据源list，则直接更新
-        if (mSourceList == list) {
-            notifyDataSetChanged();
-            return;
+        if (mSourceList === list) {
+            notifyDataSetChanged()
+            return
         }
-        mSourceList.clear();
-        mSourceList.addAll(list);
-        notifyDataSetChanged();
+        mSourceList.clear()
+        mSourceList.addAll(list)
+        notifyDataSetChanged()
     }
 
     /**
      * 当页面切换时，停止更新RecyclerView的操作
      */
-    public void stopUpdateData() {
-        mShouldStop = true;
+    fun stopUpdateData() {
+        mShouldStop = true
     }
 
-    public RecyclerBaseAdapter(List<T> infoList) {
-        mSourceList.clear();
-        mSourceList.addAll(infoList);
+    init {
+        mSourceList.clear()
+        mSourceList.addAll(infoList)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-        if (mShouldStop){
-            return;
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        if (mShouldStop) {
+            return
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return mSourceList.size();
+    override fun getItemCount(): Int {
+        return mSourceList.size
     }
-
 }

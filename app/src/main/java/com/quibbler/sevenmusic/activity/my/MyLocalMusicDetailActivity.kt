@@ -1,20 +1,13 @@
-package com.quibbler.sevenmusic.activity.my;
+package com.quibbler.sevenmusic.activity.my
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.ListView;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.adapter.my.LocalMusicAdapter;
-import com.quibbler.sevenmusic.adapter.my.MusicAdapter;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle
+import android.view.MenuItem
+import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.adapter.my.LocalMusicAdapter
+import com.quibbler.sevenmusic.adapter.my.MusicAdapter
+import com.quibbler.sevenmusic.bean.MusicInfo
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -23,42 +16,37 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/17 21:56
  */
-public class MyLocalMusicDetailActivity extends AppCompatActivity {
-    private List<MusicInfo> mMusicLists = new ArrayList<>();
-    private ListView mMusicListView;
-    private MusicAdapter mAdapter;
+class MyLocalMusicDetailActivity : AppCompatActivity() {
+    private var mMusicLists: MutableList<MusicInfo?>? = ArrayList<MusicInfo?>()
+    private var mMusicListView: ListView? = null
+    private var mAdapter: MusicAdapter? = null
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(null);
-        setContentView(R.layout.activity_my_local_music_detail);
-        ActionBar actionBar = getSupportActionBar();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getWindow().setBackgroundDrawable(null)
+        setContentView(R.layout.activity_my_local_music_detail)
+        val actionBar = getSupportActionBar()
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true)
         }
-        Intent intent = getIntent();
+        val intent = getIntent()
         //设置标题
-        String title = intent.getStringExtra("title");
-        setTitle(title);
+        val title = intent.getStringExtra("title")
+        setTitle(title)
         //获取数据
-        mMusicLists = (List<MusicInfo>) intent.getSerializableExtra("music");
+        mMusicLists = intent.getSerializableExtra("music") as MutableList<MusicInfo?>?
 
-        mMusicListView = findViewById(R.id.my_music_list_detail);
-        mAdapter = new LocalMusicAdapter(this, mMusicLists);
-        mMusicListView.setAdapter(mAdapter);
-        mMusicListView.setDivider(null);
+        mMusicListView = findViewById<ListView>(R.id.my_music_list_detail)
+        mAdapter = LocalMusicAdapter(this, mMusicLists!!)
+        mMusicListView!!.setAdapter(mAdapter)
+        mMusicListView!!.setDivider(null)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> finish()
+            else -> {}
         }
-        return true;
+        return true
     }
 }

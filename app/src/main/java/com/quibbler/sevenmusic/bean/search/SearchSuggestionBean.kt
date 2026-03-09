@@ -1,8 +1,6 @@
-package com.quibbler.sevenmusic.bean.search;
+package com.quibbler.sevenmusic.bean.search
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName
 
 /**
  * Package:        com.quibbler.sevenmusic.bean.search
@@ -11,85 +9,29 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/29 10:13
  */
-public class SearchSuggestionBean {
+class SearchSuggestionBean {
     @SerializedName("result")
-    private Result result;
+    var result: Result? = null
 
     @SerializedName("code")
-    private String code;
+    var code: String? = null
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Result getResult() {
-        return result;
-    }
-
-    public void setResult(Result result) {
-        this.result = result;
-    }
-
-    public class Result {
+    inner class Result {
         @SerializedName("allMatch")
-        private List<SearchSuggestion> allMatch;
-
-        public List<SearchSuggestion> getAllMatch() {
-            return allMatch;
-        }
-
-        public void setAllMatch(List<SearchSuggestion> allMatch) {
-            this.allMatch = allMatch;
-        }
+        var allMatch: MutableList<SearchSuggestion?>? = null
     }
 
-    public class SearchSuggestion {
+    inner class SearchSuggestion {
         @SerializedName("keyword")
-        private String keyword;
+        var keyword: String? = null
 
         @SerializedName("type")
-        private String type;
+        var type: String? = null
 
         @SerializedName("alg")
-        private String alg;
+        var alg: String? = null
 
         @SerializedName("lastKeyword")
-        private String lastKeyword;
-
-        public String getKeyword() {
-            return keyword;
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = keyword;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getAlg() {
-            return alg;
-        }
-
-        public void setAlg(String alg) {
-            this.alg = alg;
-        }
-
-        public String getLastKeyword() {
-            return lastKeyword;
-        }
-
-        public void setLastKeyword(String lastKeyword) {
-            this.lastKeyword = lastKeyword;
-        }
+        var lastKeyword: String? = null
     }
 }

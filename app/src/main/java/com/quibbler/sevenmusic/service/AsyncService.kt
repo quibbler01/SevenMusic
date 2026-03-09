@@ -1,19 +1,10 @@
-package com.quibbler.sevenmusic.service;
+package com.quibbler.sevenmusic.service
 
-import android.Manifest;
-import android.app.IntentService;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.provider.MediaStore;
-
-import androidx.annotation.Nullable;
-
-import com.quibbler.sevenmusic.utils.CheckTools;
-
-import java.util.HashSet;
-import java.util.Set;
+import android.Manifest.permission
+import android.app.IntentService
+import android.content.Intent
+import android.provider.MediaStore
+import com.quibbler.sevenmusic.utils.CheckTools
 
 /**
  * Package:        com.quibbler.sevenmusic.service
@@ -22,91 +13,88 @@ import java.util.Set;
  * Author:         zhaopeng
  * CreateDate:     2019/10/31 10:12
  */
-public class AsyncService extends IntentService {
-    private static final String NAME = "AsyncService";
-    private static final String TAG = "timestamp";
-    private static final long MAX_ASYNC_INTERVAL = 259200000;
-
-    public static final String KEY = "command";
-
-    public static final int COMMAND_SYNC_SINGER = 0;
-    public static final int COMMAND_SYNC_MUSIC = 1;
-    public static final int COMMAND_SYNC_COLLECTION = 2;
-
-    public AsyncService() {
-        super("AsyncService");
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        if (getLastAsyncTimeStamp() >= System.currentTimeMillis() + MAX_ASYNC_INTERVAL) {
-            return;
+class AsyncService : IntentService("AsyncService") {
+    override fun onHandleIntent(intent: Intent) {
+        if (this.lastAsyncTimeStamp >= System.currentTimeMillis() + MAX_ASYNC_INTERVAL) {
+            return
         }
-        if (!CheckTools.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE, getApplicationContext())) {
-            return;
+        if (!CheckTools.hasPermission(permission.READ_EXTERNAL_STORAGE, getApplicationContext())) {
+            return
         }
 
-        int command = intent.getIntExtra(KEY, -1);
-        switch (command) {
-            case COMMAND_SYNC_SINGER:
-                asyncSingerInfo();
-                break;
-            case COMMAND_SYNC_MUSIC:
-                asyncMusic();
-                break;
-            case COMMAND_SYNC_COLLECTION:
-                asyncCollection();
-                break;
-            default:
-                break;
+        val command = intent.getIntExtra(KEY, -1)
+        when (command) {
+            COMMAND_SYNC_SINGER -> asyncSingerInfo()
+            COMMAND_SYNC_MUSIC -> asyncMusic()
+            COMMAND_SYNC_COLLECTION -> asyncCollection()
+            else -> {}
         }
-
     }
 
-    @Override
-    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
-    private void asyncSingerInfo() {
-        lastAsyncTimeStamp();
-        ContentResolver localMusicResolver = getContentResolver();
-        Cursor localMusicCursor = localMusicResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+    private fun asyncSingerInfo() {
+        lastAsyncTimeStamp()
+        val localMusicResolver = getContentResolver()
+        val localMusicCursor = localMusicResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            null,
+            null,
+            null,
+            MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+        )
         if (localMusicCursor == null) {
-            return;
+            return
         }
-        Set<String> singers = new HashSet<>();
+        val singers: MutableSet<String?> = HashSet<String?>()
         while (localMusicCursor.moveToNext()) {
-            singers.add(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+            singers.add(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)))
         }
-        for (String str : singers) {
-            LoadSingerThumbnailAsyncTask loadSingerThumbnailAsyncTask = new LoadSingerThumbnailAsyncTask();
-            loadSingerThumbnailAsyncTask.execute(str);
+        for (str in singers) {
+            val loadSingerThumbnailAsyncTask = LoadSingerThumbnailAsyncTask()
+            loadSingerThumbnailAsyncTask.execute(str)
         }
     }
 
-    private void asyncMusic() {
+    private fun asyncMusic() {
         //待定
     }
 
-    private void asyncCollection() {
+    private fun asyncCollection() {
         //待定
     }
 
-    private void lastAsyncTimeStamp() {
-        SharedPreferences sharedPreferences = getSharedPreferences(NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(TAG, System.currentTimeMillis());
-        editor.apply();
+    private fun lastAsyncTimeStamp() {
+        val sharedPreferences = getSharedPreferences(NAME, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong(TAG, System.currentTimeMillis())
+        editor.apply()
     }
 
-    private long getLastAsyncTimeStamp() {
-        SharedPreferences sharedPreferences = getSharedPreferences(NAME, MODE_PRIVATE);
-        return sharedPreferences.getLong(TAG, 0);
+    private val lastAsyncTimeStamp: Long
+        get() {
+            val sharedPreferences = getSharedPreferences(
+                NAME,
+                MODE_PRIVATE
+            )
+            return sharedPreferences.getLong(TAG, 0)
+        }
+
+    companion object {
+        private const val NAME = "AsyncService"
+        private const val TAG = "timestamp"
+        private const val MAX_ASYNC_INTERVAL: Long = 259200000
+
+        const val KEY: String = "command"
+
+        const val COMMAND_SYNC_SINGER: Int = 0
+        const val COMMAND_SYNC_MUSIC: Int = 1
+        const val COMMAND_SYNC_COLLECTION: Int = 2
     }
 }

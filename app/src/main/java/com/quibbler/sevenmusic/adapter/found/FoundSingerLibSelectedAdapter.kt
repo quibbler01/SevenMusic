@@ -1,89 +1,74 @@
-package com.quibbler.sevenmusic.adapter.found;
+package com.quibbler.sevenmusic.adapter.found
 
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.quibbler.sevenmusic.MusicApplication
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.found.SingerActivity
+import com.quibbler.sevenmusic.bean.jsonbean.found.FoundSingerInfo
+import com.quibbler.sevenmusic.presenter.ImageDownloadPresenter
+import java.util.Locale
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.R;
-
-import com.quibbler.sevenmusic.activity.found.SingerActivity;
-import com.quibbler.sevenmusic.bean.jsonbean.found.FoundSingerInfo;
-import com.quibbler.sevenmusic.presenter.ImageDownloadPresenter;
-
-import java.util.List;
-
-public class FoundSingerLibSelectedAdapter extends RecyclerBaseAdapter<FoundSingerInfo, FoundSingerLibSelectedAdapter.SingerViewHolder> {
-
+class FoundSingerLibSelectedAdapter(list: MutableList<FoundSingerInfo?>?) :
+    RecyclerBaseAdapter<FoundSingerInfo?, FoundSingerLibSelectedAdapter.SingerViewHolder?>(list) {
     //实际使用的数据源list
-    private List<FoundSingerInfo> mFoundSingerInfoList = mSourceList;
+    private val mFoundSingerInfoList: MutableList<FoundSingerInfo> = mSourceList
 
-    static class SingerViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        ImageView mImageView;
-        TextView mTvName;
+    internal class SingerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var mView: View
+        var mImageView: ImageView?
+        var mTvName: TextView
 
-        public SingerViewHolder(View view) {
-            super(view);
-            mView = view;
-            mImageView = view.findViewById(R.id.found_list_item_singer_iv);
-            mTvName = view.findViewById(R.id.found_list_item_singer_tv_name);
+        init {
+            mView = view
+            mImageView = view.findViewById<ImageView?>(R.id.found_list_item_singer_iv)
+            mTvName = view.findViewById<TextView>(R.id.found_list_item_singer_tv_name)
         }
     }
 
-    public FoundSingerLibSelectedAdapter(List<FoundSingerInfo> list) {
-        super(list);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingerViewHolder {
+        val view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.found_list_item_selected_singer, parent, false)
+        val viewHolder = SingerViewHolder(view)
+        return viewHolder
     }
 
-    @NonNull
-    @Override
-    public SingerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.found_list_item_selected_singer, parent, false);
-        SingerViewHolder viewHolder = new SingerViewHolder(view);
-        return viewHolder;
-    }
+    override fun onBindViewHolder(holder: SingerViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
 
-    @Override
-    public void onBindViewHolder(@NonNull SingerViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-
-        FoundSingerInfo foundSingerInfo = mFoundSingerInfoList.get(position);
+        val foundSingerInfo = mFoundSingerInfoList.get(position)
         //歌手名
-        holder.mTvName.setText(foundSingerInfo.getName());
+        holder.mTvName.setText(foundSingerInfo.getName())
 
         //下载歌手封面并显示
         //最好在这里给imageView一个占位图片，否则textView可能错乱
-        ImageDownloadPresenter.getInstance().with(MusicApplication.getContext())
-                .load(foundSingerInfo.getPicUrl())
-                .imageStyle(ImageDownloadPresenter.STYLE_CIRCLE)
-                .into(holder.mImageView);
+        ImageDownloadPresenter.Companion.getInstance().with(MusicApplication.Companion.getContext())
+            .load(foundSingerInfo.getPicUrl())
+            .imageStyle(ImageDownloadPresenter.Companion.STYLE_CIRCLE)
+            .into(holder.mImageView)
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(holder.mView.getContext(), SingerActivity.class);
-                intent.putExtra("id", foundSingerInfo.getId());
-                holder.mView.getContext().startActivity(intent);
+        holder.mView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val intent = Intent(holder.mView.getContext(), SingerActivity::class.java)
+                intent.putExtra("id", foundSingerInfo.getId())
+                holder.mView.getContext().startActivity(intent)
             }
-        });
+        })
     }
 
-    public int getPositionForSelection(char selection) {
-        for (int i = 0; i < mFoundSingerInfoList.size(); i++) {
-            String firstPinyin = mFoundSingerInfoList.get(i).getFirstPinyin();
-            char first = firstPinyin.toUpperCase().charAt(0);
+    fun getPositionForSelection(selection: Char): Int {
+        for (i in mFoundSingerInfoList.indices) {
+            val firstPinyin = mFoundSingerInfoList.get(i).getFirstPinyin()
+            val first: Char = firstPinyin.uppercase(Locale.getDefault()).get(0)
             if (first == selection) {
-                return i;
+                return i
             }
         }
-        return -1;
+        return -1
     }
 }

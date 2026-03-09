@@ -1,8 +1,6 @@
-package com.quibbler.sevenmusic.bean;
+package com.quibbler.sevenmusic.bean
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -11,57 +9,41 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/17 16:16
  */
-public class AlbumInfo {
+class AlbumInfo {
     @SerializedName("name")
-    private String albumName;
-    private String id;
-    private String picUrl;
+    var albumName: String?
+    val id: String? = null
+    val picUrl: String? = null
 
-    private List<MusicInfo> musicInfoList;
+    private var musicInfoList: MutableList<MusicInfo?>? = null
 
-    public AlbumInfo(String albumName, List<MusicInfo> musicInfoList) {
-        this.albumName = albumName;
-        this.musicInfoList = musicInfoList;
+    constructor(albumName: String?, musicInfoList: MutableList<MusicInfo?>) {
+        this.albumName = albumName
+        this.musicInfoList = musicInfoList
     }
 
-    public AlbumInfo(String albumName) {
-        this.albumName = albumName;
+    constructor(albumName: String?) {
+        this.albumName = albumName
     }
 
-    public void addMusicInfo(MusicInfo musicInfo) {
-        musicInfoList.add(musicInfo);
+    fun addMusicInfo(musicInfo: MusicInfo?) {
+        musicInfoList!!.add(musicInfo)
     }
 
-    public void addAllMusicInfo(List<MusicInfo> musicInfoList) {
-        this.musicInfoList.addAll(musicInfoList);
+    fun addAllMusicInfo(musicInfoList: MutableList<MusicInfo?>) {
+        this.musicInfoList!!.addAll(musicInfoList)
     }
 
-    public void updateSongList(List<MusicInfo> musicInfos) {
-        musicInfoList.clear();
-        musicInfoList.addAll(musicInfos);
+    fun updateSongList(musicInfos: MutableList<MusicInfo?>) {
+        musicInfoList!!.clear()
+        musicInfoList!!.addAll(musicInfos)
     }
 
-    public String getAlbumName() {
-        return albumName;
+    fun getMusicInfoList(): MutableList<MusicInfo?> {
+        return musicInfoList!!
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
-
-    public List<MusicInfo> getMusicInfoList() {
-        return musicInfoList;
-    }
-
-    public void setMusicInfoList(List<MusicInfo> musicInfoList) {
-        this.musicInfoList = musicInfoList;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
+    fun setMusicInfoList(musicInfoList: MutableList<MusicInfo?>) {
+        this.musicInfoList = musicInfoList
     }
 }

@@ -1,27 +1,21 @@
-package com.quibbler.sevenmusic.service;
+package com.quibbler.sevenmusic.service
 
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.widget.ImageView;
-
-import com.google.gson.Gson;
-import com.quibbler.sevenmusic.bean.search.SearchSingerJsonBean;
-import com.quibbler.sevenmusic.utils.CloseResourceUtil;
-import com.quibbler.sevenmusic.utils.MusicIconLoadUtil;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-
-import static com.quibbler.sevenmusic.Constant.SEVEN_MUSIC_SINGER;
-import static com.quibbler.sevenmusic.bean.MusicURL.SEARCH_SINGER;
-import static com.quibbler.sevenmusic.utils.CloseResourceUtil.closeInputAndOutput;
-import static com.quibbler.sevenmusic.utils.CloseResourceUtil.closeReader;
+import android.graphics.Bitmap
+import android.os.AsyncTask
+import android.widget.ImageView
+import com.google.gson.Gson
+import com.quibbler.sevenmusic.Constant
+import com.quibbler.sevenmusic.bean.MusicURL
+import com.quibbler.sevenmusic.bean.search.SearchSingerJsonBean
+import com.quibbler.sevenmusic.utils.CloseResourceUtil
+import com.quibbler.sevenmusic.utils.MusicIconLoadUtil
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.ref.WeakReference
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Package:        com.quibbler.sevenmusic.service
@@ -30,84 +24,85 @@ import static com.quibbler.sevenmusic.utils.CloseResourceUtil.closeReader;
  * Author:         zhaopeng
  * CreateDate:     2019/10/30 16:16
  */
-public class LoadSingerThumbnailAsyncTask extends AsyncTask<Object, Void, Bitmap> {
-    private String mName;
-    private WeakReference<ImageView> mImageView;
+class LoadSingerThumbnailAsyncTask : AsyncTask<Any?, Void?, Bitmap?> {
+    private var mName: String? = null
+    private var mImageView: WeakReference<ImageView?>? = null
 
-    public LoadSingerThumbnailAsyncTask(ImageView imageView) {
-        this.mImageView = new WeakReference<ImageView>(imageView);
+    constructor(imageView: ImageView?) {
+        this.mImageView = WeakReference<ImageView?>(imageView)
     }
 
-    public LoadSingerThumbnailAsyncTask() {
+    constructor()
 
-    }
-
-    @Override
-    protected void onPreExecute() {
-        File path = new File(SEVEN_MUSIC_SINGER);
+    override fun onPreExecute() {
+        val path = File(Constant.SEVEN_MUSIC_SINGER)
         if (!path.exists()) {
-            path.mkdirs();
+            path.mkdirs()
         }
     }
 
-    @Override
-    protected Bitmap doInBackground(Object[] args) {
-        if (args.length <= 0) {
-            return null;
+    override fun doInBackground(args: Array<Any?>): Bitmap? {
+        if (args.size <= 0) {
+            return null
         }
-        mName = (String) args[0];
-        if (new File(SEVEN_MUSIC_SINGER + "/" + mName).exists()) {
-            return null;
+        mName = args[0] as String?
+        if (File(Constant.SEVEN_MUSIC_SINGER + "/" + mName).exists()) {
+            return null
         }
 
-        Bitmap bitmap = null;
-        bitmap = MusicIconLoadUtil.loadBitmapFromCache(SEVEN_MUSIC_SINGER + "/" + mName);
+        var bitmap: Bitmap? = null
+        bitmap =
+            MusicIconLoadUtil.Companion.loadBitmapFromCache(Constant.SEVEN_MUSIC_SINGER + "/" + mName)
         if (bitmap != null) {
-            return bitmap;
+            return bitmap
         }
-        String url = getSingerCoverUrl(mName);
-        bitmap = MusicIconLoadUtil.getBitmapFromServer(url);
-        return bitmap;
+        val url: String? = getSingerCoverUrl(mName)
+        bitmap = MusicIconLoadUtil.Companion.getBitmapFromServer(url)
+        return bitmap
     }
 
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
+    override fun onPostExecute(bitmap: Bitmap?) {
         if (bitmap == null) {
-            return;
+            return
         }
-        if (mImageView != null && mImageView.get() != null) {
-            mImageView.get().setImageBitmap(bitmap);
+        if (mImageView != null && mImageView!!.get() != null) {
+            mImageView!!.get()!!.setImageBitmap(bitmap)
         }
-        MusicIconLoadUtil.saveBitmapToCache(bitmap, SEVEN_MUSIC_SINGER, mName);
+        MusicIconLoadUtil.Companion.saveBitmapToCache(bitmap, Constant.SEVEN_MUSIC_SINGER, mName)
     }
 
-    public static String getSingerCoverUrl(String name) {
-        HttpURLConnection httpURLConnection = null;
-        InputStream inputStream = null;
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(SEARCH_SINGER + name);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(8000);
-            httpURLConnection.setReadTimeout(8000);
-            inputStream = httpURLConnection.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder jsonData = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonData.append(line);
+    companion object {
+        fun getSingerCoverUrl(name: String?): String? {
+            var httpURLConnection: HttpURLConnection? = null
+            var inputStream: InputStream? = null
+            var reader: BufferedReader? = null
+            try {
+                val url = URL(MusicURL.SEARCH_SINGER + name)
+                httpURLConnection = url.openConnection() as HttpURLConnection?
+                httpURLConnection!!.setRequestMethod("GET")
+                httpURLConnection.setConnectTimeout(8000)
+                httpURLConnection.setReadTimeout(8000)
+                inputStream = httpURLConnection.getInputStream()
+                reader = BufferedReader(InputStreamReader(inputStream))
+                val jsonData = StringBuilder()
+                var line: String?
+                while ((reader.readLine().also { line = it }) != null) {
+                    jsonData.append(line)
+                }
+                val gson = Gson()
+                val singerList = gson.fromJson<SearchSingerJsonBean?>(
+                    jsonData.toString(),
+                    SearchSingerJsonBean::class.java
+                ).getResult().getArtists()
+                return singerList.get(0)!!.getImg1v1Url()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                CloseResourceUtil.closeInputAndOutput(inputStream)
+                CloseResourceUtil.closeReader(reader)
+                CloseResourceUtil.disconnect(httpURLConnection)
             }
-            Gson gson = new Gson();
-            List<SearchSingerJsonBean.SearchSingerArtists> singerList = gson.fromJson(jsonData.toString(), SearchSingerJsonBean.class).getResult().getArtists();
-            return singerList.get(0).getImg1v1Url();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeInputAndOutput(inputStream);
-            closeReader(reader);
-            CloseResourceUtil.disconnect(httpURLConnection);
+            return null
         }
-        return null;
     }
 }

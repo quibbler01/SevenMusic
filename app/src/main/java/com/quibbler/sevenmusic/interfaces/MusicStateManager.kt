@@ -1,7 +1,4 @@
-package com.quibbler.sevenmusic.interfaces;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.quibbler.sevenmusic.interfaces
 
 /**
  * Package:        com.quibbler.sevenmusic.interfaces
@@ -10,85 +7,86 @@ import java.util.List;
  * Author:         yanwuyang
  * CreateDate:     2019/10/8 10:33
  */
-public class MusicStateManager {
-    private static volatile MusicStateManager sMusicStateManager;
-    private List<MusicStateChangeInterface> mStateChangeList = new ArrayList<>();
-
-    private MusicStateManager() {
-
-    }
-
-    public static MusicStateManager getInstance() {
-        if (sMusicStateManager == null) {
-            synchronized (MusicStateManager.class) {
-                if (sMusicStateManager == null) {
-                    sMusicStateManager = new MusicStateManager();
-                }
-            }
-        }
-        return sMusicStateManager;
-    }
+class MusicStateManager private constructor() {
+    private val mStateChangeList: MutableList<MusicStateChangeInterface> =
+        ArrayList<MusicStateChangeInterface>()
 
     /**
      * 将接口添加到manager中进行管理
-     *
+     * 
      * @param musicStateChangeInterface
      */
-    public void addToManager(MusicStateChangeInterface musicStateChangeInterface) {
-        mStateChangeList.add(musicStateChangeInterface);
+    fun addToManager(musicStateChangeInterface: MusicStateChangeInterface?) {
+        mStateChangeList.add(musicStateChangeInterface!!)
     }
 
     /**
      * 将接口对象从manager中移除
-     *
+     * 
      * @param musicStateChangeInterface
      */
-    public void removeFromManager(MusicStateChangeInterface musicStateChangeInterface) {
-        mStateChangeList.remove(musicStateChangeInterface);
+    fun removeFromManager(musicStateChangeInterface: MusicStateChangeInterface?) {
+        mStateChangeList.remove(musicStateChangeInterface)
     }
 
     /**
      * 播放音乐时，通知所有接口
-     *
+     * 
      * @param id 音乐的id
      */
-    public void onMusicPlay(String id) {
-        for (MusicStateChangeInterface musicStateChangeInterface : mStateChangeList) {
-            musicStateChangeInterface.onMusicPlay(id);
+    fun onMusicPlay(id: String?) {
+        for (musicStateChangeInterface in mStateChangeList) {
+            musicStateChangeInterface.onMusicPlay(id)
         }
     }
 
     /**
      * 暂停播放时，通知所有接口
-     *
+     * 
      * @param id 音乐的id
      */
-    public void onMusicPause(String id) {
-        for (MusicStateChangeInterface musicStateChangeInterface : mStateChangeList) {
-            musicStateChangeInterface.onMusicPause(id);
+    fun onMusicPause(id: String?) {
+        for (musicStateChangeInterface in mStateChangeList) {
+            musicStateChangeInterface.onMusicPause(id)
         }
     }
 
     /**
      * 歌曲无版权时，通知所有接口
-     *
+     * 
      * @param id 音乐的id
      */
-    public void onNoCopyright(String id) {
-        for (MusicStateChangeInterface musicStateChangeInterface : mStateChangeList) {
-            musicStateChangeInterface.onNoCopyright(id);
+    fun onNoCopyright(id: String?) {
+        for (musicStateChangeInterface in mStateChangeList) {
+            musicStateChangeInterface.onNoCopyright(id)
         }
     }
 
 
     /**
      * 发生其他错误，通知所有接口
-     *
+     * 
      * @param id 音乐的id
      */
-    public void onSomethingWrong(String id) {
-        for (MusicStateChangeInterface musicStateChangeInterface : mStateChangeList) {
-            musicStateChangeInterface.onSomethingWrong(id);
+    fun onSomethingWrong(id: String?) {
+        for (musicStateChangeInterface in mStateChangeList) {
+            musicStateChangeInterface.onSomethingWrong(id)
         }
+    }
+
+    companion object {
+        @Volatile
+        private var sMusicStateManager: MusicStateManager? = null
+        val instance: MusicStateManager?
+            get() {
+                if (sMusicStateManager == null) {
+                    synchronized(MusicStateManager::class.java) {
+                        if (sMusicStateManager == null) {
+                            sMusicStateManager = MusicStateManager()
+                        }
+                    }
+                }
+                return sMusicStateManager
+            }
     }
 }

@@ -1,7 +1,7 @@
-package com.quibbler.sevenmusic.bean;
+package com.quibbler.sevenmusic.bean
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Parcel
+import android.os.Parcelable
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -10,124 +10,56 @@ import android.os.Parcelable;
  * Author:         zhaopeng
  * CreateDate:     2019/9/20 14:45
  */
-public class MySongListInfo implements Parcelable {
-    @Override
-    public int describeContents() {
-        return 0;
+class MySongListInfo : Parcelable {
+    override fun describeContents(): Int {
+        return 0
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(listName);
-        dest.writeString(description);
-        dest.writeInt(type);
-        dest.writeInt(number);
-        dest.writeString(songsJsonData);
-        dest.writeString(id);
-        dest.writeString(imageUrl);
-        dest.writeString(creator);
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(listName)
+        dest.writeString(description)
+        dest.writeInt(type)
+        dest.writeInt(number)
+        dest.writeString(songsJsonData)
+        dest.writeString(id)
+        dest.writeString(imageUrl)
+        dest.writeString(creator)
     }
 
-    public static final Parcelable.Creator<MySongListInfo> CREATOR = new Creator<MySongListInfo>() {
-        @Override
-        public MySongListInfo createFromParcel(Parcel source) {
-            MySongListInfo mySongListInfo = new MySongListInfo();
-            mySongListInfo.setListName(source.readString());
-            mySongListInfo.setDescription(source.readString());
-            mySongListInfo.setType(source.readInt());
-            mySongListInfo.setNumber(source.readInt());
-            mySongListInfo.setSongsJsonData(source.readString());
-            mySongListInfo.setId(source.readString());
-            mySongListInfo.setImageUrl(source.readString());
-            mySongListInfo.setCreator(source.readString());
-            return mySongListInfo;
-        }
+    var listName: String? = "默认歌单"
+    var description: String? = ""
+    var type: Int = 0
+    var number: Int = 0
+    var songsJsonData: String? = ""
+    var id: String? = "-1"
+    var imageUrl: String? = ""
+    var creator: String? = null
 
-        @Override
-        public MySongListInfo[] newArray(int size) {
-            return new MySongListInfo[size];
-        }
-    };
+    constructor()
 
-    private String listName = "默认歌单";
-    private String description = "";
-    private int type = 0;
-    private int number = 0;
-    private String songsJsonData = "";
-    private String id = "-1";
-    private String imageUrl = "";
-    private String creator;
-
-    public MySongListInfo() {
-
+    constructor(listName: String?) {
+        this.listName = listName
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    companion object {
+        val CREATOR: Parcelable.Creator<MySongListInfo?> =
+            object : Parcelable.Creator<MySongListInfo?> {
+                override fun createFromParcel(source: Parcel): MySongListInfo {
+                    val mySongListInfo = MySongListInfo()
+                    mySongListInfo.listName = source.readString()
+                    mySongListInfo.description = source.readString()
+                    mySongListInfo.type = source.readInt()
+                    mySongListInfo.number = source.readInt()
+                    mySongListInfo.songsJsonData = source.readString()
+                    mySongListInfo.id = source.readString()
+                    mySongListInfo.imageUrl = source.readString()
+                    mySongListInfo.creator = source.readString()
+                    return mySongListInfo
+                }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+                override fun newArray(size: Int): Array<MySongListInfo?> {
+                    return arrayOfNulls<MySongListInfo>(size)
+                }
+            }
     }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public MySongListInfo(String listName) {
-        this.listName = listName;
-    }
-
-    public String getListName() {
-        return listName;
-    }
-
-    public void setListName(String listName) {
-        this.listName = listName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public String getSongsJsonData() {
-        return songsJsonData;
-    }
-
-    public void setSongsJsonData(String songsJsonData) {
-        this.songsJsonData = songsJsonData;
-    }
-
 }

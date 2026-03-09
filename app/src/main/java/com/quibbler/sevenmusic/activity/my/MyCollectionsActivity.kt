@@ -1,18 +1,17 @@
-package com.quibbler.sevenmusic.activity.my;
+package com.quibbler.sevenmusic.activity.my
 
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.adapter.my.MyCollectionViewsAdapter;
+import android.graphics.Typeface
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager.widget.ViewPager.PageTransformer
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.adapter.my.MyCollectionViewsAdapter
+import kotlin.math.abs
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -22,151 +21,147 @@ import com.quibbler.sevenmusic.adapter.my.MyCollectionViewsAdapter;
  * Author:         zhaopeng
  * CreateDate:     2019/9/17 15:22
  */
-public class MyCollectionsActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "MyCollectionsActivity";
+class MyCollectionsActivity : AppCompatActivity(), View.OnClickListener {
+    private var mCollectionViewPager: ViewPager? = null
+    private var mAdapter: MyCollectionViewsAdapter? = null
 
-    private ViewPager mCollectionViewPager;
-    private MyCollectionViewsAdapter mAdapter;
+    private var mSongTitle: TextView? = null
+    private var mSingerTitle: TextView? = null
+    private var mAlbumTitle: TextView? = null
 
-    private TextView mSongTitle;
-    private TextView mSingerTitle;
-    private TextView mAlbumTitle;
+    private var mSongLine: View? = null
+    private var mSingerLine: View? = null
+    private var mAlbumLine: View? = null
 
-    private View mSongLine;
-    private View mSingerLine;
-    private View mAlbumLine;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getWindow().setBackgroundDrawable(null)
+        setContentView(R.layout.activity_my_clooections)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(null);
-        setContentView(R.layout.activity_my_clooections);
-
-        init();
+        init()
     }
 
-    public void init() {
-        ActionBar actionBar = getSupportActionBar();
+    fun init() {
+        val actionBar = getSupportActionBar()
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true)
         }
-        setTitle(getString(R.string.my_collection_music_text));
+        setTitle(getString(R.string.my_collection_music_text))
 
-        mSongTitle = findViewById(R.id.my_collection_title_song);
-        mSingerTitle = findViewById(R.id.my_collection_title_singer);
-        mAlbumTitle = findViewById(R.id.my_collection_title_album);
+        mSongTitle = findViewById<TextView>(R.id.my_collection_title_song)
+        mSingerTitle = findViewById<TextView>(R.id.my_collection_title_singer)
+        mAlbumTitle = findViewById<TextView>(R.id.my_collection_title_album)
 
-        mSongTitle.setOnClickListener(this);
-        mSingerTitle.setOnClickListener(this);
-        mAlbumTitle.setOnClickListener(this);
+        mSongTitle!!.setOnClickListener(this)
+        mSingerTitle!!.setOnClickListener(this)
+        mAlbumTitle!!.setOnClickListener(this)
 
-        mSongLine = findViewById(R.id.my_collection_line_song);
-        mSingerLine = findViewById(R.id.my_collection_line_singer);
-        mAlbumLine = findViewById(R.id.my_collection_line_album);
+        mSongLine = findViewById<View>(R.id.my_collection_line_song)
+        mSingerLine = findViewById<View>(R.id.my_collection_line_singer)
+        mAlbumLine = findViewById<View>(R.id.my_collection_line_album)
 
-        mAdapter = new MyCollectionViewsAdapter(getSupportFragmentManager());
-        mCollectionViewPager = findViewById(R.id.my_collection_viewpager);
-        mCollectionViewPager.setAdapter(mAdapter);
-        mCollectionViewPager.setCurrentItem(0);
-        mCollectionViewPager.setOffscreenPageLimit(1);
+        mAdapter = MyCollectionViewsAdapter(getSupportFragmentManager())
+        mCollectionViewPager = findViewById<ViewPager>(R.id.my_collection_viewpager)
+        mCollectionViewPager!!.setAdapter(mAdapter)
+        mCollectionViewPager!!.setCurrentItem(0)
+        mCollectionViewPager!!.setOffscreenPageLimit(1)
 
-        mCollectionViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        mCollectionViewPager!!.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                changeSelectStats(position);
+            override fun onPageSelected(position: Int) {
+                changeSelectStats(position)
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            override fun onPageScrollStateChanged(state: Int) {
             }
-        });
+        })
 
-        mCollectionViewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View view, float position) {
-                float MIN_SCALE = 0.75f;
-                int pageWidth = view.getWidth();
+        mCollectionViewPager!!.setPageTransformer(true, object : PageTransformer {
+            override fun transformPage(view: View, position: Float) {
+                val MIN_SCALE = 0.75f
+                val pageWidth = view.getWidth()
 
                 if (position < -1) {
-                    view.setAlpha(0);
+                    view.setAlpha(0f)
                 } else if (position <= 0) {
-                    view.setAlpha(1);
-                    view.setTranslationX(0);
-                    view.setScaleX(1);
-                    view.setScaleY(1);
+                    view.setAlpha(1f)
+                    view.setTranslationX(0f)
+                    view.setScaleX(1f)
+                    view.setScaleY(1f)
                 } else if (position <= 1) {
-                    view.setAlpha(1 - position);
-                    view.setTranslationX(pageWidth * -position);
-                    float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-                    view.setScaleX(scaleFactor);
-                    view.setScaleY(scaleFactor);
+                    view.setAlpha(1 - position)
+                    view.setTranslationX(pageWidth * -position)
+                    val scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - abs(position))
+                    view.setScaleX(scaleFactor)
+                    view.setScaleY(scaleFactor)
                 } else {
-                    view.setAlpha(0);
+                    view.setAlpha(0f)
                 }
             }
-        });
+        })
     }
 
-    private void changeSelectStats(int position) {
-        switch (position) {
-            case 0:
-                mSongTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                mSingerTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mAlbumTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mSongLine.setBackgroundColor(getColor(R.color.my_collection_line_select_color));
-                mSingerLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mAlbumLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mCollectionViewPager.setCurrentItem(0);
-                break;
-            case 1:
-                mSongTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mSingerTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                mAlbumTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mSongLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mSingerLine.setBackgroundColor(getColor(R.color.my_collection_line_select_color));
-                mAlbumLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mCollectionViewPager.setCurrentItem(1);
-                break;
-            case 2:
-                mSongTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mSingerTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                mAlbumTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                mSongLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mSingerLine.setBackgroundColor(getColor(R.color.my_collection_line_color));
-                mAlbumLine.setBackgroundColor(getColor(R.color.my_collection_line_select_color));
-                mCollectionViewPager.setCurrentItem(2);
-                break;
-            default:
-                break;
+    private fun changeSelectStats(position: Int) {
+        when (position) {
+            0 -> {
+                mSongTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
+                mSingerTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mAlbumTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mSongLine!!.setBackgroundColor(getColor(R.color.my_collection_line_select_color))
+                mSingerLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mAlbumLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mCollectionViewPager!!.setCurrentItem(0)
+            }
+
+            1 -> {
+                mSongTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mSingerTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
+                mAlbumTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mSongLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mSingerLine!!.setBackgroundColor(getColor(R.color.my_collection_line_select_color))
+                mAlbumLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mCollectionViewPager!!.setCurrentItem(1)
+            }
+
+            2 -> {
+                mSongTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mSingerTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+                mAlbumTitle!!.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
+                mSongLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mSingerLine!!.setBackgroundColor(getColor(R.color.my_collection_line_color))
+                mAlbumLine!!.setBackgroundColor(getColor(R.color.my_collection_line_select_color))
+                mCollectionViewPager!!.setCurrentItem(2)
+            }
+
+            else -> {}
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> finish()
+            else -> {}
         }
-        return true;
+        return true
     }
 
-    @Override
-    public void onClick(View v) {
+    override fun onClick(v: View) {
         if (v.getId() == R.id.my_collection_title_song) {
-            changeSelectStats(0);
+            changeSelectStats(0)
         } else if (v.getId() == R.id.my_collection_title_singer) {
-            changeSelectStats(1);
+            changeSelectStats(1)
         } else if (v.getId() == R.id.my_collection_title_album) {
-            changeSelectStats(2);
+            changeSelectStats(2)
         }
+    }
+
+    companion object {
+        private const val TAG = "MyCollectionsActivity"
     }
 }

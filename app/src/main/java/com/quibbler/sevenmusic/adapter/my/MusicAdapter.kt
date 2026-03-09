@@ -1,17 +1,14 @@
-package com.quibbler.sevenmusic.adapter.my;
+package com.quibbler.sevenmusic.adapter.my
 
-import android.content.Context;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.service.MusicPlayerService;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
+import android.content.Context
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.service.MusicPlayerService
+import java.lang.ref.WeakReference
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.my
@@ -20,65 +17,71 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/11/15 21:37
  */
-public abstract class MusicAdapter extends ArrayAdapter<MusicInfo> {
-    private static final String TAG = "MusicAdapter";
+abstract class MusicAdapter internal constructor(
+    context: Context,
+    resource: Int,
+    objects: MutableList<MusicInfo?>
+) : ArrayAdapter<MusicInfo?>(context, resource, objects) {
+    var mList: MutableList<MusicInfo?>
+    var mContext: Context?
+    var mButtonWeakReference: WeakReference<ImageView?>? = null
 
-    List<MusicInfo> mList;
-    Context mContext;
-    WeakReference<ImageView> mButtonWeakReference = null;
-
-    MusicAdapter(Context context, int resource, List<MusicInfo> objects) {
-        super(context, resource, objects);
-        mList = objects;
-        this.mContext = context;
+    init {
+        mList = objects
+        this.mContext = context
     }
 
-    public void update(List<MusicInfo> list) {
-        mList.clear();
-        mList.addAll(list);
-        notifyDataSetChanged();
+    fun update(list: MutableList<MusicInfo?>) {
+        mList.clear()
+        mList.addAll(list)
+        notifyDataSetChanged()
     }
 
-    public void setOnClickListener(View view, ImageView playButton, MusicInfo musicInfo) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (MusicPlayerService.isPlaying) {
-                    if (musicInfo.getId().equals(MusicPlayerService.sMusicID)) {
-                        MusicPlayerService.pauseMusic();
-                        playButton.setImageResource(R.drawable.my_music_play_icon);
+    fun setOnClickListener(view: View, playButton: ImageView, musicInfo: MusicInfo) {
+        view.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (MusicPlayerService.Companion.isPlaying) {
+                    if (musicInfo.getId() == MusicPlayerService.Companion.sMusicID) {
+                        MusicPlayerService.Companion.pauseMusic()
+                        playButton.setImageResource(R.drawable.my_music_play_icon)
                     } else {
-                        MusicPlayerService.playMusic(musicInfo);
+                        MusicPlayerService.Companion.playMusic(musicInfo)
                         if (mButtonWeakReference != null) {
-                            mButtonWeakReference.get().setImageResource(R.drawable.my_music_play_icon);
+                            mButtonWeakReference!!.get()!!
+                                .setImageResource(R.drawable.my_music_play_icon)
                         }
-                        playButton.setImageResource(R.drawable.my_music_pause_icon);
-                        mButtonWeakReference = new WeakReference<>(playButton);
+                        playButton.setImageResource(R.drawable.my_music_pause_icon)
+                        mButtonWeakReference = WeakReference<ImageView?>(playButton)
                     }
                 } else {
-                    if (musicInfo.getId().equals(MusicPlayerService.sMusicID)) {
-                        MusicPlayerService.playMusic(musicInfo);
-                        playButton.setImageResource(R.drawable.my_music_pause_icon);
-                    } else if (MusicPlayerService.sMusicID == null) {
-                        MusicPlayerService.playMusic(musicInfo);
-                        playButton.setImageResource(R.drawable.my_music_pause_icon);
-                        mButtonWeakReference = new WeakReference<>(playButton);
+                    if (musicInfo.getId() == MusicPlayerService.Companion.sMusicID) {
+                        MusicPlayerService.Companion.playMusic(musicInfo)
+                        playButton.setImageResource(R.drawable.my_music_pause_icon)
+                    } else if (MusicPlayerService.Companion.sMusicID == null) {
+                        MusicPlayerService.Companion.playMusic(musicInfo)
+                        playButton.setImageResource(R.drawable.my_music_pause_icon)
+                        mButtonWeakReference = WeakReference<ImageView?>(playButton)
                     } else {
-                        MusicPlayerService.playMusic(musicInfo);
+                        MusicPlayerService.Companion.playMusic(musicInfo)
                         if (mButtonWeakReference != null) {
-                            mButtonWeakReference.get().setImageResource(R.drawable.my_music_play_icon);
+                            mButtonWeakReference!!.get()!!
+                                .setImageResource(R.drawable.my_music_play_icon)
                         }
-                        playButton.setImageResource(R.drawable.my_music_pause_icon);
-                        mButtonWeakReference = new WeakReference<>(playButton);
+                        playButton.setImageResource(R.drawable.my_music_pause_icon)
+                        mButtonWeakReference = WeakReference<ImageView?>(playButton)
                     }
                 }
             }
-        });
+        })
     }
 
-    protected static class ViewHolder {
-        ImageView icon;
-        ImageView playButton;
-        TextView songName;
+    protected open class ViewHolder {
+        var icon: ImageView? = null
+        var playButton: ImageView? = null
+        var songName: TextView? = null
+    }
+
+    companion object {
+        private const val TAG = "MusicAdapter"
     }
 }

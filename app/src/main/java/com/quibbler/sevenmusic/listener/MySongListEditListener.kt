@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
 
 /**
  * Package:        com.quibbler.sevenmusic.listener
@@ -7,6 +7,6 @@ package com.quibbler.sevenmusic.listener;
  * Author:         zhaopeng
  * CreateDate:     2019/9/21 14:44
  */
-public interface MySongListEditListener {
-    public void showView(boolean show);
+interface MySongListEditListener {
+    fun showView(show: Boolean)
 }

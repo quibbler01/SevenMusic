@@ -1,8 +1,6 @@
-package com.quibbler.sevenmusic.bean.search;
+package com.quibbler.sevenmusic.bean.search
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName
 
 /**
  * Package:        com.quibbler.sevenmusic.bean.search
@@ -11,94 +9,30 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/28 20:19
  */
-public class HotSearchBean {
+class HotSearchBean {
     @SerializedName("code")
-    private String code;
+    var code: String? = null
 
     @SerializedName("data")
-    private List<Data> data;
+    var data: MutableList<Data?>? = null
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public List<Data> getData() {
-        return data;
-    }
-
-    public void setData(List<Data> data) {
-        this.data = data;
-    }
-
-    public class Data {
+    inner class Data {
         @SerializedName("searchWord")
-        private String searchWord;
+        var searchWord: String? = null
 
         @SerializedName("score")
-        private String score;
+        var score: String? = null
 
         @SerializedName("content")
-        private String content;
+        var content: String? = null
 
         @SerializedName("source")
-        private String source;
+        var source: String? = null
 
         @SerializedName("iconType")
-        private String iconType;
+        var iconType: String? = null
 
         @SerializedName("iconUrl")
-        private String iconUrl = null;
-
-        public String getSearchWord() {
-            return searchWord;
-        }
-
-        public void setSearchWord(String searchWord) {
-            this.searchWord = searchWord;
-        }
-
-        public String getScore() {
-            return score;
-        }
-
-        public void setScore(String score) {
-            this.score = score;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getSource() {
-            return source;
-        }
-
-        public void setSource(String source) {
-            this.source = source;
-        }
-
-        public String getIconType() {
-            return iconType;
-        }
-
-        public void setIconType(String iconType) {
-            this.iconType = iconType;
-        }
-
-        public String getIconUrl() {
-            return iconUrl;
-        }
-
-        public void setIconUrl(String iconUrl) {
-            this.iconUrl = iconUrl;
-        }
+        var iconUrl: String? = null
     }
 }

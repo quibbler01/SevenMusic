@@ -1,8 +1,8 @@
-package com.quibbler.sevenmusic.view;
+package com.quibbler.sevenmusic.view
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.ListView;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.ListView
 
 /**
  * Package:        com.quibbler.sevenmusic.view.found
@@ -11,22 +11,21 @@ import android.widget.ListView;
  * Author:         zhaopeng
  * CreateDate:     2019/9/20 16:26
  */
-public class MyListView extends ListView {
+class MyListView : ListView {
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
-    public MyListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
-    public MyListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+    constructor(context: Context?) : super(context)
 
-    public MyListView(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST));
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(
+            widthMeasureSpec,
+            MeasureSpec.makeMeasureSpec(Int.Companion.MAX_VALUE shr 2, MeasureSpec.AT_MOST)
+        )
     }
 }

@@ -1,46 +1,43 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.text.TextUtils;
+import android.text.TextUtils
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+object MD5Util {
+    private val HEX_DIGITS: CharArray? = charArrayOf(
+        '0', '1', '2', '3', '4', '5',
+        '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    )
 
-public final class MD5Util {
-
-    private static final char HEX_DIGITS[] = { '0', '1', '2', '3', '4', '5',
-            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
-    public static String encodeStr2MD5(String s) {
+    fun encodeStr2MD5(s: String): String? {
         if (TextUtils.isEmpty(s)) {
-            return null;
+            return null
         }
 
         try {
             // 使用MD5创建MessageDigest对象
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            val digest = MessageDigest.getInstance("MD5")
 
-            digest.update(s.getBytes());
+            digest.update(s.toByteArray())
 
-            byte messageDigest[] = digest.digest();
+            val messageDigest = digest.digest()
 
-            return toHexString(messageDigest);
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return MD5Util.toHexString(messageDigest)
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
         }
-        return s;
+        return s
     }
 
-    private static String toHexString(byte[] b) {
+    private fun toHexString(b: ByteArray): String {
+        val sb = StringBuilder(b.size * 2)
 
-        StringBuilder sb = new StringBuilder(b.length * 2);
-
-        for (int i = 0; i < b.length; i++) {
-
-            sb.append(HEX_DIGITS[(b[i] & 0xf0) >>> 4]);
-            sb.append(HEX_DIGITS[b[i] & 0x0f]);
+        for (i in b.indices) {
+            sb.append(HEX_DIGITS!![(b[i].toInt() and 0xf0) ushr 4])
+            sb.append(HEX_DIGITS[b[i].toInt() and 0x0f])
         }
 
-        return sb.toString();
+        return sb.toString()
     }
 }

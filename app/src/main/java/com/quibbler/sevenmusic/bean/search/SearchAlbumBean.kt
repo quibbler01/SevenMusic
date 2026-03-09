@@ -1,105 +1,23 @@
-package com.quibbler.sevenmusic.bean.search;
+package com.quibbler.sevenmusic.bean.search
 
-import java.util.List;
+class SearchAlbumBean {
+    var code: String? = null
+    var result: Result? = null
 
-public class SearchAlbumBean {
-    private String code;
-    private Result result;
-
-    public String getCode() {
-        return code;
+    inner class Result {
+        var albumCount: String? = null
+        var albums: MutableList<Album?>? = null
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    inner class Album : SearchBean() {
+        var name: String? = null
+        var id: String? = null
+        var blurPicUrl: String? = null
+        var artist: Artist? = null
     }
 
-    public Result getResult() {
-        return result;
-    }
-
-    public void setResult(Result result) {
-        this.result = result;
-    }
-
-    public class Result {
-        private String albumCount;
-        private List<Album> albums;
-
-        public String getAlbumCount() {
-            return albumCount;
-        }
-
-        public void setAlbumCount(String albumCount) {
-            this.albumCount = albumCount;
-        }
-
-        public List<Album> getAlbums() {
-            return albums;
-        }
-
-        public void setAlbums(List<Album> albums) {
-            this.albums = albums;
-        }
-    }
-
-    public class Album extends SearchBean {
-        private String name;
-        private String id;
-        private String blurPicUrl;
-        private Artist artist;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getBlurPicUrl() {
-            return blurPicUrl;
-        }
-
-        public void setBlurPicUrl(String blurPicUrl) {
-            this.blurPicUrl = blurPicUrl;
-        }
-
-        public Artist getArtist() {
-            return artist;
-        }
-
-        public void setArtist(Artist artist) {
-            this.artist = artist;
-        }
-    }
-
-    public class Artist {
-        private String id;
-        private String name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+    inner class Artist {
+        var id: String? = null
+        var name: String? = null
     }
 }

@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
 
 /**
  * Package:        com.quibbler.sevenmusic.listener
@@ -7,5 +7,4 @@ package com.quibbler.sevenmusic.listener;
  * Author:         zhaopeng
  * CreateDate:     2019/9/27 18:52
  */
-public interface BroadcastListener {
-}
+interface BroadcastListener 

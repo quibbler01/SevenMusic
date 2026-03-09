@@ -1,60 +1,46 @@
-package com.quibbler.sevenmusic.view;
+package com.quibbler.sevenmusic.view
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ScrollView;
-
-import com.quibbler.sevenmusic.listener.IScrollViewListener;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.widget.ScrollView
+import com.quibbler.sevenmusic.listener.IScrollViewListener
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.view
-  * ClassName:      IScrollView
-  * Description:    继承ScrollView,重写监听滑动到底部事件
-  * Author:         lishijun
-  * CreateDate:     2019/10/7 10:32
+ * 
+ * Package:        com.quibbler.sevenmusic.view
+ * ClassName:      IScrollView
+ * Description:    继承ScrollView,重写监听滑动到底部事件
+ * Author:         lishijun
+ * CreateDate:     2019/10/7 10:32
  */
-public class IScrollView extends ScrollView {
+class IScrollView(context: Context?, attrs: AttributeSet?) : ScrollView(context, attrs) {
+    private var mIndex = 0
 
-    private int mIndex = 0;
+    private var mIScrollViewListener: IScrollViewListener? = null
 
-    private IScrollViewListener mIScrollViewListener;
-
-    public IScrollView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    fun setIScrollViewListener(IScrollViewListener: IScrollViewListener) {
+        mIScrollViewListener = IScrollViewListener
     }
 
-    public void setIScrollViewListener(IScrollViewListener IScrollViewListener) {
-        mIScrollViewListener = IScrollViewListener;
+    override fun performClick(): Boolean {
+        return super.performClick()
     }
 
-    @Override
-    public boolean performClick() {
-        return super.performClick();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN :
-                performClick();
-                break;
-            case MotionEvent.ACTION_MOVE :
-                mIndex++;
-                break;
-            default :
-                break;
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.getAction()) {
+            MotionEvent.ACTION_DOWN -> performClick()
+            MotionEvent.ACTION_MOVE -> mIndex++
+            else -> {}
         }
-        if (ev.getAction() == MotionEvent.ACTION_UP &&  mIndex > 0) {
-            mIndex = 0;
-            View view = getChildAt(0);
+        if (ev.getAction() == MotionEvent.ACTION_UP && mIndex > 0) {
+            mIndex = 0
+            val view = getChildAt(0)
             if (view.getMeasuredHeight() <= getScrollY() + getHeight()) {
                 //回调
-                mIScrollViewListener.onScrollToBottom();
+                mIScrollViewListener!!.onScrollToBottom()
             }
         }
-        return super.onTouchEvent(ev);
+        return super.onTouchEvent(ev)
     }
 }

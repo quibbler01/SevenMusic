@@ -1,66 +1,58 @@
-package com.quibbler.sevenmusic.fragment.mv;
+package com.quibbler.sevenmusic.fragment.mv
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
-
-import androidx.fragment.app.Fragment;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.mv.ActivityStart;
-import com.quibbler.sevenmusic.bean.mv.Artist;
-import com.quibbler.sevenmusic.bean.mv.MvInfo;
-import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager;
-import com.quibbler.sevenmusic.callback.MusicCallBack;
-import com.quibbler.sevenmusic.callback.MvCollectCallback;
-import com.quibbler.sevenmusic.presenter.MvPresenter;
-import com.quibbler.sevenmusic.service.MvDownloadService;
-import com.quibbler.sevenmusic.utils.HttpUtil;
-import com.quibbler.sevenmusic.utils.PageEffectUtil;
-import com.quibbler.sevenmusic.utils.TextureVideoViewOutlineProvider;
-import com.quibbler.sevenmusic.view.mv.IMediaController;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-import static android.content.Context.BIND_AUTO_CREATE;
+import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnPreparedListener
+import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.ScrollView
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.VideoView
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.quibbler.sevenmusic.MusicApplication
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.mv.ActivityStart
+import com.quibbler.sevenmusic.bean.mv.Artist
+import com.quibbler.sevenmusic.bean.mv.MvInfo
+import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager
+import com.quibbler.sevenmusic.callback.MusicCallBack
+import com.quibbler.sevenmusic.callback.MvCollectCallback
+import com.quibbler.sevenmusic.presenter.MvPresenter
+import com.quibbler.sevenmusic.service.MvDownloadService
+import com.quibbler.sevenmusic.service.MvDownloadService.DownLoadBinder
+import com.quibbler.sevenmusic.utils.HttpUtil
+import com.quibbler.sevenmusic.utils.PageEffectUtil
+import com.quibbler.sevenmusic.utils.TextureVideoViewOutlineProvider
+import com.quibbler.sevenmusic.view.mv.IMediaController
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 
 /**
  * Package:        com.quibbler.sevenmusic.fragment.mv
@@ -69,429 +61,450 @@ import static android.content.Context.BIND_AUTO_CREATE;
  * Author:         lishijun
  * CreateDate:     2019/9/24 17:22
  */
-public class ChildMvFragment extends Fragment {
+class ChildMvFragment : Fragment() {
+    private val mVideoInfoList: MutableList<MvInfo> = ArrayList<MvInfo>()
 
-    private static final String TAG = "ChildMvFragment";
+    private var mView: View? = null
 
-    private static final String SERVER = "http://114.116.128.229:3000";
+    private val mVideoViewList: MutableList<VideoView> = ArrayList<VideoView>()
 
-    private static final String MV_ARTIST = "/artist/mv?id=6452";
+    private val mMediaControllerList: MutableList<IMediaController> = ArrayList<IMediaController>()
 
-    private static final String MV_RECOMMEND = "/personalized/mv";
-
-    private static final String MV_DETAIL_URL = "/mv/detail?mvid=";
-
-    private List<MvInfo> mVideoInfoList = new ArrayList<>();
-
-    private View mView;
-
-    private List<VideoView> mVideoViewList = new ArrayList<>();
-
-    private List<IMediaController> mMediaControllerList = new ArrayList<>();
-
-    private List<Integer> mVideoProgressList = new ArrayList<>();
+    private val mVideoProgressList: MutableList<Int?> = ArrayList<Int?>()
 
     //弹出的下载收藏等popview
-    private PopupWindow mDownloadPopWindow;
+    private var mDownloadPopWindow: PopupWindow? = null
 
-    private MvDownloadService.DownLoadBinder mDownLoadBinder;
+    private var mDownLoadBinder: DownLoadBinder? = null
 
-    ScrollView mScrollView;
-    private IMediaController mediaController;
+    var mScrollView: ScrollView? = null
+    private var mediaController: IMediaController? = null
 
 
-    private ServiceConnection mDownloadConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mDownLoadBinder = (MvDownloadService.DownLoadBinder) service;
+    private val mDownloadConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mDownLoadBinder = service as DownLoadBinder?
         }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
+        override fun onServiceDisconnected(name: ComponentName?) {
         }
-    };
+    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // 加载fragment_friend布局文件
         //LinearLayout layout = R.layout.fragment_child_mv;
-        mView = inflater.inflate(R.layout.fragment_child_mv, null);
-        mScrollView = mView.findViewById(R.id.mv_sv_mvs);
-        mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        mView = inflater.inflate(R.layout.fragment_child_mv, null)
+        mScrollView = mView!!.findViewById<ScrollView>(R.id.mv_sv_mvs)
+        mScrollView!!.setOnScrollChangeListener(object : View.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: View?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
                 //滑动时隐藏播放条
-                hideAllMediaController();
+                hideAllMediaController()
             }
-        });
-        PageEffectUtil.setScrollViewSpringback(mScrollView);
-        getMvInfoListFromRecommend();
-        Intent intent = new Intent(MusicApplication.getContext(), MvDownloadService.class);
-        MusicApplication.getContext().startService(intent);
-        MusicApplication.getContext().bindService(intent, mDownloadConnection, BIND_AUTO_CREATE);
-        return mView;
+        })
+        PageEffectUtil.setScrollViewSpringback(mScrollView)
+        this.mvInfoListFromRecommend
+        val intent = Intent(MusicApplication.Companion.getContext(), MvDownloadService::class.java)
+        MusicApplication.Companion.getContext().startService(intent)
+        MusicApplication.Companion.getContext()
+            .bindService(intent, mDownloadConnection, Context.BIND_AUTO_CREATE)
+        return mView!!
     }
 
-    public void hideAllMediaController() {
-        for (MediaController mediaController : mMediaControllerList) {
-            mediaController.hide();
+    fun hideAllMediaController() {
+        for (mediaController in mMediaControllerList) {
+            mediaController.hide()
         }
     }
 
-    private void getMvInfoListFromRecommend() {
-        HttpUtil.sendOkHttpRequest(SERVER + MV_RECOMMEND, new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.body() == null) {
-                    return;
-                }
-                try {
-                    JSONArray jsonArray = new JSONObject(response.body().string()).getJSONArray("result");
-                    Log.d(TAG, "json length is : " + jsonArray.length());
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject mvObject = jsonArray.getJSONObject(i);
-                        int mvId = mvObject.getInt("id");
-                        String name = mvObject.getString("name");
-                        String copyWriter = mvObject.getString("copywriter");
-                        String pictureUrl = mvObject.getString("picUrl");
-                        int playCount = mvObject.getInt("playCount");
-                        JSONArray artistArray = mvObject.getJSONArray("artists");
-                        List<Artist> artistList = new ArrayList<>();
-                        for (int j = 0; j < artistArray.length(); j++) {
-                            int artistId = artistArray.getJSONObject(j).getInt("id");
-                            String artistName = artistArray.getJSONObject(j).getString("name");
-                            artistList.add(new Artist(artistId, artistName));
+    private val mvInfoListFromRecommend: Unit
+        get() {
+            HttpUtil.sendOkHttpRequest(
+                SERVER + MV_RECOMMEND,
+                object : Callback {
+                    override fun onResponse(call: Call?, response: Response) {
+                        if (response.body == null) {
+                            return
                         }
-                        MvInfo mvInfo = new MvInfo(mvId, name, artistList, playCount, copyWriter, pictureUrl);
-                        mVideoInfoList.add(mvInfo);
-                        Log.d(TAG, "json" + i);
-                    }
-                    //在主线程更新
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                showMvPicture();
+                        try {
+                            val jsonArray =
+                                JSONObject(response.body!!.string()).getJSONArray("result")
+                            Log.d(
+                                TAG,
+                                "json length is : " + jsonArray.length()
+                            )
+                            for (i in 0..<jsonArray.length()) {
+                                val mvObject = jsonArray.getJSONObject(i)
+                                val mvId = mvObject.getInt("id")
+                                val name = mvObject.getString("name")
+                                val copyWriter = mvObject.getString("copywriter")
+                                val pictureUrl = mvObject.getString("picUrl")
+                                val playCount = mvObject.getInt("playCount")
+                                val artistArray = mvObject.getJSONArray("artists")
+                                val artistList: MutableList<Artist?> =
+                                    ArrayList<Artist?>()
+                                for (j in 0..<artistArray.length()) {
+                                    val artistId = artistArray.getJSONObject(j).getInt("id")
+                                    val artistName =
+                                        artistArray.getJSONObject(j).getString("name")
+                                    artistList.add(
+                                        Artist(
+                                            artistId,
+                                            artistName
+                                        )
+                                    )
+                                }
+                                val mvInfo = MvInfo(
+                                    mvId,
+                                    name,
+                                    artistList,
+                                    playCount,
+                                    copyWriter,
+                                    pictureUrl
+                                )
+                                mVideoInfoList.add(mvInfo)
+                                Log.d(TAG, "json" + i)
                             }
-                        });
+                            //在主线程更新
+                            if (getActivity() != null) {
+                                getActivity()!!.runOnUiThread(object : Runnable {
+                                    override fun run() {
+                                        showMvPicture()
+                                    }
+                                })
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "exception is" + e)
+                            e.printStackTrace()
+                        }
                     }
-                } catch (Exception e) {
-                    Log.e(TAG, "exception is" + e);
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("mvList", "获取失败");
-            }
-        });
-    }
+                    override fun onFailure(call: Call?, e: IOException?) {
+                        Log.d("mvList", "获取失败")
+                    }
+                })
+        }
 
-    private void showMvPicture() {
-        for (MvInfo mvInfo : mVideoInfoList) {
-            showMvPicture(mvInfo);
+    private fun showMvPicture() {
+        for (mvInfo in mVideoInfoList) {
+            showMvPicture(mvInfo)
         }
     }
 
     //显示第i个mv的缩略图
-    private void showMvPicture(MvInfo mvInfo) {
-        Log.d(TAG, "mv");
+    private fun showMvPicture(mvInfo: MvInfo?) {
+        Log.d(TAG, "mv")
         if (mvInfo == null) {
-            return;
+            return
         }
-        LinearLayout mvView = mView.findViewById(R.id.mv_sv);
-        View view = LayoutInflater.from(MusicApplication.getContext()).inflate(R.layout.mv_item,
-                mvView, false);
-        VideoView videoView = view.findViewById(R.id.mv_video);
-        TextView videoNameView = view.findViewById(R.id.mv_tv_name);
-        TextView videoArtistView = view.findViewById(R.id.mv_tv_artist);
-        ImageView artistHeadView = view.findViewById(R.id.mv_iv_artist_head);
-        mVideoViewList.add(videoView);
-        MvPresenter.getMvInfo(mvInfo, new MusicCallBack() {
-            @Override
-            public void onMusicInfoCompleted() {
-                Activity activity = getActivity();
+        val mvView = mView!!.findViewById<LinearLayout>(R.id.mv_sv)
+        val view = LayoutInflater.from(MusicApplication.Companion.getContext()).inflate(
+            R.layout.mv_item,
+            mvView, false
+        )
+        val videoView = view.findViewById<VideoView>(R.id.mv_video)
+        val videoNameView = view.findViewById<TextView>(R.id.mv_tv_name)
+        val videoArtistView = view.findViewById<TextView>(R.id.mv_tv_artist)
+        val artistHeadView = view.findViewById<ImageView>(R.id.mv_iv_artist_head)
+        mVideoViewList.add(videoView)
+        MvPresenter.getMvInfo(mvInfo, object : MusicCallBack {
+            override fun onMusicInfoCompleted() {
+                val activity: Activity? = getActivity()
                 if (activity != null) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            videoView.setVideoPath(mvInfo.getUrl());
-                            mScrollView.scrollTo(0, 0);
+                    activity.runOnUiThread(object : Runnable {
+                        override fun run() {
+                            videoView.setVideoPath(mvInfo.getUrl())
+                            mScrollView!!.scrollTo(0, 0)
                         }
-                    });
+                    })
                 }
             }
-        });
-        videoNameView.setText(mvInfo.getName());
-        StringBuffer artistString = new StringBuffer();
-        List<Artist> mvArtistList = mvInfo.getArtists();
+        })
+        videoNameView.setText(mvInfo.getName())
+        val artistString = StringBuffer()
+        val mvArtistList = mvInfo.getArtists()
         if (mvArtistList != null) {
-            for (int i = 0; i < mvArtistList.size(); i++) {
-                if (i == mvArtistList.size() - 1) {
-                    artistString.append(mvArtistList.get(i).getName());
+            for (i in mvArtistList.indices) {
+                if (i == mvArtistList.size - 1) {
+                    artistString.append(mvArtistList.get(i)!!.getName())
                 } else {
-                    artistString.append(mvArtistList.get(i).getName() + "/");
+                    artistString.append(mvArtistList.get(i)!!.getName() + "/")
                 }
             }
-            videoArtistView.setText(artistString);
+            videoArtistView.setText(artistString)
         }
-        mvView.addView(view);
+        mvView.addView(view)
 
         if (getActivity() != null) { // 增加判空处理，防止夜间模式切换导致空指针异常
-            mediaController = new IMediaController(getActivity());
+            mediaController = IMediaController(getActivity())
         } else {
-            return;
+            return
         }
-        videoView.setMediaController(mediaController);
-        mMediaControllerList.add(mediaController);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                    @Override
-                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        videoView.setMediaController(mediaController)
+        mMediaControllerList.add(mediaController!!)
+        videoView.setOnPreparedListener(object : OnPreparedListener {
+            override fun onPrepared(mp: MediaPlayer) {
+                mp.setOnInfoListener(object : MediaPlayer.OnInfoListener {
+                    override fun onInfo(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
                         if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
                             // 暂停其他的video
-                            for (int i = 0; i < mVideoViewList.size(); i++) {
-                                if (mVideoViewList.get(i) != videoView && videoView.isPlaying()) {
-                                    mVideoViewList.get(i).pause();
-                                    mMediaControllerList.get(i).hide();
+                            for (i in mVideoViewList.indices) {
+                                if (mVideoViewList.get(i) !== videoView && videoView.isPlaying()) {
+                                    mVideoViewList.get(i).pause()
+                                    mMediaControllerList.get(i).hide()
                                 }
                             }
-                            videoView.setBackgroundColor(Color.TRANSPARENT);
+                            videoView.setBackgroundColor(Color.TRANSPARENT)
                         }
-                        return true;
+                        return true
                     }
-                });
+                })
             }
-        });
+        })
 
-        videoNameView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        videoNameView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
                 //跳转进入播放activity
                 if (getActivity() != null) {
-                    ActivityStart.startMvPlayActivity(getActivity(), mvInfo);
+                    ActivityStart.startMvPlayActivity(getActivity(), mvInfo)
                 }
             }
-        });
+        })
         //注册MV的收藏、下载等
-        dealMV(mvInfo, view);
+        dealMV(mvInfo, view)
         //设置圆角
-        videoView.setOutlineProvider(new TextureVideoViewOutlineProvider(20));
-        videoView.setClipToOutline(true);
+        videoView.setOutlineProvider(TextureVideoViewOutlineProvider(20f))
+        videoView.setClipToOutline(true)
         //设置图片圆角角度
-        RoundedCorners roundedCorners = new RoundedCorners(20);
+        val roundedCorners = RoundedCorners(20)
         //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners);
+        val options = RequestOptions.bitmapTransform(roundedCorners)
         //先用glide加载
         Glide.with(this)
-                .load(mvInfo.getPictureUrl())
-                .apply(options)
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        videoView.setBackground(resource);
-                    }
-                });
+            .load(mvInfo.getPictureUrl())
+            .apply(options)
+            .into(object : SimpleTarget<Drawable?>() {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    transition: Transition<in Drawable?>?
+                ) {
+                    videoView.setBackground(resource)
+                }
+            })
         //先用glide加载
         Glide.with(this)
-                .load(mvInfo.getPictureUrl())
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                .into(artistHeadView);
+            .load(mvInfo.getPictureUrl())
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(artistHeadView)
     }
 
     //注册MV的收藏、下载等
-    private void dealMV(MvInfo mvInfo, View view) {
+    private fun dealMV(mvInfo: MvInfo, view: View) {
         //mv的下载或收藏监听
-        ImageButton downloadButton = view.findViewById(R.id.mv_ib_download);
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View popView;
+        val downloadButton = view.findViewById<ImageButton>(R.id.mv_ib_download)
+        downloadButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                val popView: View
                 if (mDownloadPopWindow != null) {
-                    popView = mDownloadPopWindow.getContentView();
-                    mDownloadPopWindow.setFocusable(true);
-                    if (mDownloadPopWindow.isShowing()) {
-                        mDownloadPopWindow.dismiss();
+                    popView = mDownloadPopWindow!!.getContentView()
+                    mDownloadPopWindow!!.setFocusable(true)
+                    if (mDownloadPopWindow!!.isShowing()) {
+                        mDownloadPopWindow!!.dismiss()
                     } else {
-                        mDownloadPopWindow.showAtLocation(mView, Gravity.BOTTOM | Gravity.CENTER, 0, 0);
-                        darkenBackground(0.5f);
+                        mDownloadPopWindow!!.showAtLocation(
+                            mView,
+                            Gravity.BOTTOM or Gravity.CENTER,
+                            0,
+                            0
+                        )
+                        darkenBackground(0.5f)
                     }
                 } else {
-                    popView = getLayoutInflater().inflate(R.layout.mv_download_menu, null);
-                    mDownloadPopWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT,
-                            600, false);
-                    mDownloadPopWindow.setOutsideTouchable(true); // 点击外部关闭
-                    mDownloadPopWindow.setFocusable(true);
-                    mDownloadPopWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-                    mDownloadPopWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    mDownloadPopWindow.showAtLocation(mView, Gravity.BOTTOM | Gravity.CENTER, 0, 0);
-                    darkenBackground(0.5f);
-                    mDownloadPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            darkenBackground(1.0f);
+                    popView = getLayoutInflater().inflate(R.layout.mv_download_menu, null)
+                    mDownloadPopWindow = PopupWindow(
+                        popView, ViewGroup.LayoutParams.MATCH_PARENT,
+                        600, false
+                    )
+                    mDownloadPopWindow!!.setOutsideTouchable(true) // 点击外部关闭
+                    mDownloadPopWindow!!.setFocusable(true)
+                    mDownloadPopWindow!!.setAnimationStyle(android.R.style.Animation_Dialog)
+                    mDownloadPopWindow!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    mDownloadPopWindow!!.showAtLocation(
+                        mView,
+                        Gravity.BOTTOM or Gravity.CENTER,
+                        0,
+                        0
+                    )
+                    darkenBackground(0.5f)
+                    mDownloadPopWindow!!.setOnDismissListener(object :
+                        PopupWindow.OnDismissListener {
+                        override fun onDismiss() {
+                            darkenBackground(1.0f)
                         }
-                    });
+                    })
                 }
                 //具体操作监听
-                ImageView storeView = popView.findViewById(R.id.mv_iv_store);
-                ImageView downloadView = popView.findViewById(R.id.mv_iv_download);
-                TextView storeTipText = popView.findViewById(R.id.mv_tv_store_tip);
-                setMvCollectButton(storeView, storeTipText, mvInfo);
-                storeView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDownloadPopWindow.dismiss();
-                        collectMv(storeView, storeTipText, mvInfo);
-                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_DATABASE_UPDATE);
+                val storeView = popView.findViewById<ImageView>(R.id.mv_iv_store)
+                val downloadView = popView.findViewById<ImageView>(R.id.mv_iv_download)
+                val storeTipText = popView.findViewById<TextView>(R.id.mv_tv_store_tip)
+                setMvCollectButton(storeView, storeTipText, mvInfo)
+                storeView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        mDownloadPopWindow!!.dismiss()
+                        collectMv(storeView, storeTipText, mvInfo)
+                        MusicBroadcastManager.sendBroadcast(MusicBroadcastManager.MUSIC_GLOBAL_DATABASE_UPDATE)
                     }
-                });
-                downloadView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDownloadPopWindow.dismiss();
-                        downloadMv(mvInfo);
+                })
+                downloadView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        mDownloadPopWindow!!.dismiss()
+                        downloadMv(mvInfo)
                     }
-                });
+                })
             }
-        });
+        })
     }
 
-    private void setMvCollectButton(ImageView storeView, TextView storeTipText, MvInfo mvInfo) {
-        MvPresenter.isMvCollected(String.valueOf(mvInfo.getId()), new MvCollectCallback() {
-            @Override
-            public void isCollected() {
-                Activity activity = getActivity();
+    private fun setMvCollectButton(storeView: ImageView, storeTipText: TextView, mvInfo: MvInfo) {
+        MvPresenter.isMvCollected(mvInfo.getId().toString(), object : MvCollectCallback {
+            override fun isCollected() {
+                val activity: Activity? = getActivity()
                 if (activity == null) {
-                    return;
+                    return
                 }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        storeTipText.setText(R.string.mv_discollection);
-                        storeView.setBackgroundResource(R.drawable.mv_discollect_button);
+                activity.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        storeTipText.setText(R.string.mv_discollection)
+                        storeView.setBackgroundResource(R.drawable.mv_discollect_button)
                     }
-                });
+                })
             }
 
-            @Override
-            public void notCollected() {
-                Activity activity = getActivity();
+            override fun notCollected() {
+                val activity: Activity? = getActivity()
                 if (activity == null) {
-                    return;
+                    return
                 }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        storeTipText.setText(R.string.mv_collection);
-                        storeView.setBackgroundResource(R.drawable.mv_collect_button);
+                activity.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        storeTipText.setText(R.string.mv_collection)
+                        storeView.setBackgroundResource(R.drawable.mv_collect_button)
                     }
-                });
+                })
             }
-        });
+        })
     }
 
-    private void collectMv(ImageView storeView, TextView storeTipText, MvInfo mvInfo) {
-        MvPresenter.collectMv(mvInfo, new MvCollectCallback() {
-            @Override
-            public void isCollected() {
-                Activity activity = getActivity();
+    private fun collectMv(storeView: ImageView, storeTipText: TextView, mvInfo: MvInfo?) {
+        MvPresenter.collectMv(mvInfo, object : MvCollectCallback {
+            override fun isCollected() {
+                val activity: Activity? = getActivity()
                 if (activity == null) {
-                    return;
+                    return
                 }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        storeTipText.setText(R.string.mv_discollection);
-                        storeView.setBackgroundResource(R.drawable.mv_discollect_button);
-                        Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
+                activity.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        storeTipText.setText(R.string.mv_discollection)
+                        storeView.setBackgroundResource(R.drawable.mv_discollect_button)
+                        Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show()
                     }
-                });
+                })
             }
 
-            @Override
-            public void notCollected() {
-                Activity activity = getActivity();
+            override fun notCollected() {
+                val activity: Activity? = getActivity()
                 if (activity == null) {
-                    return;
+                    return
                 }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        storeTipText.setText(R.string.mv_collection);
-                        storeView.setBackgroundResource(R.drawable.mv_collect_button);
-                        Toast.makeText(getContext(), "取消收藏！", Toast.LENGTH_SHORT).show();
+                activity.runOnUiThread(object : Runnable {
+                    override fun run() {
+                        storeTipText.setText(R.string.mv_collection)
+                        storeView.setBackgroundResource(R.drawable.mv_collect_button)
+                        Toast.makeText(getContext(), "取消收藏！", Toast.LENGTH_SHORT).show()
                     }
-                });
+                })
             }
-        });
+        })
     }
 
-    private void downloadMv(MvInfo mvInfo) {
+    private fun downloadMv(mvInfo: MvInfo) {
         if (mDownLoadBinder != null) {
-            MvPresenter.getMvInfo(mvInfo, new MusicCallBack() {
-                @Override
-                public void onMusicInfoCompleted() {
-                    mDownLoadBinder.startDownLoad(mvInfo);
+            MvPresenter.getMvInfo(mvInfo, object : MusicCallBack {
+                override fun onMusicInfoCompleted() {
+                    mDownLoadBinder!!.startDownLoad(mvInfo)
                 }
-            });
+            })
         }
     }
 
     //设置屏幕透明度,bgcolor:0-1
-    private void darkenBackground(float bgcolor) {
+    private fun darkenBackground(bgcolor: Float) {
         if (getActivity() != null) {
-            WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-            lp.alpha = bgcolor;
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            getActivity().getWindow().setAttributes(lp);
+            val lp = getActivity()!!.getWindow().getAttributes()
+            lp.alpha = bgcolor
+            getActivity()!!.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            getActivity()!!.getWindow().setAttributes(lp)
         }
     }
 
-    @Override
-    public void onResume() {
+    override fun onResume() {
         //恢复各video的进度
-        for (int i = 0; i < mVideoProgressList.size(); i++) {
-            int progress = mVideoProgressList.get(i);
-            VideoView videoView = mVideoViewList.get(i);
+        for (i in mVideoProgressList.indices) {
+            val progress = mVideoProgressList.get(i)!!
+            val videoView = mVideoViewList.get(i)
             if (progress > 0 && !videoView.isPlaying()) {
-                MvInfo mvInfo = mVideoInfoList.get(i);
+                val mvInfo = mVideoInfoList.get(i)
                 Glide.with(this)
-                        .load(mvInfo.getPictureUrl())
-                        .into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                videoView.setBackground(resource);
-                            }
-                        });
+                    .load(mvInfo.getPictureUrl())
+                    .into(object : SimpleTarget<Drawable?>() {
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            transition: Transition<in Drawable?>?
+                        ) {
+                            videoView.setBackground(resource)
+                        }
+                    })
                 //本次不显示播放条
-                mMediaControllerList.get(i).setToHideOnce(true);
-                videoView.seekTo(mVideoProgressList.get(i));
+                mMediaControllerList.get(i).setToHideOnce(true)
+                videoView.seekTo(mVideoProgressList.get(i)!!)
             }
         }
-        super.onResume();
+        super.onResume()
     }
 
-    @Override
-    public void onPause() {
+    override fun onPause() {
         //保存各video的进度
-        mVideoProgressList.clear();
-        for (int i = 0; i < mVideoViewList.size(); i++) {
-            VideoView videoView = mVideoViewList.get(i);
-            int progress = videoView.getCurrentPosition();
-            mVideoProgressList.add(progress);
+        mVideoProgressList.clear()
+        for (i in mVideoViewList.indices) {
+            val videoView = mVideoViewList.get(i)
+            val progress = videoView.getCurrentPosition()
+            mVideoProgressList.add(progress)
         }
-        super.onPause();
+        super.onPause()
     }
 
-    @Override
-    public void onDestroy() {
-        MusicApplication.getContext().unbindService(mDownloadConnection);
-        super.onDestroy();
+    override fun onDestroy() {
+        MusicApplication.Companion.getContext().unbindService(mDownloadConnection)
+        super.onDestroy()
+    }
+
+    companion object {
+        private const val TAG = "ChildMvFragment"
+
+        private const val SERVER = "http://114.116.128.229:3000"
+
+        private const val MV_ARTIST = "/artist/mv?id=6452"
+
+        private const val MV_RECOMMEND = "/personalized/mv"
+
+        private const val MV_DETAIL_URL = "/mv/detail?mvid="
     }
 }

@@ -1,35 +1,29 @@
-package com.quibbler.sevenmusic.adapter.search;
+package com.quibbler.sevenmusic.adapter.search
 
-import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.found.PlaylistActivity;
-import com.quibbler.sevenmusic.activity.found.SingerActivity;
-import com.quibbler.sevenmusic.activity.mv.ActivityStart;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.mv.MvInfo;
-import com.quibbler.sevenmusic.bean.search.SearchAlbumBean;
-import com.quibbler.sevenmusic.bean.search.SearchArtistsBean;
-import com.quibbler.sevenmusic.bean.search.SearchBean;
-import com.quibbler.sevenmusic.bean.search.SearchMvBean;
-import com.quibbler.sevenmusic.bean.search.SearchPlayListBean;
-import com.quibbler.sevenmusic.bean.search.SearchSongBean;
-import com.quibbler.sevenmusic.service.MusicPlayerService;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.found.PlaylistActivity
+import com.quibbler.sevenmusic.activity.found.SingerActivity
+import com.quibbler.sevenmusic.activity.mv.ActivityStart
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.mv.MvInfo
+import com.quibbler.sevenmusic.bean.search.SearchAlbumBean.Album
+import com.quibbler.sevenmusic.bean.search.SearchArtistsBean
+import com.quibbler.sevenmusic.bean.search.SearchBean
+import com.quibbler.sevenmusic.bean.search.SearchMvBean.Mv
+import com.quibbler.sevenmusic.bean.search.SearchPlayListBean.PlayList
+import com.quibbler.sevenmusic.bean.search.SearchSongBean
+import com.quibbler.sevenmusic.service.MusicPlayerService
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -38,242 +32,269 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/10/8 9:35
  */
-public class SearchResultAdapter extends RecyclerView.Adapter {
-    public static final int TYPE_SONG = 0;
-    public static final int TYPE_ALBUM = 1;
-    public static final int TYPE_SINGER = 2;
-    public static final int TYPE_PLAY_LIST = 3;
-    public static final int TYPE_MV = 4;
+class SearchResultAdapter : RecyclerView.Adapter<Any?> {
+    private var mContext: Context? = null
+    private var mResultList: MutableList<SearchBean?>? = null
+    private val mSearchKind: MutableList<Int?> = ArrayList<Int?>(5)
 
-    private Context mContext;
-    private List<SearchBean> mResultList;
-    private List<Integer> mSearchKind = new ArrayList<>(5);
+    @Deprecated("")
+    constructor()
 
-    @Deprecated
-    public SearchResultAdapter() {
-
+    constructor(context: Context, results: MutableList<SearchBean?>) {
+        this.mContext = context
+        this.mResultList = results
     }
 
-    public SearchResultAdapter(Context context, List<SearchBean> results) {
-        this.mContext = context;
-        this.mResultList = results;
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        var view: View? = null
+        when (viewType) {
+            TYPE_ALBUM -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.search_online_album_item, parent, false)
+                return AlbumViewHolder(view)
+            }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = null;
-        switch (viewType) {
-            case TYPE_ALBUM:
-                view = LayoutInflater.from(mContext).inflate(R.layout.search_online_album_item, parent, false);
-                return new AlbumViewHolder(view);
-            case TYPE_SINGER:
-                view = LayoutInflater.from(mContext).inflate(R.layout.search_online_singer, parent, false);
-                return new SingerViewHolder(view);
-            case TYPE_PLAY_LIST:
-                view = LayoutInflater.from(mContext).inflate(R.layout.search_online_playlist, parent, false);
-                return new PlayListViewHolder(view);
-            case TYPE_MV:
-                view = LayoutInflater.from(mContext).inflate(R.layout.search_online_mv, parent, false);
-                return new MvViewHolder(view);
-            case TYPE_SONG:
-            default:
-                view = LayoutInflater.from(mContext).inflate(R.layout.search_online_song_item, parent, false);
-                return new SongViewHolder(view);
+            TYPE_SINGER -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.search_online_singer, parent, false)
+                return SearchResultAdapter.SingerViewHolder(view)
+            }
+
+            TYPE_PLAY_LIST -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.search_online_playlist, parent, false)
+                return PlayListViewHolder(view)
+            }
+
+            TYPE_MV -> {
+                view =
+                    LayoutInflater.from(mContext).inflate(R.layout.search_online_mv, parent, false)
+                return MvViewHolder(view)
+            }
+
+            TYPE_SONG -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.search_online_song_item, parent, false)
+                return SongViewHolder(view)
+            }
+
+            else -> {
+                view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.search_online_song_item, parent, false)
+                return SongViewHolder(view)
+            }
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case TYPE_ALBUM:
-                AlbumViewHolder albumViewHolder = (AlbumViewHolder) holder;
-                SearchAlbumBean.Album album = (SearchAlbumBean.Album) mResultList.get(position);
-                Glide.with(mContext).load(album.getBlurPicUrl()).placeholder(R.drawable.search_online_albumt).into(albumViewHolder.albumIcon);
-                albumViewHolder.albumName.setText(album.getName());
-                albumViewHolder.ablumDetail.setText(album.getArtist().getName());
-                albumViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, PlaylistActivity.class);
-                        intent.putExtra(mContext.getResources().getString(R.string.playlist_id), album.getId());
-                        mContext.startActivity(intent);
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.getItemViewType()) {
+            TYPE_ALBUM -> {
+                val albumViewHolder: AlbumViewHolder = holder as AlbumViewHolder
+                val album = mResultList!!.get(position) as Album
+                Glide.with(mContext!!).load(album.getBlurPicUrl())
+                    .placeholder(R.drawable.search_online_albumt).into(albumViewHolder.albumIcon)
+                albumViewHolder.albumName.setText(album.getName())
+                albumViewHolder.ablumDetail.setText(album.getArtist().getName())
+                albumViewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val intent = Intent(mContext, PlaylistActivity::class.java)
+                        intent.putExtra(
+                            mContext!!.getResources().getString(R.string.playlist_id),
+                            album.getId()
+                        )
+                        mContext!!.startActivity(intent)
                     }
-                });
-                break;
-            case TYPE_SINGER:
-                SingerViewHolder singerViewHolder = (SingerViewHolder) holder;
-                SearchArtistsBean.Artist artist = (SearchArtistsBean.Artist) mResultList.get(position);
-                Glide.with(mContext).load(artist.getPicUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).placeholder(R.drawable.my_musician_list_item).into(singerViewHolder.singerHead);
-                singerViewHolder.singerName.setText(artist.getName());
-                singerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, SingerActivity.class);
-                        intent.putExtra("id", artist.getId());
-                        mContext.startActivity(intent);
+                })
+            }
+
+            TYPE_SINGER -> {
+                val singerViewHolder = holder as SingerViewHolder
+                val artist = mResultList!!.get(position) as SearchArtistsBean.Artist
+                Glide.with(mContext!!).load(artist.getPicUrl())
+                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    .placeholder(R.drawable.my_musician_list_item).into(singerViewHolder.singerHead)
+                singerViewHolder.singerName.setText(artist.getName())
+                singerViewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val intent = Intent(mContext, SingerActivity::class.java)
+                        intent.putExtra("id", artist.getId())
+                        mContext!!.startActivity(intent)
                     }
-                });
-                break;
-            case TYPE_PLAY_LIST:
-                PlayListViewHolder playListViewHolder = (PlayListViewHolder) holder;
-                SearchPlayListBean.PlayList playList = (SearchPlayListBean.PlayList) mResultList.get(position);
-                Glide.with(mContext).load(playList.getCoverImgUrl()).placeholder(R.drawable.search_online_play_list_item).into(playListViewHolder.playListImageView);
-                playListViewHolder.name.setText(playList.getName());
-                playListViewHolder.detail.setText("累计播放:" + playList.getPlayCount());
-                playListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, PlaylistActivity.class);
-                        intent.putExtra(mContext.getResources().getString(R.string.playlist_id), playList.getId());
-                        mContext.startActivity(intent);
+                })
+            }
+
+            TYPE_PLAY_LIST -> {
+                val playListViewHolder: PlayListViewHolder = holder as PlayListViewHolder
+                val playList = mResultList!!.get(position) as PlayList
+                Glide.with(mContext!!).load(playList.getCoverImgUrl())
+                    .placeholder(R.drawable.search_online_play_list_item)
+                    .into(playListViewHolder.playListImageView)
+                playListViewHolder.name.setText(playList.getName())
+                playListViewHolder.detail.setText("累计播放:" + playList.getPlayCount())
+                playListViewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val intent = Intent(mContext, PlaylistActivity::class.java)
+                        intent.putExtra(
+                            mContext!!.getResources().getString(R.string.playlist_id),
+                            playList.getId()
+                        )
+                        mContext!!.startActivity(intent)
                     }
-                });
-                break;
-            case TYPE_MV:
-                MvViewHolder mvViewHolder = (MvViewHolder) holder;
-                SearchMvBean.Mv mv = (SearchMvBean.Mv) mResultList.get(position);
-                Glide.with(mContext).load(mv.getCover()).placeholder(R.drawable.search_online_mv_icon).into(mvViewHolder.imageView);
-                mvViewHolder.name.setText(mv.getName());
-                mvViewHolder.detail.setText(mv.getArtistName());
-                mvViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MvInfo mvInfo = new MvInfo(Integer.valueOf(mv.getId()), mv.getName(), null, 0, null, mv.getCover());
-                        ActivityStart.startMvPlayActivity(mContext, mvInfo);
+                })
+            }
+
+            TYPE_MV -> {
+                val mvViewHolder: MvViewHolder = holder as MvViewHolder
+                val mv = mResultList!!.get(position) as Mv
+                Glide.with(mContext!!).load(mv.getCover())
+                    .placeholder(R.drawable.search_online_mv_icon).into(mvViewHolder.imageView)
+                mvViewHolder.name.setText(mv.getName())
+                mvViewHolder.detail.setText(mv.getArtistName())
+                mvViewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val mvInfo =
+                            MvInfo(mv.getId().toInt(), mv.getName(), null, 0, null, mv.getCover())
+                        ActivityStart.startMvPlayActivity(mContext, mvInfo)
                     }
-                });
-                break;
-            case TYPE_SONG:
-                SongViewHolder songViewHolder = (SongViewHolder) holder;
-                SearchSongBean.Song song = (SearchSongBean.Song) mResultList.get(position);
-                songViewHolder.songName.setText(song.getName());
-                if (song.getArtists().size() != 0) {
-                    songViewHolder.songSinger.setText(song.getArtists().get(0).getName());
+                })
+            }
+
+            TYPE_SONG -> {
+                val songViewHolder: SongViewHolder = holder as SongViewHolder
+                val song = mResultList!!.get(position) as SearchSongBean.Song
+                songViewHolder.songName.setText(song.getName())
+                if (song.getArtists().size != 0) {
+                    songViewHolder.songSinger.setText(song.getArtists().get(0).getName())
                 }
-                songViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MusicInfo musicInfo = new MusicInfo();
-                        musicInfo.setId(song.getId());
-                        musicInfo.setMusicSongName(song.getName());
-                        if (song.getArtists().size() != 0) {
-                            musicInfo.setSinger(song.getArtists().get(0).getName());
+                songViewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val musicInfo = MusicInfo()
+                        musicInfo.setId(song.getId())
+                        musicInfo.setMusicSongName(song.getName())
+                        if (song.getArtists().size != 0) {
+                            musicInfo.setSinger(song.getArtists().get(0).getName())
                         }
-                        MusicPlayerService.playMusic(musicInfo);
+                        MusicPlayerService.Companion.playMusic(musicInfo)
                     }
-                });
-            default:
-                break;
+                })
+            }
+
+            else -> {}
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (mSearchKind.size() == 0) {
-            return -1;
+    override fun getItemViewType(position: Int): Int {
+        if (mSearchKind.size == 0) {
+            return -1
         }
-        if (position >= 0 && position < mSearchKind.get(0)) {
-            return TYPE_SONG;
-        } else if (position < mSearchKind.get(0) + mSearchKind.get(1)) {
-            return TYPE_PLAY_LIST;
-        } else if (position < mSearchKind.get(0) + mSearchKind.get(1) + mSearchKind.get(2)) {
-            return TYPE_SINGER;
-        } else if (position < mSearchKind.get(0) + mSearchKind.get(1) + mSearchKind.get(2) + mSearchKind.get(3)) {
-            return TYPE_ALBUM;
-        } else if (position < mSearchKind.get(0) + mSearchKind.get(1) + mSearchKind.get(2) + mSearchKind.get(3) + mSearchKind.get(4)) {
-            return TYPE_MV;
+        if (position >= 0 && position < mSearchKind.get(0)!!) {
+            return TYPE_SONG
+        } else if (position < mSearchKind.get(0)!! + mSearchKind.get(1)!!) {
+            return TYPE_PLAY_LIST
+        } else if (position < mSearchKind.get(0)!! + mSearchKind.get(1)!! + mSearchKind.get(2)!!) {
+            return TYPE_SINGER
+        } else if (position < mSearchKind.get(0)!! + mSearchKind.get(1)!! + mSearchKind.get(2)!! + mSearchKind.get(
+                3
+            )!!
+        ) {
+            return TYPE_ALBUM
+        } else if (position < mSearchKind.get(0)!! + mSearchKind.get(1)!! + mSearchKind.get(2)!! + mSearchKind.get(
+                3
+            )!! + mSearchKind.get(4)!!
+        ) {
+            return TYPE_MV
         } else {
-            return -1;
+            return -1
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return mResultList.size();
+    override fun getItemCount(): Int {
+        return mResultList!!.size
     }
 
-    public void updateDataSet(List<SearchBean> searchBeans) {
-        mResultList.clear();
-        mResultList.addAll(searchBeans);
-        notifyDataSetChanged();
+    fun updateDataSet(searchBeans: MutableList<SearchBean?>) {
+        mResultList!!.clear()
+        mResultList!!.addAll(searchBeans)
+        notifyDataSetChanged()
     }
 
-    public void updateDataSet(List<SearchBean> searchBeans, List<Integer> integers) {
-        mSearchKind.clear();
-        mSearchKind.addAll(integers);
+    fun updateDataSet(searchBeans: MutableList<SearchBean?>, integers: MutableList<Int?>) {
+        mSearchKind.clear()
+        mSearchKind.addAll(integers)
 
-        mResultList.clear();
-        mResultList.addAll(searchBeans);
+        mResultList!!.clear()
+        mResultList!!.addAll(searchBeans)
 
-        notifyDataSetChanged();
+        notifyDataSetChanged()
     }
 
-    public void clearAll() {
-        mSearchKind.clear();
-        notifyDataSetChanged();
+    fun clearAll() {
+        mSearchKind.clear()
+        notifyDataSetChanged()
     }
 
-    private class SongViewHolder extends RecyclerView.ViewHolder {
-        public TextView songName;
-        public TextView songSinger;
+    private inner class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var songName: TextView
+        var songSinger: TextView
 
-        public SongViewHolder(@NonNull View itemView) {
-            super(itemView);
-            songName = itemView.findViewById(R.id.search_online_song_name);
-            songSinger = itemView.findViewById(R.id.search_online_song_singer_name);
+        init {
+            songName = itemView.findViewById<TextView>(R.id.search_online_song_name)
+            songSinger = itemView.findViewById<TextView>(R.id.search_online_song_singer_name)
         }
     }
 
-    private class AlbumViewHolder extends RecyclerView.ViewHolder {
-        public ImageView albumIcon;
-        public TextView albumName;
-        public TextView ablumDetail;
+    private inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var albumIcon: ImageView
+        var albumName: TextView
+        var ablumDetail: TextView
 
-        public AlbumViewHolder(@NonNull View itemView) {
-            super(itemView);
-            albumIcon = itemView.findViewById(R.id.search_online_album_icon);
-            albumName = itemView.findViewById(R.id.search_online_album_name);
-            ablumDetail = itemView.findViewById(R.id.search_online_album_info);
+        init {
+            albumIcon = itemView.findViewById<ImageView>(R.id.search_online_album_icon)
+            albumName = itemView.findViewById<TextView>(R.id.search_online_album_name)
+            ablumDetail = itemView.findViewById<TextView>(R.id.search_online_album_info)
         }
     }
 
-    private class SingerViewHolder extends RecyclerView.ViewHolder {
-        public ImageView singerHead;
-        public TextView singerName;
+    private inner class SingerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var singerHead: ImageView
+        var singerName: TextView
 
-        public SingerViewHolder(@NonNull View itemView) {
-            super(itemView);
-            singerHead = itemView.findViewById(R.id.search_online_singer_icon);
-            singerName = itemView.findViewById(R.id.search_online_singer_name);
-
+        init {
+            singerHead = itemView.findViewById<ImageView>(R.id.search_online_singer_icon)
+            singerName = itemView.findViewById<TextView>(R.id.search_online_singer_name)
         }
     }
 
 
-    private class PlayListViewHolder extends RecyclerView.ViewHolder {
-        public ImageView playListImageView;
-        public TextView name;
-        public TextView detail;
+    private inner class PlayListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var playListImageView: ImageView
+        var name: TextView
+        var detail: TextView
 
-        public PlayListViewHolder(@NonNull View itemView) {
-            super(itemView);
-            playListImageView = itemView.findViewById(R.id.search_online_play_list_icon);
-            name = itemView.findViewById(R.id.search_online_play_list_name);
-            detail = itemView.findViewById(R.id.search_online_play_list_detail);
+        init {
+            playListImageView = itemView.findViewById<ImageView>(R.id.search_online_play_list_icon)
+            name = itemView.findViewById<TextView>(R.id.search_online_play_list_name)
+            detail = itemView.findViewById<TextView>(R.id.search_online_play_list_detail)
         }
     }
 
-    private class MvViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView name;
-        public TextView detail;
+    private inner class MvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imageView: ImageView
+        var name: TextView
+        var detail: TextView
 
-        public MvViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.search_online_mv_icon);
-            name = itemView.findViewById(R.id.search_online_mv_name);
-            detail = itemView.findViewById(R.id.search_online_mv_info);
+        init {
+            imageView = itemView.findViewById<ImageView>(R.id.search_online_mv_icon)
+            name = itemView.findViewById<TextView>(R.id.search_online_mv_name)
+            detail = itemView.findViewById<TextView>(R.id.search_online_mv_info)
         }
+    }
+
+    companion object {
+        const val TYPE_SONG: Int = 0
+        const val TYPE_ALBUM: Int = 1
+        const val TYPE_SINGER: Int = 2
+        const val TYPE_PLAY_LIST: Int = 3
+        const val TYPE_MV: Int = 4
     }
 }

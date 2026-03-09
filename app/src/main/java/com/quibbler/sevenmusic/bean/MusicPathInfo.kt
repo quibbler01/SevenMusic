@@ -1,6 +1,4 @@
-package com.quibbler.sevenmusic.bean;
-
-import java.util.List;
+package com.quibbler.sevenmusic.bean
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -9,70 +7,48 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/17 16:15
  */
-public class MusicPathInfo {
-    private final static String QQ_MUSIC = "/storage/emulated/0/qqmusic/song";                  //QQ音乐
-    private final static String STORAGE = "/storage/emulated/0";                                //手机存储
-    private final static String MUSIC = "/storage/emulated/0/Music";                            //Music目录
-    private final static String NETEASE = "/storage/emulated/0/netease/cloudmusic/Music";       //网易云音乐
-    private final static String SEVENMUSIC = "/storage/emulated/0/sevenMusic";                  //七音
+class MusicPathInfo(mPathDetail: String, mMusicInfoLists: MutableList<MusicInfo?>) {
+    var pathName: String? = null
+    var pathDetail: String?
+    var musicInfoLists: MutableList<MusicInfo?>
 
-    private String mPathName;
-    private String mPathDetail;
-    private List<MusicInfo> mMusicInfoLists;
-
-    public MusicPathInfo(String mPathDetail, List<MusicInfo> mMusicInfoLists) {
-        this.mPathDetail = mPathDetail;
-        this.mMusicInfoLists = mMusicInfoLists;
+    init {
+        this.pathDetail = mPathDetail
+        this.musicInfoLists = mMusicInfoLists
         if (mPathDetail.contains(QQ_MUSIC)) {
-            mPathName = "QQ音乐";
+            this.pathName = "QQ音乐"
         } else if (mPathDetail.contains(NETEASE)) {
-            mPathName = "网易云音乐";
+            this.pathName = "网易云音乐"
         } else if (mPathDetail.contains(MUSIC)) {
-            mPathName = "音乐";
-        } else if (mPathDetail.equals(STORAGE)) {
-            mPathName = "手机存储";
+            this.pathName = "音乐"
+        } else if (mPathDetail == STORAGE) {
+            this.pathName = "手机存储"
         } else if (mPathDetail.contains(SEVENMUSIC)) {
-            mPathName = "七音";
+            this.pathName = "七音"
         } else {
-            int index = mPathDetail.lastIndexOf("/");
-            mPathName = mPathDetail.substring(index + 1);
+            val index = mPathDetail.lastIndexOf("/")
+            this.pathName = mPathDetail.substring(index + 1)
         }
     }
 
-    public void add(MusicInfo musicInfo) {
-        mMusicInfoLists.add(musicInfo);
+    fun add(musicInfo: MusicInfo?) {
+        musicInfoLists.add(musicInfo)
     }
 
-    public void addAll(List<MusicInfo> list) {
-        mMusicInfoLists.addAll(list);
+    fun addAll(list: MutableList<MusicInfo?>) {
+        musicInfoLists.addAll(list)
     }
 
-    public void updateData(List<MusicInfo> list) {
-        mMusicInfoLists.clear();
-        mMusicInfoLists.addAll(list);
+    fun updateData(list: MutableList<MusicInfo?>) {
+        musicInfoLists.clear()
+        musicInfoLists.addAll(list)
     }
 
-    public String getPathName() {
-        return mPathName;
-    }
-
-    public void setPathName(String mPathName) {
-        this.mPathName = mPathName;
-    }
-
-    public String getPathDetail() {
-        return mPathDetail;
-    }
-
-    public void setPathDetail(String mPathDetail) {
-        this.mPathDetail = mPathDetail;
-    }
-
-    public List<MusicInfo> getMusicInfoLists() {
-        return mMusicInfoLists;
-    }
-
-    public void setMusicInfoLists(List<MusicInfo> mMusicInfoLists) {
-        this.mMusicInfoLists = mMusicInfoLists;
+    companion object {
+        private const val QQ_MUSIC = "/storage/emulated/0/qqmusic/song" //QQ音乐
+        private const val STORAGE = "/storage/emulated/0" //手机存储
+        private const val MUSIC = "/storage/emulated/0/Music" //Music目录
+        private const val NETEASE = "/storage/emulated/0/netease/cloudmusic/Music" //网易云音乐
+        private const val SEVENMUSIC = "/storage/emulated/0/sevenMusic" //七音
     }
 }

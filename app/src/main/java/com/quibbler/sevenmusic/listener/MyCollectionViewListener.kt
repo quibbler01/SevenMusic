@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
 
 /**
  * Package:        com.quibbler.sevenmusic.listener
@@ -7,8 +7,8 @@ package com.quibbler.sevenmusic.listener;
  * Author:         zhaopeng
  * CreateDate:     2019/9/20 10:54
  */
-public interface MyCollectionViewListener {
-    public void changeView();
+interface MyCollectionViewListener {
+    fun changeView()
 
-    public void removeData(int id);
+    fun removeData(id: Int)
 }

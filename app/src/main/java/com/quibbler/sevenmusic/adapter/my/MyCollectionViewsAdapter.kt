@@ -1,12 +1,9 @@
-package com.quibbler.sevenmusic.adapter.my;
+package com.quibbler.sevenmusic.adapter.my
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import com.quibbler.sevenmusic.fragment.my.MyCollectionSongFragment;
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import com.quibbler.sevenmusic.fragment.my.MyCollectionSongFragment
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -15,27 +12,19 @@ import com.quibbler.sevenmusic.fragment.my.MyCollectionSongFragment;
  * Author:         zhaopeng
  * CreateDate:     2019/9/19 17:28
  */
-public class MyCollectionViewsAdapter extends FragmentStatePagerAdapter {
-    private String[] titles = {"歌曲", "歌手", "专辑"};
+class MyCollectionViewsAdapter(fm: FragmentManager) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private val titles = arrayOf<String?>("歌曲", "歌手", "专辑")
 
-    public MyCollectionViewsAdapter(FragmentManager fm) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+    override fun getItem(position: Int): Fragment {
+        return MyCollectionSongFragment(position)
     }
 
-    @NonNull
-    @Override
-    public Fragment getItem(int position) {
-        return new MyCollectionSongFragment(position);
+    override fun getCount(): Int {
+        return titles.size
     }
 
-    @Override
-    public int getCount() {
-        return titles.length;
-    }
-
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titles[position];
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titles[position]
     }
 }

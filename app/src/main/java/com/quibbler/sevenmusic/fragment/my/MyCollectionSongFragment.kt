@@ -1,37 +1,29 @@
-package com.quibbler.sevenmusic.fragment.my;
+package com.quibbler.sevenmusic.fragment.my
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.quibbler.sevenmusic.MusicApplication;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.found.SingerActivity;
-import com.quibbler.sevenmusic.adapter.my.MyCollectionAdapter;
-import com.quibbler.sevenmusic.bean.MyCollectionsInfo;
-import com.quibbler.sevenmusic.listener.MyCollectionViewListener;
-import com.quibbler.sevenmusic.utils.MusicThreadPool;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.quibbler.sevenmusic.contentprovider.MusicContentProvider.MUSIC_AUTHORITY;
-import static com.quibbler.sevenmusic.fragment.my.MyFragment.RESULT_GO_TO_FOUND;
+import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
+import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ListView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.quibbler.sevenmusic.MusicApplication
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.found.SingerActivity
+import com.quibbler.sevenmusic.adapter.my.MyCollectionAdapter
+import com.quibbler.sevenmusic.bean.MyCollectionsInfo
+import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
+import com.quibbler.sevenmusic.listener.MyCollectionViewListener
+import com.quibbler.sevenmusic.utils.MusicThreadPool
 
 /**
  * Package:        com.quibbler.sevenmusic.fragment.my
@@ -40,138 +32,170 @@ import static com.quibbler.sevenmusic.fragment.my.MyFragment.RESULT_GO_TO_FOUND;
  * Author:         zhaopeng
  * CreateDate:     2019/9/28 17:13
  */
-public class MyCollectionSongFragment extends Fragment {
-    private int mCollectionKind;
-    private List<MyCollectionsInfo> myCollectionsInfos = new ArrayList<>();
-    private MyCollectionAdapter mAdapter;
+class MyCollectionSongFragment(kind: Int) : Fragment() {
+    private val mCollectionKind: Int
+    private val myCollectionsInfos: MutableList<MyCollectionsInfo> = ArrayList<MyCollectionsInfo>()
+    private var mAdapter: MyCollectionAdapter? = null
 
-    private View mCollectionView;
-    private ListView mListView;
-    private TextView mTextView;
+    private var mCollectionView: View? = null
+    private var mListView: ListView? = null
+    private var mTextView: TextView? = null
 
-    private MyCollectionViewListener myCollectionViewListener = new MyCollectionViewListener() {
-        @Override
-        public void changeView() {
-            if (mTextView.getVisibility() == View.VISIBLE) {
-                mTextView.setVisibility(View.GONE);
-            } else {
-                mTextView.setVisibility(View.VISIBLE);
+    private val myCollectionViewListener: MyCollectionViewListener =
+        object : MyCollectionViewListener {
+            override fun changeView() {
+                if (mTextView!!.getVisibility() == View.VISIBLE) {
+                    mTextView!!.setVisibility(View.GONE)
+                } else {
+                    mTextView!!.setVisibility(View.VISIBLE)
+                }
             }
-        }
 
-        @Override
-        public void removeData(int id) {
-            for (MyCollectionsInfo myCollectionsInfo : myCollectionsInfos) {
-                if (myCollectionsInfo.getId() == id) {
-                    myCollectionsInfos.remove(myCollectionsInfo);
-                    return;
+            override fun removeData(id: Int) {
+                for (myCollectionsInfo in myCollectionsInfos) {
+                    if (myCollectionsInfo.getId() == id) {
+                        myCollectionsInfos.remove(myCollectionsInfo)
+                        return
+                    }
                 }
             }
         }
-    };
 
-    public MyCollectionSongFragment(int kind) {
-        this.mCollectionKind = kind;
+    init {
+        this.mCollectionKind = kind
     }
 
-    @Nullable
-    @Override
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        initData()
+        mCollectionView = inflater.inflate(R.layout.my_collection_fragment, container, false)
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initData();
-        mCollectionView = inflater.inflate(R.layout.my_collection_fragment, container, false);
-
-        mAdapter = new MyCollectionAdapter(getContext(), R.layout.my_collection_item, myCollectionsInfos, mCollectionKind, myCollectionViewListener);
-        mListView = mCollectionView.findViewById(R.id.my_collection_list_view);
-        mListView.setDivider(null);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (mCollectionKind) {
-                    case 1:
-                        Intent intent = new Intent(getActivity(), SingerActivity.class);
-                        intent.putExtra("id", myCollectionsInfos.get(position).getId() + "");
+        mAdapter = MyCollectionAdapter(
+            getContext()!!,
+            R.layout.my_collection_item,
+            myCollectionsInfos,
+            mCollectionKind,
+            myCollectionViewListener
+        )
+        mListView = mCollectionView!!.findViewById<ListView>(R.id.my_collection_list_view)
+        mListView!!.setDivider(null)
+        mListView!!.setAdapter(mAdapter)
+        mListView!!.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (mCollectionKind) {
+                    1 -> {
+                        val intent = Intent(getActivity(), SingerActivity::class.java)
+                        intent.putExtra(
+                            "id",
+                            myCollectionsInfos.get(position).getId().toString() + ""
+                        )
                         if (getActivity() != null) {
-                            getActivity().startActivity(intent);
+                            getActivity()!!.startActivity(intent)
                         }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+                    }
 
-        mTextView = mCollectionView.findViewById(R.id.my_collection_text_view);
-        mTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                if (getActivity() != null) {
-                    getActivity().setResult(RESULT_GO_TO_FOUND);
-                    getActivity().finish();
+                    else -> {}
                 }
             }
-        };
-        switch (mCollectionKind) {
-            case 0:
-                SpannableStringBuilder songSpannableStringBuilder = new SpannableStringBuilder("没有收藏过音乐哦\n去发现页面寻找吧!");
-                songSpannableStringBuilder.setSpan(clickableSpan, 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mTextView.setText(songSpannableStringBuilder);
-                break;
-            case 1:
-                SpannableStringBuilder singerSpannableStringBuilder = new SpannableStringBuilder("没有心怡的歌手?\n去发现页面寻找吧!");
-                singerSpannableStringBuilder.setSpan(clickableSpan, 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mTextView.setText(singerSpannableStringBuilder);
-                break;
-            case 2:
-                SpannableStringBuilder albumSpannableStringBuilder = new SpannableStringBuilder("没有喜欢的专辑?\n去发现页面寻找吧!");
-                albumSpannableStringBuilder.setSpan(clickableSpan, 10, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                mTextView.setText(albumSpannableStringBuilder);
-                break;
+        })
+
+        mTextView = mCollectionView!!.findViewById<TextView>(R.id.my_collection_text_view)
+        mTextView!!.setMovementMethod(LinkMovementMethod.getInstance())
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                if (getActivity() != null) {
+                    getActivity()!!.setResult(MyFragment.Companion.RESULT_GO_TO_FOUND)
+                    getActivity()!!.finish()
+                }
+            }
         }
-        if (myCollectionsInfos.size() != 0) {
-            mTextView.setVisibility(View.GONE);
+        when (mCollectionKind) {
+            0 -> {
+                val songSpannableStringBuilder =
+                    SpannableStringBuilder("没有收藏过音乐哦\n去发现页面寻找吧!")
+                songSpannableStringBuilder.setSpan(
+                    clickableSpan,
+                    10,
+                    14,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                mTextView!!.setText(songSpannableStringBuilder)
+            }
+
+            1 -> {
+                val singerSpannableStringBuilder =
+                    SpannableStringBuilder("没有心怡的歌手?\n去发现页面寻找吧!")
+                singerSpannableStringBuilder.setSpan(
+                    clickableSpan,
+                    10,
+                    14,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                mTextView!!.setText(singerSpannableStringBuilder)
+            }
+
+            2 -> {
+                val albumSpannableStringBuilder =
+                    SpannableStringBuilder("没有喜欢的专辑?\n去发现页面寻找吧!")
+                albumSpannableStringBuilder.setSpan(
+                    clickableSpan,
+                    10,
+                    14,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                mTextView!!.setText(albumSpannableStringBuilder)
+            }
         }
-        return mCollectionView;
+        if (myCollectionsInfos.size != 0) {
+            mTextView!!.setVisibility(View.GONE)
+        }
+        return mCollectionView
     }
 
-    public void initData() {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                List<MyCollectionsInfo> tmp = new ArrayList<>();
-                Uri uri = Uri.parse("content://" + MUSIC_AUTHORITY + "/collection");
-                Cursor cursor = MusicApplication.getContext().getContentResolver().query(uri, null, null, null, "rowid desc");
+    fun initData() {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                val tmp: MutableList<MyCollectionsInfo?> = ArrayList<MyCollectionsInfo?>()
+                val uri =
+                    Uri.parse("content://" + MusicContentProvider.Companion.MUSIC_AUTHORITY + "/collection")
+                val cursor: Cursor? = MusicApplication.Companion.getContext().getContentResolver()
+                    .query(uri, null, null, null, "rowid desc")
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
-                        MyCollectionsInfo myCollectionsInfo = new MyCollectionsInfo();
-                        myCollectionsInfo.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                        myCollectionsInfo.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                        myCollectionsInfo.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                        myCollectionsInfo.setKind(cursor.getInt(cursor.getColumnIndex("kind")));
+                        val myCollectionsInfo = MyCollectionsInfo()
+                        myCollectionsInfo.setId(cursor.getInt(cursor.getColumnIndex("id")))
+                        myCollectionsInfo.setTitle(cursor.getString(cursor.getColumnIndex("title")))
+                        myCollectionsInfo.setDescription(cursor.getString(cursor.getColumnIndex("description")))
+                        myCollectionsInfo.setKind(cursor.getInt(cursor.getColumnIndex("kind")))
                         if (myCollectionsInfo.getKind() == mCollectionKind) {
-                            tmp.add(myCollectionsInfo);
+                            tmp.add(myCollectionsInfo)
                         }
                     }
-                    cursor.close();
+                    cursor.close()
                 }
-                updateUI(tmp);
+                updateUI(tmp)
             }
-        });
+        })
     }
 
-    private void updateUI(List<MyCollectionsInfo> list) {
+    private fun updateUI(list: MutableList<MyCollectionsInfo?>?) {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (list != null && list.size() != 0) {
-                        mTextView.setVisibility(View.GONE);
-                        mAdapter.updateData(list);
+            getActivity()!!.runOnUiThread(object : Runnable {
+                override fun run() {
+                    if (list != null && list.size != 0) {
+                        mTextView!!.setVisibility(View.GONE)
+                        mAdapter!!.updateData(list)
                     }
                 }
-            });
+            })
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.quibbler.sevenmusic.listener;
+package com.quibbler.sevenmusic.listener
 
 /**
  * Package:        com.quibbler.sevenmusic.listener
@@ -7,10 +7,10 @@ package com.quibbler.sevenmusic.listener;
  * Author:         zhaoopeng
  * CreateDate:     2019/9/27 18:41
  */
-public interface BroadcastMusicPlayListener extends BroadcastListener {
-    public void handBroadcast();
+interface BroadcastMusicPlayListener : BroadcastListener {
+    fun handBroadcast()
 
-    public void onMusicPlay();
+    fun onMusicPlay()
 
-    public void onMusicPause();
+    fun onMusicPause()
 }

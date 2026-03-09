@@ -1,28 +1,20 @@
-package com.quibbler.sevenmusic.utils;
+package com.quibbler.sevenmusic.utils
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Handler;
-import android.widget.ImageView;
-
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-import static com.quibbler.sevenmusic.bean.MusicURL.MUSIC_ALBUM_URI;
-
+import android.content.Context
+import android.content.res.Resources
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Handler
+import android.widget.ImageView
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import com.quibbler.sevenmusic.bean.MusicURL
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
+import java.io.InputStream
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -31,126 +23,116 @@ import static com.quibbler.sevenmusic.bean.MusicURL.MUSIC_ALBUM_URI;
  * Author:         zhaopeng
  * CreateDate:     2019/9/28 9:38
  */
-public class DecodeMusicManager {
-    public static final int ROUND = 0;
-    public static final int RECT = 1;
-    public static final int CYCLE = 2;
+class DecodeMusicManager(mContext: Context) {
+    private val mContext: Context
+    private var mAlbumID = -1
+    private var mUrl: String? = null
+    private val mMainHandler: Handler
+    private var mPlaceHolderSourceID = 0
+    private var mRoundType: Int = CYCLE
+    var bitmap: Bitmap? = null
 
-    private Context mContext;
-    private int mAlbumID = -1;
-    private String mUrl = null;
-    private Handler mMainHandler;
-    private int mPlaceHolderSourceID;
-    private int mRoundType = CYCLE;
-    Bitmap bitmap = null;
-
-    public DecodeMusicManager(Context mContext) {
-        this.mContext = mContext;
-        mMainHandler = new Handler(mContext.getMainLooper());
+    init {
+        this.mContext = mContext
+        mMainHandler = Handler(mContext.getMainLooper())
     }
 
-    public DecodeMusicManager load(int albumID) {
-        mAlbumID = albumID;
-        return this;
+    fun load(albumID: Int): DecodeMusicManager {
+        mAlbumID = albumID
+        return this
     }
 
-    public DecodeMusicManager load(String url) {
-        mUrl = url;
-        return this;
+    fun load(url: String?): DecodeMusicManager {
+        mUrl = url
+        return this
     }
 
-    public DecodeMusicManager placeHolder(int source) {
-        mPlaceHolderSourceID = source;
-        return this;
+    fun placeHolder(source: Int): DecodeMusicManager {
+        mPlaceHolderSourceID = source
+        return this
     }
 
-    public DecodeMusicManager radiusType(int type) {
-        mRoundType = type;
-        return this;
+    fun radiusType(type: Int): DecodeMusicManager {
+        mRoundType = type
+        return this
     }
 
-    public void into(ImageView view) {
-        view.setBackgroundResource(mPlaceHolderSourceID);
+    fun into(view: ImageView) {
+        view.setBackgroundResource(mPlaceHolderSourceID)
         if (mAlbumID > 0) {
-            MusicThreadPool.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    Cursor cursor = null;
+            MusicThreadPool.postRunnable(object : Runnable {
+                override fun run() {
+                    var cursor: Cursor? = null
                     try {
-                        Uri uri = Uri.parse(MUSIC_ALBUM_URI + "/" + mAlbumID);
-                        cursor = mContext.getContentResolver().query(uri, new String[]{"album_art"}, null, null, null);
-                        String albumPath = null;
-                        if (cursor.getCount() > 0 && cursor.getColumnCount() > 0) {
-                            cursor.moveToNext();
-                            albumPath = cursor.getString(0);
+                        val uri = Uri.parse(MusicURL.MUSIC_ALBUM_URI + "/" + mAlbumID)
+                        cursor = mContext.getContentResolver()
+                            .query(uri, arrayOf<String>("album_art"), null, null, null)
+                        var albumPath: String? = null
+                        if (cursor!!.getCount() > 0 && cursor.getColumnCount() > 0) {
+                            cursor.moveToNext()
+                            albumPath = cursor.getString(0)
                             if (albumPath != null) {
-                                bitmap = BitmapFactory.decodeFile(albumPath);
-                                mMainHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        view.setImageBitmap(bitmap);
+                                bitmap = BitmapFactory.decodeFile(albumPath)
+                                mMainHandler.post(object : Runnable {
+                                    override fun run() {
+                                        view.setImageBitmap(bitmap)
                                     }
-                                });
+                                })
                             }
                         }
-//                    下面这种获取音乐封面的方法似乎不能成功,对音频可能无效
+                        //                    下面这种获取音乐封面的方法似乎不能成功,对音频可能无效
 //                    Log.e("DecodeMusicImageUtils", "cursor count\t" + mUrl);
 //                    MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
 //                    mediaMetadataRetriever.setDataSource(mUrl);
 //                    byte[] imageCover = mediaMetadataRetriever.getEmbeddedPicture();
 //                    bitmap = BitmapFactory.decodeByteArray(imageCover, 0, imageCover.length);
-                        mMainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
+                        mMainHandler.post(object : Runnable {
+                            override fun run() {
                                 if (bitmap != null) {
-                                    view.setImageBitmap(bitmap);
+                                    view.setImageBitmap(bitmap)
                                 }
                             }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        })
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     } finally {
                         if (cursor != null) {
-                            cursor.close();
+                            cursor.close()
                         }
                     }
                 }
-            });
+            })
         } else if (mUrl != null) {
-            HttpUtil.sendOkHttpRequest(mUrl, new Callback() {
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+            HttpUtil.sendOkHttpRequest(mUrl, object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
                 }
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    InputStream inputStream = null;
-                    inputStream = response.body().byteStream();
-                    bitmap = BitmapFactory.decodeStream(inputStream);
-                    RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(Resources.getSystem(), bitmap);
-                    switch (mRoundType) {
-                        case ROUND:
-                            roundedBitmapDrawable.setCornerRadius(0.2f * bitmap.getWidth());
-                            break;
-                        case RECT:
-                            break;
-                        default:
-                            roundedBitmapDrawable.setCircular(true);
-                            break;
+                @Throws(IOException::class)
+                override fun onResponse(call: Call, response: Response) {
+                    var inputStream: InputStream? = null
+                    inputStream = response.body!!.byteStream()
+                    bitmap = BitmapFactory.decodeStream(inputStream)
+                    val roundedBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(Resources.getSystem(), bitmap)
+                    when (mRoundType) {
+                        ROUND -> roundedBitmapDrawable.setCornerRadius(0.2f * bitmap!!.getWidth())
+                        RECT -> {}
+                        else -> roundedBitmapDrawable.setCircular(true)
                     }
-                    inputStream.close();
-                    mMainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setImageDrawable(roundedBitmapDrawable);
+                    inputStream.close()
+                    mMainHandler.post(object : Runnable {
+                        override fun run() {
+                            view.setImageDrawable(roundedBitmapDrawable)
                         }
-                    });
+                    })
                 }
-            });
+            })
         }
-
     }
 
+    companion object {
+        const val ROUND: Int = 0
+        const val RECT: Int = 1
+        const val CYCLE: Int = 2
+    }
 }

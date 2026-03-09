@@ -1,26 +1,20 @@
-package com.quibbler.sevenmusic.activity.my;
+package com.quibbler.sevenmusic.activity.my
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.adapter.my.MyChooseMusicAdapter;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.utils.CloseResourceUtil;
-import com.quibbler.sevenmusic.utils.MusicThreadPool;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.database.Cursor
+import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.adapter.my.MyChooseMusicAdapter
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.utils.CloseResourceUtil
+import com.quibbler.sevenmusic.utils.MusicThreadPool
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -29,137 +23,178 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/27 19:35
  */
-public class ChooseMusicActivity extends AppCompatActivity {
-    private static final String TAG = "ChooseMusicActivity";
+class ChooseMusicActivity : AppCompatActivity() {
+    private val isChoose = false
+    private var mPosition = 0
 
-    public static final int RESULT_OK = 0;
-    public static final int RESULT_NONE = -1;
+    private var mListView: ListView? = null
+    private var mAdapter: MyChooseMusicAdapter? = null
+    private val mMusicLists: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
 
-    private boolean isChoose = false;
-    private int mPosition = 0;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getWindow().setBackgroundDrawable(null)
+        setContentView(R.layout.activity_choose_music)
 
-    private ListView mListView;
-    private MyChooseMusicAdapter mAdapter;
-    private List<MusicInfo> mMusicLists = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(null);
-        setContentView(R.layout.activity_choose_music);
-
-        init();
+        init()
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
-    private void init() {
+    private fun init() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
         }
-        mListView = findViewById(R.id.music_choose_music_list_view);
-        setTitle(R.string.my_choose_ring);
-        mAdapter = new MyChooseMusicAdapter(this, mMusicLists);
-        mListView.setAdapter(mAdapter);
-        mListView.setDivider(null);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPosition = position;
-                Intent resultIntent = getIntent();
-                resultIntent.putExtra("path", mMusicLists.get(position).getMusicFilePath());
-                resultIntent.putExtra("name", mMusicLists.get(position).getMusicSongName());
-                resultIntent.putExtra("id", mMusicLists.get(position).getId());
-                resultIntent.putExtra("singer", mMusicLists.get(position).getSinger());
-                setResult(RESULT_OK, resultIntent);
-                finish();
+        mListView = findViewById<ListView>(R.id.music_choose_music_list_view)
+        setTitle(R.string.my_choose_ring)
+        mAdapter = MyChooseMusicAdapter(this, mMusicLists)
+        mListView!!.setAdapter(mAdapter)
+        mListView!!.setDivider(null)
+        mListView!!.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                mPosition = position
+                val resultIntent = getIntent()
+                resultIntent.putExtra("path", mMusicLists.get(position)!!.getMusicFilePath())
+                resultIntent.putExtra("name", mMusicLists.get(position)!!.getMusicSongName())
+                resultIntent.putExtra("id", mMusicLists.get(position)!!.getId())
+                resultIntent.putExtra("singer", mMusicLists.get(position)!!.getSinger())
+                setResult(RESULT_OK, resultIntent)
+                finish()
             }
-        });
-        initData();
+        })
+        initData()
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> {
                 if (isChoose) {
-                    Intent resultIntent = getIntent();
-                    resultIntent.putExtra("path", mMusicLists.get(mPosition).getMusicFilePath());
-                    resultIntent.putExtra("name", mMusicLists.get(mPosition).getMusicSongName());
-                    resultIntent.putExtra("id", mMusicLists.get(mPosition).getId());
-                    resultIntent.putExtra("singer", mMusicLists.get(mPosition).getSinger());
-                    setResult(RESULT_OK, resultIntent);
+                    val resultIntent = getIntent()
+                    resultIntent.putExtra("path", mMusicLists.get(mPosition)!!.getMusicFilePath())
+                    resultIntent.putExtra("name", mMusicLists.get(mPosition)!!.getMusicSongName())
+                    resultIntent.putExtra("id", mMusicLists.get(mPosition)!!.getId())
+                    resultIntent.putExtra("singer", mMusicLists.get(mPosition)!!.getSinger())
+                    setResult(RESULT_OK, resultIntent)
                 } else {
-                    Intent resultIntent = getIntent();
-                    setResult(RESULT_NONE, resultIntent);
+                    val resultIntent = getIntent()
+                    setResult(RESULT_NONE, resultIntent)
                 }
-                onBackPressed();
-                break;
-            default:
-                break;
+                onBackPressed()
+            }
+
+            else -> {}
         }
-        return true;
+        return true
     }
 
-    private void initData() {
-        MusicThreadPool.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                List<MusicInfo> temp = new ArrayList<>();
-                Cursor localMusicCursor = null;
+    private fun initData() {
+        MusicThreadPool.postRunnable(object : Runnable {
+            override fun run() {
+                val temp: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
+                var localMusicCursor: Cursor? = null
                 try {
-                    localMusicCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+                    localMusicCursor = getContentResolver().query(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+                    )
                     if (localMusicCursor == null) {
-                        return;
+                        return
                     }
                     while (localMusicCursor.moveToNext()) {
-                        MusicInfo musicInfo = new MusicInfo();
-                        musicInfo.setMusicSongName(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
-                        musicInfo.setSinger(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-                        musicInfo.setMusicFileSize(localMusicCursor.getLong(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.SIZE)));
-                        musicInfo.setMusicFilePath(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
-                        musicInfo.setId(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media._ID)));
-                        musicInfo.setAlbum(localMusicCursor.getString(localMusicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-                        temp.add(musicInfo);
+                        val musicInfo = MusicInfo()
+                        musicInfo.setMusicSongName(
+                            localMusicCursor.getString(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media.DISPLAY_NAME
+                                )
+                            )
+                        )
+                        musicInfo.setSinger(
+                            localMusicCursor.getString(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media.ARTIST
+                                )
+                            )
+                        )
+                        musicInfo.setMusicFileSize(
+                            localMusicCursor.getLong(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media.SIZE
+                                )
+                            )
+                        )
+                        musicInfo.setMusicFilePath(
+                            localMusicCursor.getString(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media.DATA
+                                )
+                            )
+                        )
+                        musicInfo.setId(
+                            localMusicCursor.getString(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media._ID
+                                )
+                            )
+                        )
+                        musicInfo.setAlbum(
+                            localMusicCursor.getString(
+                                localMusicCursor.getColumnIndex(
+                                    MediaStore.Audio.Media.ALBUM
+                                )
+                            )
+                        )
+                        temp.add(musicInfo)
                     }
-                    updateUI(temp);
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
+                    updateUI(temp)
+                } catch (e: Exception) {
+                    Log.e(TAG, e.toString())
                 } finally {
-                    CloseResourceUtil.closeInputAndOutput(localMusicCursor);
+                    CloseResourceUtil.closeInputAndOutput(localMusicCursor)
                 }
-
             }
-        });
+        })
     }
 
-    private void updateUI(List<MusicInfo> lists) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.clear();
-                mAdapter.addAll(lists);
-                mAdapter.notifyDataSetChanged();
+    private fun updateUI(lists: MutableList<MusicInfo?>) {
+        runOnUiThread(object : Runnable {
+            override fun run() {
+                mAdapter!!.clear()
+                mAdapter!!.addAll(lists)
+                mAdapter!!.notifyDataSetChanged()
             }
-        });
+        })
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    override fun onBackPressed() {
+        super.onBackPressed()
         if (isChoose) {
-            Intent resultIntent = getIntent();
-            resultIntent.putExtra("path", mMusicLists.get(mPosition).getMusicFilePath());
-            resultIntent.putExtra("name", mMusicLists.get(mPosition).getMusicSongName());
-            resultIntent.putExtra("id", mMusicLists.get(mPosition).getId());
-            resultIntent.putExtra("singer", mMusicLists.get(mPosition).getSinger());
-            setResult(RESULT_OK, resultIntent);
+            val resultIntent = getIntent()
+            resultIntent.putExtra("path", mMusicLists.get(mPosition)!!.getMusicFilePath())
+            resultIntent.putExtra("name", mMusicLists.get(mPosition)!!.getMusicSongName())
+            resultIntent.putExtra("id", mMusicLists.get(mPosition)!!.getId())
+            resultIntent.putExtra("singer", mMusicLists.get(mPosition)!!.getSinger())
+            setResult(RESULT_OK, resultIntent)
         } else {
-            Intent resultIntent = getIntent();
-            setResult(RESULT_NONE, resultIntent);
+            val resultIntent = getIntent()
+            setResult(RESULT_NONE, resultIntent)
         }
+    }
+
+    companion object {
+        private const val TAG = "ChooseMusicActivity"
+
+        const val RESULT_OK: Int = 0
+        val RESULT_NONE: Int = -1
     }
 }

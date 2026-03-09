@@ -1,22 +1,17 @@
-package com.quibbler.sevenmusic.adapter.splash;
+package com.quibbler.sevenmusic.adapter.splash
 
-import android.app.Activity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-
-import com.quibbler.sevenmusic.Constant;
-import com.quibbler.sevenmusic.MainActivity;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.activity.mv.ActivityStart;
-import com.quibbler.sevenmusic.utils.APPUtil;
-import com.quibbler.sevenmusic.utils.ResUtil;
-import com.quibbler.sevenmusic.utils.SharedPreferencesUtils;
-
-import java.util.List;
+import android.app.Activity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
+import com.quibbler.sevenmusic.Constant
+import com.quibbler.sevenmusic.MainActivity
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.activity.mv.ActivityStart
+import com.quibbler.sevenmusic.utils.APPUtil
+import com.quibbler.sevenmusic.utils.ResUtil
+import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.splash
@@ -25,51 +20,49 @@ import java.util.List;
  * Author:         11103876
  * CreateDate:     2019/10/7 15:09
  */
-public class SplashPagerAdapter extends PagerAdapter {
+class SplashPagerAdapter(mViews: MutableList<View>?, mActivity: Activity) : PagerAdapter() {
+    private var mEnterTv: TextView? = null
 
-    private TextView mEnterTv;
+    private val mViews: MutableList<View>?
+    private val mActivity: Activity
 
-    private List<View> mViews;
-    private Activity mActivity;
-
-    public SplashPagerAdapter(List<View> mViews, Activity mActivity) {
-        this.mViews = mViews;
-        this.mActivity = mActivity;
+    init {
+        this.mViews = mViews
+        this.mActivity = mActivity
     }
 
-    @Override
-    public int getCount() {
-        return (mViews == null) ? 0 : mViews.size();
+    override fun getCount(): Int {
+        return if (mViews == null) 0 else mViews.size
     }
 
-    @NonNull
-    @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        container.addView(mViews.get(position), 0);
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        container.addView(mViews!!.get(position), 0)
 
-        if (position == mViews.size() - 1) {    // 当滑动到启动页最后一页的时候，监听按钮
-            mEnterTv = container.findViewById(R.id.splash_tv_guide_enter);
-            mEnterTv.setText(String.format(ResUtil.getString(R.string.str_splash_enter), APPUtil.getVersionName(mActivity)));
-            mEnterTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedPreferencesUtils.getInstance().saveData(Constant.KEY_IS_FIRST_LOGIN, true); // 保存第一次启动的记录
-                    ActivityStart.startActivity(mActivity, MainActivity.class);
-                    mActivity.finish();
+        if (position == mViews.size - 1) {    // 当滑动到启动页最后一页的时候，监听按钮
+            mEnterTv = container.findViewById<TextView>(R.id.splash_tv_guide_enter)
+            mEnterTv!!.setText(
+                String.format(
+                    ResUtil.getString(R.string.str_splash_enter),
+                    APPUtil.Companion.getVersionName(mActivity)
+                )
+            )
+            mEnterTv!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    SharedPreferencesUtils.Companion.getInstance()
+                        .saveData(Constant.KEY_IS_FIRST_LOGIN, true) // 保存第一次启动的记录
+                    ActivityStart.startActivity(mActivity, MainActivity::class.java)
+                    mActivity.finish()
                 }
-            });
+            })
         }
-        return mViews.get(position);
+        return mViews.get(position)
     }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return (view == object);
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return (view === `object`)
     }
 
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView(mViews.get(position));
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(mViews!!.get(position))
     }
-
 }

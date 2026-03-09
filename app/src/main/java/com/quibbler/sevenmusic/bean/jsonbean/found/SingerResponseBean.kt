@@ -1,20 +1,10 @@
-package com.quibbler.sevenmusic.bean.jsonbean.found;
+package com.quibbler.sevenmusic.bean.jsonbean.found
 
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.mv.Artist;
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.mv.Artist
 
-import java.util.List;
+class SingerResponseBean {
+    val artist: Artist? = null
 
-public class SingerResponseBean {
-    private Artist artist;
-
-    private List<MusicInfo> hotSongs;
-
-    public List<MusicInfo> getHotSongs() {
-        return hotSongs;
-    }
-
-    public Artist getArtist() {
-        return artist;
-    }
+    val hotSongs: MutableList<MusicInfo?>? = null
 }

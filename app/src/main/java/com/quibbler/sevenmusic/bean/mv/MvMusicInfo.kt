@@ -1,71 +1,39 @@
-package com.quibbler.sevenmusic.bean.mv;
+package com.quibbler.sevenmusic.bean.mv
 
-import java.io.Serializable;
-import java.util.List;
+import java.io.Serializable
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.bean.mv
-  * ClassName:      MvMusicInfo
-  * Description:    mv中用到的歌曲信息
-  * Author:         lishijun
-  * CreateDate:     2019/9/25 15:56
+ * 
+ * Package:        com.quibbler.sevenmusic.bean.mv
+ * ClassName:      MvMusicInfo
+ * Description:    mv中用到的歌曲信息
+ * Author:         lishijun
+ * CreateDate:     2019/9/25 15:56
  */
-public class MvMusicInfo implements Serializable {
-
+class MvMusicInfo(id: Int, name: String?, pictureUrl: String?, artistList: MutableList<Artist?>?) :
+    Serializable {
     //音乐id
-    private int mId;
+    val id: Int
+
     //音乐名字
-    private String mName;
+    val name: String?
+
     //专辑封面
-    private String mPictureUrl;
+    var pictureUrl: String?
+
     //音乐歌手
-    private List<Artist> mArtistList;
+    val artistList: MutableList<Artist?>?
+
     //是否可用
-    private boolean mCanUse = false;
+    var isCanUse: Boolean = false
+
     //歌词
-    private String mLyric;
+    var lyric: String? = null
 
-    public MvMusicInfo(int id, String name, String pictureUrl, List<Artist> artistList) {
-        mId = id;
-        mName = name;
-        mPictureUrl = pictureUrl;
-        mArtistList = artistList;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        mPictureUrl = pictureUrl;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public String getPictureUrl() {
-        return mPictureUrl;
-    }
-
-    public List<Artist> getArtistList() {
-        return mArtistList;
-    }
-
-    public boolean isCanUse() {
-        return mCanUse;
-    }
-
-    public void setCanUse(boolean canUse) {
-        mCanUse = canUse;
-    }
-
-    public String getLyric() {
-        return mLyric;
-    }
-
-    public void setLyric(String lyric) {
-        mLyric = lyric;
+    init {
+        this.id = id
+        this.name = name
+        this.pictureUrl = pictureUrl
+        this.artistList = artistList
     }
 }

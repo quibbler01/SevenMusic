@@ -1,39 +1,30 @@
-package com.quibbler.sevenmusic.fragment.found;
+package com.quibbler.sevenmusic.fragment.found
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.gson.Gson;
-import com.quibbler.sevenmusic.R;
-import com.quibbler.sevenmusic.bean.MusicInfo;
-import com.quibbler.sevenmusic.bean.jsonbean.found.FoundTopCarouselBean;
-import com.quibbler.sevenmusic.bean.jsonbean.found.FoundTopCarouselResponseBean;
-
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static com.quibbler.sevenmusic.bean.MusicURL.API_PRIVATE_CONTENT;
+import android.os.AsyncTask
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.google.gson.Gson
+import com.quibbler.sevenmusic.R
+import com.quibbler.sevenmusic.bean.MusicInfo
+import com.quibbler.sevenmusic.bean.MusicURL
+import com.quibbler.sevenmusic.bean.jsonbean.found.FoundTopCarouselResponseBean
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
+import java.lang.ref.WeakReference
+import kotlin.math.min
 
 /**
  * Package:        com.quibbler.sevenmusic.fragment.found
@@ -42,273 +33,278 @@ import static com.quibbler.sevenmusic.bean.MusicURL.API_PRIVATE_CONTENT;
  * Author:         yanwuyang
  * CreateDate:     2019/10/10 16:14
  */
-public class FoundTopCarouselFragment extends Fragment {
-
-    private static final String TAG = "FoundTopCarouselFragment";
-    private static final int MAX_TOP_CAROUSEL_NUM = 7;
+class FoundTopCarouselFragment : Fragment() {
     //实际轮播图数量
-    private int mRealTopCarouselNum;
+    private var mRealTopCarouselNum = 0
+
     //可见轮播图数量
-    private int mShowTopCarouselNum;
+    private var mShowTopCarouselNum = 0
 
-    private ViewPager mViewPager;
-    private ImageView[] mDotIvArray;
-//    private View mViewPlaceholder;
-//    private RelativeLayout mRlCarousel;
+    private var mViewPager: ViewPager? = null
+    private var mDotIvArray: Array<ImageView?>
 
-    private RequestImageAsyncTask mRequestImageAsyncTask;
-    private List<MusicInfo> mMusicInfoList = new ArrayList<>();
-    private List<String> mBannerImgUrlList = new ArrayList<>();
-    private List<FoundTopCarouselItemFragment> mTopItemFragmentList = new ArrayList<>();
+    //    private View mViewPlaceholder;
+    //    private RelativeLayout mRlCarousel;
+    private var mRequestImageAsyncTask: RequestImageAsyncTask? = null
+    private val mMusicInfoList: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
+    private val mBannerImgUrlList: MutableList<String?> = ArrayList<String?>()
+    private val mTopItemFragmentList: MutableList<FoundTopCarouselItemFragment> =
+        ArrayList<FoundTopCarouselItemFragment>()
 
-    private FragmentManager mChildFragmentManager;
+    private var mChildFragmentManager: FragmentManager? = null
 
-    //定时器触发轮播
-    private static final int SET_VIEWPAGER_ITEM = 0;
-    //轮播间隔
-    private static final int INTERVAL = 1000 * 3;
-    private int mCurrentPosition = 1;
-    private Thread mTimerThread;
+    private var mCurrentPosition = 1
+    private var mTimerThread: Thread? = null
 
-    private static class TimerHandler extends Handler {
-        WeakReference<FoundTopCarouselFragment> mWeakReference;
+    private class TimerHandler(topCarouselFragment: FoundTopCarouselFragment?) : Handler() {
+        var mWeakReference: WeakReference<FoundTopCarouselFragment?>
 
-        private TimerHandler(FoundTopCarouselFragment topCarouselFragment) {
-            mWeakReference = new WeakReference<>(topCarouselFragment);
+        init {
+            mWeakReference = WeakReference<FoundTopCarouselFragment?>(topCarouselFragment)
         }
 
-        @Override
-        public void handleMessage(Message msg) {
+        override fun handleMessage(msg: Message) {
             if (mWeakReference.get() == null) {
-                return;
+                return
             }
-            FoundTopCarouselFragment fragment = mWeakReference.get();
+            val fragment = mWeakReference.get()
             if (fragment == null) {
-                return;
+                return
             }
-            switch (msg.what) {
-                case SET_VIEWPAGER_ITEM:
-                    if (fragment.mViewPager != null) {
-                        int currentItemIndex = fragment.mViewPager.getCurrentItem();
-                        fragment.mViewPager.setCurrentItem(currentItemIndex + 1, true);
-                    }
-                    break;
+            when (msg.what) {
+                SET_VIEWPAGER_ITEM -> if (fragment.mViewPager != null) {
+                    val currentItemIndex = fragment.mViewPager!!.getCurrentItem()
+                    fragment.mViewPager!!.setCurrentItem(currentItemIndex + 1, true)
+                }
             }
         }
     }
 
-    private Handler mHandler;
+    private var mHandler: Handler? = null
 
     //定时器
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Message message = mHandler.obtainMessage();
-            message.what = SET_VIEWPAGER_ITEM;
+    private val mRunnable: Runnable = object : Runnable {
+        override fun run() {
+            val message = mHandler!!.obtainMessage()
+            message.what = SET_VIEWPAGER_ITEM
 
-            mHandler.sendMessage(message);
+            mHandler!!.sendMessage(message)
             //在定时器中把自己移出MQ，再自己把自己加入MQ并延时执行
-            mHandler.removeCallbacks(mRunnable);
-            mHandler.postDelayed(this, INTERVAL);
+            mHandler!!.removeCallbacks(mRunnable)
+            mHandler!!.postDelayed(this, INTERVAL.toLong())
         }
-    };
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_found_top_carousel, container, false);
-        mViewPager = view.findViewById(R.id.found_vp_top_carousel);
-
-        mChildFragmentManager = getChildFragmentManager();
-
-        mHandler = new TimerHandler(this);
-
-        return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mTimerThread = new Thread(mRunnable);
-        mTimerThread.start();
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_found_top_carousel, container, false)
+        mViewPager = view.findViewById<ViewPager?>(R.id.found_vp_top_carousel)
 
-        initTopPlaceholder();
+        mChildFragmentManager = getChildFragmentManager()
 
-        mRequestImageAsyncTask = new RequestImageAsyncTask();
-        mRequestImageAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mHandler = TimerHandler(this)
+
+        return view
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(mRunnable);
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mTimerThread = Thread(mRunnable)
+        mTimerThread!!.start()
+
+        initTopPlaceholder()
+
+        mRequestImageAsyncTask = RequestImageAsyncTask()
+        mRequestImageAsyncTask!!.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler!!.removeCallbacks(mRunnable)
         if (mTimerThread != null) {
-            mTimerThread.interrupt();
+            mTimerThread!!.interrupt()
         }
         if (mRequestImageAsyncTask != null) {
-            mRequestImageAsyncTask.cancel(true);
+            mRequestImageAsyncTask!!.cancel(true)
         }
     }
 
-    private void initTopPlaceholder() {
+    private fun initTopPlaceholder() {
         //fragment嵌套fragment时，要用getChildFragmentManager而不是getActivity.getSupportFragmentManager。
-        mViewPager.setAdapter(new FragmentPagerAdapter(mChildFragmentManager) {
-            @Override
-            public Fragment getItem(int position) {
-                return new FoundTopPlaceholderFragment();
+        mViewPager!!.setAdapter(object : FragmentPagerAdapter(mChildFragmentManager!!) {
+            override fun getItem(position: Int): Fragment {
+                return FoundTopPlaceholderFragment()
             }
 
-            @Override
-            public int getCount() {
+            override fun getCount(): Int {
                 //预加载时占位用的，所以直接返回1即可
-                return 1;
+                return 1
             }
-        });
+        })
     }
-    private void initDots(View view) {
 
-        mDotIvArray = new ImageView[mShowTopCarouselNum];
-        LinearLayout linearLayout = view.findViewById(R.id.found_ll_carousel_dots);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(20, 20);
-        layoutParams.setMargins(4, 0, 4, 0);
-        for (int i = 0; i < mDotIvArray.length; i++) {
-            ImageView imageView = new ImageView(getContext());
-            imageView.setBackgroundResource(R.drawable.dot_unchosen);
-//            imageView.setEnabled(true);
-            mDotIvArray[i] = imageView;
-            linearLayout.addView(mDotIvArray[i], layoutParams);
+    private fun initDots(view: View) {
+        mDotIvArray = arrayOfNulls<ImageView>(mShowTopCarouselNum)
+        val linearLayout = view.findViewById<LinearLayout>(R.id.found_ll_carousel_dots)
+        val layoutParams = LinearLayout.LayoutParams(20, 20)
+        layoutParams.setMargins(4, 0, 4, 0)
+        for (i in mDotIvArray.indices) {
+            val imageView = ImageView(getContext())
+            imageView.setBackgroundResource(R.drawable.dot_unchosen)
+            //            imageView.setEnabled(true);
+            mDotIvArray[i] = imageView
+            linearLayout.addView(mDotIvArray[i], layoutParams)
         }
     }
 
-    private void initViewPager() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    private fun initViewPager() {
+        mViewPager!!.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
             }
 
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentPosition = position;
+            override fun onPageSelected(position: Int) {
+                var position = position
+                mCurrentPosition = position
                 if (position == 0) {
-                    position = mRealTopCarouselNum - 2;
+                    position = mRealTopCarouselNum - 2
                 } else if (position == mRealTopCarouselNum - 1) {
-                    position = 1;
+                    position = 1
                 }
-                setDot(position);
+                setDot(position)
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            override fun onPageScrollStateChanged(state: Int) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    mHandler.removeCallbacks(mRunnable);
-                    mHandler.postDelayed(mRunnable, INTERVAL);
+                    mHandler!!.removeCallbacks(mRunnable)
+                    mHandler!!.postDelayed(mRunnable, INTERVAL.toLong())
                     if (mCurrentPosition == 0) {
-                        mViewPager.setCurrentItem(mRealTopCarouselNum - 2, false);
+                        mViewPager!!.setCurrentItem(mRealTopCarouselNum - 2, false)
                     } else if (mCurrentPosition == mRealTopCarouselNum - 1) {
-                        mViewPager.setCurrentItem(1, false);
+                        mViewPager!!.setCurrentItem(1, false)
                     }
                 } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                    mHandler.removeCallbacks(mRunnable);
+                    mHandler!!.removeCallbacks(mRunnable)
                 } else if (state == ViewPager.SCROLL_STATE_SETTLING) {
-                    mHandler.removeCallbacks(mRunnable);
+                    mHandler!!.removeCallbacks(mRunnable)
                 }
             }
-        });
-        mViewPager.setCurrentItem(mCurrentPosition);
+        })
+        mViewPager!!.setCurrentItem(mCurrentPosition)
         //设置缓存，否则在循环处会屏闪。
-        mViewPager.setOffscreenPageLimit(mRealTopCarouselNum);
+        mViewPager!!.setOffscreenPageLimit(mRealTopCarouselNum)
     }
 
-    private void setDot(int position) {
-        mDotIvArray[position - 1].setBackgroundResource(R.drawable.dot_chosen);
-        for (int i = 0; i < mRealTopCarouselNum - 2; i++) {
+    private fun setDot(position: Int) {
+        mDotIvArray[position - 1]!!.setBackgroundResource(R.drawable.dot_chosen)
+        for (i in 0..<mRealTopCarouselNum - 2) {
             if (i != position - 1) {
-                mDotIvArray[i].setBackgroundResource(R.drawable.dot_unchosen);
+                mDotIvArray[i]!!.setBackgroundResource(R.drawable.dot_unchosen)
             }
         }
     }
 
 
-    private class RequestImageAsyncTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            String path = API_PRIVATE_CONTENT;
+    private inner class RequestImageAsyncTask : AsyncTask<Void?, Void?, Void?>() {
+        override fun doInBackground(vararg voids: Void?): Void? {
+            val path = MusicURL.API_PRIVATE_CONTENT
             try {
-                OkHttpClient okHttpClient = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(path)
-                        .build();
-                Response response = okHttpClient.newCall(request).execute();
+                val okHttpClient = OkHttpClient()
+                val request = Request.Builder()
+                    .url(path)
+                    .build()
+                val response = okHttpClient.newCall(request).execute()
 
-                int responseCode = response.code();
-                String responseData = response.body().string();
+                val responseCode = response.code
+                val responseData = response.body!!.string()
                 if (responseCode == 200 && responseData != null) {
-                    Gson gson = new Gson();
-                    FoundTopCarouselResponseBean responseBean = gson.fromJson(responseData, FoundTopCarouselResponseBean.class);
-                    List<FoundTopCarouselBean> carouselBeanList = responseBean.getBanners();
+                    val gson = Gson()
+                    val responseBean = gson.fromJson<FoundTopCarouselResponseBean>(
+                        responseData,
+                        FoundTopCarouselResponseBean::class.java
+                    )
+                    val carouselBeanList = responseBean.getBanners()
 
-                    mMusicInfoList.clear();
-                    mBannerImgUrlList.clear();
-                    for (FoundTopCarouselBean bean : carouselBeanList) {
-                        if ("1".equals(bean.getTargetType())) {
-                            mMusicInfoList.add(bean.getSong());
-                            mBannerImgUrlList.add(bean.getPic());
+                    mMusicInfoList.clear()
+                    mBannerImgUrlList.clear()
+                    for (bean in carouselBeanList) {
+                        if ("1" == bean.getTargetType()) {
+                            mMusicInfoList.add(bean.getSong())
+                            mBannerImgUrlList.add(bean.getPic())
                         }
                     }
                 } else {
-                    Log.d(TAG, "Cannot get resource!");
+                    Log.d(TAG, "Cannot get resource!")
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-            return null;
+            return null
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        override fun onPostExecute(aVoid: Void?) {
+            super.onPostExecute(aVoid)
 
             //mShowTopCarouselNum确定
-            mShowTopCarouselNum = Math.min(mMusicInfoList.size(), MAX_TOP_CAROUSEL_NUM);
-            mRealTopCarouselNum = mShowTopCarouselNum + 2;
-            initDots(getView());
+            mShowTopCarouselNum = min(mMusicInfoList.size, MAX_TOP_CAROUSEL_NUM)
+            mRealTopCarouselNum = mShowTopCarouselNum + 2
+            initDots(getView()!!)
 
             if (mShowTopCarouselNum <= 0) {
                 //没有请求到内容
-                Log.d(TAG, "no carousel image!  mShowTopCarouselNum = " + mShowTopCarouselNum);
-                return;
+                Log.d(TAG, "no carousel image!  mShowTopCarouselNum = " + mShowTopCarouselNum)
+                return
             }
-            List<MusicInfo> musicInfoListExternal = new ArrayList<>();
-            List<String> bannerImgUrlListExternal = new ArrayList<>();
-            musicInfoListExternal.add(mMusicInfoList.get(mShowTopCarouselNum - 1));
-            bannerImgUrlListExternal.add(mBannerImgUrlList.get(mShowTopCarouselNum - 1));
-            for (int i = 0; i < mShowTopCarouselNum; i++) {
-                musicInfoListExternal.add(mMusicInfoList.get(i));
-                bannerImgUrlListExternal.add(mBannerImgUrlList.get(i));
+            val musicInfoListExternal: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
+            val bannerImgUrlListExternal: MutableList<String?> = ArrayList<String?>()
+            musicInfoListExternal.add(mMusicInfoList.get(mShowTopCarouselNum - 1))
+            bannerImgUrlListExternal.add(mBannerImgUrlList.get(mShowTopCarouselNum - 1))
+            for (i in 0..<mShowTopCarouselNum) {
+                musicInfoListExternal.add(mMusicInfoList.get(i))
+                bannerImgUrlListExternal.add(mBannerImgUrlList.get(i))
             }
-            musicInfoListExternal.add(mMusicInfoList.get(0));
-            bannerImgUrlListExternal.add(mBannerImgUrlList.get(0));
+            musicInfoListExternal.add(mMusicInfoList.get(0))
+            bannerImgUrlListExternal.add(mBannerImgUrlList.get(0))
 
-            for (int i = 0; i < musicInfoListExternal.size(); i++) {
-                mTopItemFragmentList.add(new FoundTopCarouselItemFragment(bannerImgUrlListExternal.get(i), musicInfoListExternal.get(i)));
+            for (i in musicInfoListExternal.indices) {
+                mTopItemFragmentList.add(
+                    FoundTopCarouselItemFragment(
+                        bannerImgUrlListExternal.get(i),
+                        musicInfoListExternal.get(i)
+                    )
+                )
             }
 
             //fragment嵌套fragment时，要用getChildFragmentManager而不是getActivity.getSupportFragmentManager。
-            mViewPager.setAdapter(new FragmentPagerAdapter(mChildFragmentManager) {
-                @Override
-                public Fragment getItem(int position) {
-                    return mTopItemFragmentList.get(position);
+            mViewPager!!.setAdapter(object : FragmentPagerAdapter(mChildFragmentManager!!) {
+                override fun getItem(position: Int): Fragment {
+                    return mTopItemFragmentList.get(position)
                 }
 
-                @Override
-                public int getCount() {
+                override fun getCount(): Int {
 //                        return num;
-                    return mShowTopCarouselNum + 2;
+                    return mShowTopCarouselNum + 2
                 }
-            });
+            })
 
-            initViewPager();
-
+            initViewPager()
         }
+    }
+
+    companion object {
+        private const val TAG = "FoundTopCarouselFragment"
+        private const val MAX_TOP_CAROUSEL_NUM = 7
+
+        //定时器触发轮播
+        private const val SET_VIEWPAGER_ITEM = 0
+
+        //轮播间隔
+        private val INTERVAL = 1000 * 3
     }
 }

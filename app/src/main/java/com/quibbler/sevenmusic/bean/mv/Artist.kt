@@ -1,62 +1,42 @@
-package com.quibbler.sevenmusic.bean.mv;
+package com.quibbler.sevenmusic.bean.mv
 
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
-  *
-  * Package:        com.quibbler.sevenmusic.bean
-  * ClassName:      Artist
-  * Description:    歌手类
-  * Author:         lishijun
-  * CreateDate:     2019/9/19 21:44
+ * 
+ * Package:        com.quibbler.sevenmusic.bean
+ * ClassName:      Artist
+ * Description:    歌手类
+ * Author:         lishijun
+ * CreateDate:     2019/9/19 21:44
  */
-public class Artist implements Serializable {
-
+class Artist : Serializable {
     //歌手id
     @SerializedName("id")
-    int mId;
+    var id: Int = 0
 
     //歌手名字
     @SerializedName("name")
-    String mName;
+    var name: String? = null
 
     //歌手图片url
-    String picUrl;
+    var picUrl: String? = null
+
     //歌手简介
-    String briefDesc;
+    var briefDesc: String? = null
+
     //歌手歌曲数
-    private int musicSize;
+    private val musicSize = 0
+
     //歌手mv数
-    private int mvSize;
+    private val mvSize = 0
 
-    public Artist(int id, String name) {
-        mId = id;
-        mName = name;
-    }
-    public Artist() {
-
+    constructor(id: Int, name: String?) {
+        this.id = id
+        this.name = name
     }
 
-    public int getId() {
-        return mId;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public String getBriefDesc() {
-        return briefDesc;
-    }
+    constructor()
 }

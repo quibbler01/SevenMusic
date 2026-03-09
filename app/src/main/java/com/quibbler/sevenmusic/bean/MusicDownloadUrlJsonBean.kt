@@ -1,6 +1,4 @@
-package com.quibbler.sevenmusic.bean;
-
-import java.util.List;
+package com.quibbler.sevenmusic.bean
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -9,65 +7,16 @@ import java.util.List;
  * Author:         zhaopeng
  * CreateDate:     2019/9/26 16:00
  */
-public class MusicDownloadUrlJsonBean {
+class MusicDownloadUrlJsonBean {
+    var code: Int = 0
 
-    private int code;
+    var data: MutableList<Data?>? = null
 
-    private List<Data> data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public List<Data> getData() {
-        return data;
-    }
-
-    public void setData(List<Data> data) {
-        this.data = data;
-    }
-
-    public class Data {
-        private int id;
-        private String url = null;
-        private int size;
-        private String type;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
+    inner class Data {
+        var id: Int = 0
+        var url: String? = null
+        var size: Int = 0
+        var type: String? = null
     }
 }
 

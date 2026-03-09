@@ -1,23 +1,21 @@
-package com.quibbler.sevenmusic.view.mv;
+package com.quibbler.sevenmusic.view.mv
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.MediaController;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
-import com.quibbler.sevenmusic.R;
-
-import java.util.Formatter;
-import java.util.Locale;
+import android.content.Context
+import android.os.Handler
+import android.os.Message
+import android.util.AttributeSet
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageButton
+import android.widget.MediaController
+import android.widget.ProgressBar
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
+import com.quibbler.sevenmusic.R
+import java.util.Formatter
+import java.util.Locale
 
 /**
  * Package:        com.quibbler.sevenmusic.view.mv
@@ -26,307 +24,300 @@ import java.util.Locale;
  * Author:         lishijun
  * CreateDate:     2019/10/14 21:38
  */
-public class IMediaController extends MediaController {
-    private static final String TAG = "IMediaController";
-    private MediaPlayerControl mPlayer;
-    private Context mContext;
-    private View mRoot;
-    private View mAnchor;
-    private ProgressBar mProgress;
-    private TextView mEndTime, mCurrentTime;
-    private boolean mDragging;
-    private boolean mShowing;
-    private static final int sDefaultTimeout = 5000;
-    private static final int FADE_OUT = 1;
-    private static final int SHOW_PROGRESS = 2;
-    private boolean mFromXml;
-    private OnClickListener mNextListener, mPrevListener;
-    private MediaControlListener mControlListener;
-    StringBuilder mFormatBuilder;
-    Formatter mFormatter;
-    private ImageButton mPauseButton;
-    private ImageButton mNextButton;
-    private ImageButton mPrevButton;
-    private ImageButton mFullScreenButton;
+class IMediaController : MediaController {
+    private var mPlayer: MediaPlayerControl? = null
+    private val mContext: Context
+    var root: View? = null
+        private set
+    private var mAnchor: View? = null
+    private var mProgress: ProgressBar? = null
+    private var mEndTime: TextView? = null
+    private var mCurrentTime: TextView? = null
+    private var mDragging = false
+    private var mShowing = false
+    private var mFromXml = false
+    private var mNextListener: OnClickListener? = null
+    private var mPrevListener: OnClickListener? = null
+    private var mControlListener: MediaControlListener? = null
+    var mFormatBuilder: StringBuilder? = null
+    var mFormatter: Formatter? = null
+    private var mPauseButton: ImageButton? = null
+    private var mNextButton: ImageButton? = null
+    private var mPrevButton: ImageButton? = null
+    private var mFullScreenButton: ImageButton? = null
 
     //是否强制不显示一次
-    private boolean mIsToHideOnce = false;
+    private var mIsToHideOnce = false
 
-    public View getRoot() {
-        return mRoot;
+    fun setToHideOnce(toHideOnce: Boolean) {
+        mIsToHideOnce = toHideOnce
     }
 
-    public void setToHideOnce(boolean toHideOnce) {
-        mIsToHideOnce = toHideOnce;
+    fun setControlListener(controlListener: MediaControlListener?) {
+        mControlListener = controlListener
     }
 
-    public void setControlListener(MediaControlListener controlListener) {
-        mControlListener = controlListener;
-    }
-
-    public IMediaController(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mContext = context;
-        mFromXml = true;
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        mContext = context
+        mFromXml = true
     }
 
     //在这里设置是否使用FastForward而不是Next;useFastForward=false时使用
-// Next/Prevouse按钮所以我们在实例化MediaControl是调用这个构造函数，并且 useFastForward=false×/
-    public IMediaController(Context context, boolean useFastForward) {
-        super(context);
-        mContext = context;
+    // Next/Prevouse按钮所以我们在实例化MediaControl是调用这个构造函数，并且 useFastForward=false×/
+    constructor(context: Context, useFastForward: Boolean) : super(context) {
+        mContext = context
     }
 
-    public IMediaController(Context context) {
-        super(context);
-        mContext = context;
+    constructor(context: Context) : super(context) {
+        mContext = context
     }
 
-    @Override
-    public void setMediaPlayer(MediaPlayerControl player) {
-        super.setMediaPlayer(player);
-        mPlayer = player;
-        updatePausePlay();
+    override fun setMediaPlayer(player: MediaPlayerControl?) {
+        super.setMediaPlayer(player)
+        mPlayer = player
+        updatePausePlay()
     }
 
-    public void setAnchorView(View view) {
-        super.setAnchorView(view);
-        mAnchor = view;
-        LayoutParams frameParams = new LayoutParams(
-                ViewGroup.LayoutParams.FILL_PARENT,
-                ViewGroup.LayoutParams.FILL_PARENT);
-        removeAllViews();
-        View v = makeControllerView();
-        addView(v, frameParams);
+    override fun setAnchorView(view: View?) {
+        super.setAnchorView(view)
+        mAnchor = view
+        val frameParams = LayoutParams(
+            LayoutParams.FILL_PARENT,
+            LayoutParams.FILL_PARENT
+        )
+        removeAllViews()
+        val v = makeControllerView()
+        addView(v, frameParams)
     }
 
 
-    protected View makeControllerView() {
-        LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mRoot = inflate.inflate(R.layout.my_media_controller, null);
-        initControllerView(mRoot);
-        return mRoot;
+    protected fun makeControllerView(): View? {
+        val inflate = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        this.root = inflate.inflate(R.layout.my_media_controller, null)
+        initControllerView(this.root!!)
+        return this.root
     }
 
-    private void initControllerView(View v) {
-        mPauseButton = (ImageButton) v.findViewById(R.id.pause);
+    private fun initControllerView(v: View) {
+        mPauseButton = v.findViewById<View?>(R.id.pause) as ImageButton?
         if (mPauseButton != null) {
-            mPauseButton.requestFocus();
-            mPauseButton.setOnClickListener(mPauseListener);
+            mPauseButton!!.requestFocus()
+            mPauseButton!!.setOnClickListener(mPauseListener)
         }
 
-        mNextButton = (ImageButton) v.findViewById(R.id.next);
-        mPrevButton = (ImageButton) v.findViewById(R.id.prev);
-        mFullScreenButton = (ImageButton) v.findViewById(R.id.full_screen);
-        mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_progress);
+        mNextButton = v.findViewById<View?>(R.id.next) as ImageButton?
+        mPrevButton = v.findViewById<View?>(R.id.prev) as ImageButton?
+        mFullScreenButton = v.findViewById<View?>(R.id.full_screen) as ImageButton?
+        mProgress = v.findViewById<View?>(R.id.mediacontroller_progress) as ProgressBar?
         if (mProgress != null) {
-            if (mProgress instanceof SeekBar) {
-                SeekBar seeker = (SeekBar) mProgress;
-                seeker.setOnSeekBarChangeListener(mSeekListener);
+            if (mProgress is SeekBar) {
+                val seeker = mProgress as SeekBar
+                seeker.setOnSeekBarChangeListener(mSeekListener)
             }
-            mProgress.setMax(1000);
+            mProgress!!.setMax(1000)
         }
 
-        mEndTime = (TextView) v.findViewById(R.id.time);
-        mCurrentTime = (TextView) v.findViewById(R.id.time_current);
-        mFormatBuilder = new StringBuilder();
-        mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
-        installPrevNextListeners();
+        mEndTime = v.findViewById<View?>(R.id.time) as TextView?
+        mCurrentTime = v.findViewById<View?>(R.id.time_current) as TextView?
+        mFormatBuilder = StringBuilder()
+        mFormatter = Formatter(mFormatBuilder, Locale.getDefault())
+        installPrevNextListeners()
     }
 
-    public void hide() {
-        super.hide();
-        if (mAnchor == null)
-            return;
+    override fun hide() {
+        super.hide()
+        if (mAnchor == null) return
         if (mShowing) {
             try {
-                mHandler.removeMessages(SHOW_PROGRESS);
-            } catch (IllegalArgumentException ex) {
-                Log.w("MediaController", "already removed");
+                mHandler.removeMessages(SHOW_PROGRESS)
+            } catch (ex: IllegalArgumentException) {
+                Log.w("MediaController", "already removed")
             }
-            mShowing = false;
+            mShowing = false
         }
     }
 
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            int pos;
-            switch (msg.what) {
-                case FADE_OUT:
-                    hide();
-                    break;
-                case SHOW_PROGRESS:
-                    pos = setProgress();
-                    if (!mDragging && mShowing && mPlayer.isPlaying()) {
-                        msg = mHandler.obtainMessage(SHOW_PROGRESS);
-                        mHandler.sendMessageDelayed(msg, 1000 - (pos % 1000));
+    private val mHandler = Handler(object : Handler.Callback {
+        override fun handleMessage(msg: Message): Boolean {
+            var msg = msg
+            val pos: Int
+            when (msg.what) {
+                FADE_OUT -> hide()
+                SHOW_PROGRESS -> {
+                    pos = setProgress()
+                    if (!mDragging && mShowing && mPlayer!!.isPlaying()) {
+                        msg = mHandler.obtainMessage(SHOW_PROGRESS)
+                        mHandler.sendMessageDelayed(msg, (1000 - (pos % 1000)).toLong())
                     }
-                    break;
+                }
             }
-            return false;
+            return false
         }
-    });
+    })
 
-    private String stringForTime(int timeMs) {
-        int totalSeconds = timeMs / 1000;
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-        mFormatBuilder.setLength(0);
+    private fun stringForTime(timeMs: Int): String {
+        val totalSeconds = timeMs / 1000
+        val seconds = totalSeconds % 60
+        val minutes = (totalSeconds / 60) % 60
+        val hours = totalSeconds / 3600
+        mFormatBuilder!!.setLength(0)
         if (hours > 0) {
-            return mFormatter.format("%02d:%02d:%02d", hours, minutes, seconds)
-                    .toString();
+            return mFormatter!!.format("%02d:%02d:%02d", hours, minutes, seconds)
+                .toString()
         } else {
-            return mFormatter.format("%02d:%02d", minutes, seconds).toString();
+            return mFormatter!!.format("%02d:%02d", minutes, seconds).toString()
         }
     }
 
-    @Override
-    public void show(int timeout) {
+    override fun show(timeout: Int) {
         if (mIsToHideOnce) {
-            mIsToHideOnce = false;
-            return;
+            mIsToHideOnce = false
+            return
         }
-        super.show(timeout);
+        super.show(timeout)
         if (!mShowing && mAnchor != null) {
-            setProgress();
-            mShowing = true;
+            setProgress()
+            mShowing = true
         }
-        updatePausePlay();
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        Message msg = mHandler.obtainMessage(FADE_OUT);
+        updatePausePlay()
+        mHandler.sendEmptyMessage(SHOW_PROGRESS)
+        val msg = mHandler.obtainMessage(FADE_OUT)
         if (timeout != 0) {
-            mHandler.removeMessages(FADE_OUT);
-            mHandler.sendMessageDelayed(msg, timeout);
+            mHandler.removeMessages(FADE_OUT)
+            mHandler.sendMessageDelayed(msg, timeout.toLong())
         }
     }
 
-    private int setProgress() {
+    private fun setProgress(): Int {
         if (mPlayer == null || mDragging) {
-            return 0;
+            return 0
         }
-        int position = mPlayer.getCurrentPosition();
-        int duration = mPlayer.getDuration();
+        val position = mPlayer!!.getCurrentPosition()
+        val duration = mPlayer!!.getDuration()
         if (mProgress != null) {
             if (duration > 0) {
-                long pos = 1000L * position / duration;
-                mProgress.setProgress((int) pos);
+                val pos = 1000L * position / duration
+                mProgress!!.setProgress(pos.toInt())
             }
-            int percent = mPlayer.getBufferPercentage();
-            mProgress.setSecondaryProgress(percent * 10);
+            val percent = mPlayer!!.getBufferPercentage()
+            mProgress!!.setSecondaryProgress(percent * 10)
         }
-        if (mEndTime != null)
-            mEndTime.setText(stringForTime(duration));
-        if (mCurrentTime != null)
-            mCurrentTime.setText(stringForTime(position));
-        return position;
+        if (mEndTime != null) mEndTime!!.setText(stringForTime(duration))
+        if (mCurrentTime != null) mCurrentTime!!.setText(stringForTime(position))
+        return position
     }
 
-    private OnClickListener mPauseListener = new OnClickListener() {
-        public void onClick(View v) {
-            doPauseResume();
-            show(sDefaultTimeout);
+    private val mPauseListener: OnClickListener = object : OnClickListener {
+        override fun onClick(v: View?) {
+            doPauseResume()
+            show(sDefaultTimeout)
         }
-    };
+    }
 
-    private OnClickListener mFullScreenListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    private var mFullScreenListener: OnClickListener? = object : OnClickListener {
+        override fun onClick(v: View?) {
             if (mControlListener != null) {
-                mControlListener.actionForFullScreen();
+                mControlListener!!.actionForFullScreen()
             }
         }
-    };
+    }
 
 
-    private void updatePausePlay() {
-        if (mRoot == null)
-            return;
+    private fun updatePausePlay() {
+        if (this.root == null) return
 
-        ImageButton button = (ImageButton) mRoot.findViewById(R.id.pause);
-        if (button == null)
-            return;
+        val button = root!!.findViewById<View?>(R.id.pause) as ImageButton?
+        if (button == null) return
 
-        if (mPlayer.isPlaying()) {
-            button.setBackgroundResource(R.drawable.music_play_button);
+        if (mPlayer!!.isPlaying()) {
+            button.setBackgroundResource(R.drawable.music_play_button)
         } else {
-            button.setBackgroundResource(R.drawable.music_pause_button);
+            button.setBackgroundResource(R.drawable.music_pause_button)
         }
     }
 
-    private void doPauseResume() {
-        if (mPlayer.isPlaying()) {
-            mPlayer.pause();
+    private fun doPauseResume() {
+        if (mPlayer!!.isPlaying()) {
+            mPlayer!!.pause()
         } else {
-            mPlayer.start();
+            mPlayer!!.start()
         }
-        updatePausePlay();
+        updatePausePlay()
     }
 
-    private SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
-        public void onStartTrackingTouch(SeekBar bar) {
-            show(3600000);
-            mDragging = true;
-            mHandler.removeMessages(SHOW_PROGRESS);
+    private val mSeekListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {
+        override fun onStartTrackingTouch(bar: SeekBar?) {
+            show(3600000)
+            mDragging = true
+            mHandler.removeMessages(SHOW_PROGRESS)
         }
 
-        public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
+        override fun onProgressChanged(bar: SeekBar?, progress: Int, fromuser: Boolean) {
             if (!fromuser) {
-                return;
+                return
             }
-            long duration = mPlayer.getDuration();
-            long newposition = (duration * progress) / 1000L;
-            mPlayer.seekTo((int) newposition);
+            val duration = mPlayer!!.getDuration().toLong()
+            val newposition = (duration * progress) / 1000L
+            mPlayer!!.seekTo(newposition.toInt())
             if (mCurrentTime != null) {
-                mCurrentTime.setText(stringForTime((int) newposition));
+                mCurrentTime!!.setText(stringForTime(newposition.toInt()))
             }
         }
 
-        public void onStopTrackingTouch(SeekBar bar) {
-            mDragging = false;
-            setProgress();
-            updatePausePlay();
-            show(sDefaultTimeout);
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        override fun onStopTrackingTouch(bar: SeekBar?) {
+            mDragging = false
+            setProgress()
+            updatePausePlay()
+            show(sDefaultTimeout)
+            mHandler.sendEmptyMessage(SHOW_PROGRESS)
         }
-    };
+    }
 
-    private void installPrevNextListeners() {
+    private fun installPrevNextListeners() {
         if (mNextButton != null) {
-            mNextButton.setOnClickListener(mNextListener);
-            mNextButton.setEnabled(mNextListener != null);
+            mNextButton!!.setOnClickListener(mNextListener)
+            mNextButton!!.setEnabled(mNextListener != null)
         }
 
         if (mPrevButton != null) {
-            mPrevButton.setOnClickListener(mPrevListener);
-            mPrevButton.setEnabled(mPrevListener != null);
+            mPrevButton!!.setOnClickListener(mPrevListener)
+            mPrevButton!!.setEnabled(mPrevListener != null)
         }
 
         if (mFullScreenButton != null) {
-            mFullScreenButton.setOnClickListener(mFullScreenListener);
-            mFullScreenButton.setEnabled(mFullScreenListener != null);
+            mFullScreenButton!!.setOnClickListener(mFullScreenListener)
+            mFullScreenButton!!.setEnabled(mFullScreenListener != null)
         }
     }
 
-    public void setPrevNextListeners(OnClickListener next, OnClickListener prev, OnClickListener fullScreen) {
-        mNextListener = next;
-        mPrevListener = prev;
-        mFullScreenListener = fullScreen;
+    fun setPrevNextListeners(
+        next: OnClickListener?,
+        prev: OnClickListener?,
+        fullScreen: OnClickListener?
+    ) {
+        mNextListener = next
+        mPrevListener = prev
+        mFullScreenListener = fullScreen
 
-        if (mRoot != null) {
-            installPrevNextListeners();
+        if (this.root != null) {
+            installPrevNextListeners()
             if (mNextButton != null && !mFromXml) {
-                mNextButton.setVisibility(View.VISIBLE);
+                mNextButton!!.setVisibility(VISIBLE)
             }
             if (mPrevButton != null && !mFromXml) {
-                mPrevButton.setVisibility(View.VISIBLE);
+                mPrevButton!!.setVisibility(VISIBLE)
             }
             if (mFullScreenButton != null && !mFromXml) {
-                mFullScreenButton.setVisibility(View.VISIBLE);
+                mFullScreenButton!!.setVisibility(VISIBLE)
             }
         }
     }
 
 
+    companion object {
+        private const val TAG = "IMediaController"
+        private const val sDefaultTimeout = 5000
+        private const val FADE_OUT = 1
+        private const val SHOW_PROGRESS = 2
+    }
 }
