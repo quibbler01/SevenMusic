@@ -92,7 +92,7 @@ class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
         mSidebarScanTitleLayout!!.setLayoutParams(params)
 
         mCaptureFragment = CaptureFragment()
-        mCaptureFragment!!.setAnalyzeCallback(analyzeCallback)
+        mCaptureFragment!!.analyzeCallback = analyzeCallback
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.sidebar_fl_scan_zxing_layout, mCaptureFragment!!).commit()
     }
