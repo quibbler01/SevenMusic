@@ -13,121 +13,106 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.google.zxing.camera
 
-package com.google.zxing.camera;
-
-import android.graphics.Bitmap;
-
-import com.google.zxing.LuminanceSource;
+import android.graphics.Bitmap
+import com.google.zxing.LuminanceSource
 
 /**
  * This object extends LuminanceSource around an array of YUV data returned from the camera driver,
  * with the option to crop to a rectangle within the full data. This can be used to exclude
  * superfluous pixels around the perimeter and speed up decoding.
- * <p>
+ * 
+ * 
  * It works for any pixel format where the Y channel is planar and appears first, including
  * YCbCr_420_SP and YCbCr_422_SP.
- *
+ * 
  * @author dswitkin@google.com (Daniel Switkin)
  */
-public final class PlanarYUVLuminanceSource extends LuminanceSource {
-    private final byte[] yuvData;
-    private final int dataWidth;
-    private final int dataHeight;
-    private final int left;
-    private final int top;
+class PlanarYUVLuminanceSource(
+    yuvData: ByteArray, dataWidth: Int, dataHeight: Int, left: Int, top: Int,
+    width: Int, height: Int
+) : LuminanceSource(width, height) {
+    private val yuvData: ByteArray
+    val dataWidth: Int
+    val dataHeight: Int
+    private val left: Int
+    private val top: Int
 
-    public PlanarYUVLuminanceSource(byte[] yuvData, int dataWidth, int dataHeight, int left, int top,
-                                    int width, int height) {
-        super(width, height);
+    init {
+        require(!(left + width > dataWidth || top + height > dataHeight)) { "Crop rectangle does not fit within image data." }
 
-        if (left + width > dataWidth || top + height > dataHeight) {
-            throw new IllegalArgumentException("Crop rectangle does not fit within image data.");
-        }
-
-        this.yuvData = yuvData;
-        this.dataWidth = dataWidth;
-        this.dataHeight = dataHeight;
-        this.left = left;
-        this.top = top;
+        this.yuvData = yuvData
+        this.dataWidth = dataWidth
+        this.dataHeight = dataHeight
+        this.left = left
+        this.top = top
     }
 
-    @Override
-    public byte[] getRow(int y, byte[] row) {
-        if (y < 0 || y >= getHeight()) {
-            throw new IllegalArgumentException("Requested row is outside the image: " + y);
+    override fun getRow(y: Int, row: ByteArray?): ByteArray {
+        var row = row
+        require(!(y < 0 || y >= getHeight())) { "Requested row is outside the image: " + y }
+        val width = getWidth()
+        if (row == null || row.size < width) {
+            row = ByteArray(width)
         }
-        int width = getWidth();
-        if (row == null || row.length < width) {
-            row = new byte[width];
-        }
-        int offset = (y + top) * dataWidth + left;
-        System.arraycopy(yuvData, offset, row, 0, width);
-        return row;
+        val offset = (y + top) * dataWidth + left
+        System.arraycopy(yuvData, offset, row, 0, width)
+        return row
     }
 
-    @Override
-    public byte[] getMatrix() {
-        int width = getWidth();
-        int height = getHeight();
+    override fun getMatrix(): ByteArray {
+        val width = getWidth()
+        val height = getHeight()
 
         // If the caller asks for the entire underlying image, save the copy and give them the
         // original data. The docs specifically warn that result.length must be ignored.
         if (width == dataWidth && height == dataHeight) {
-            return yuvData;
+            return yuvData
         }
 
-        int area = width * height;
-        byte[] matrix = new byte[area];
-        int inputOffset = top * dataWidth + left;
+        val area = width * height
+        val matrix = ByteArray(area)
+        var inputOffset = top * dataWidth + left
 
         // If the width matches the full width of the underlying data, perform a single copy.
         if (width == dataWidth) {
-            System.arraycopy(yuvData, inputOffset, matrix, 0, area);
-            return matrix;
+            System.arraycopy(yuvData, inputOffset, matrix, 0, area)
+            return matrix
         }
 
         // Otherwise copy one cropped row at a time.
-        byte[] yuv = yuvData;
-        for (int y = 0; y < height; y++) {
-            int outputOffset = y * width;
-            System.arraycopy(yuv, inputOffset, matrix, outputOffset, width);
-            inputOffset += dataWidth;
+        val yuv = yuvData
+        for (y in 0..<height) {
+            val outputOffset = y * width
+            System.arraycopy(yuv, inputOffset, matrix, outputOffset, width)
+            inputOffset += dataWidth
         }
-        return matrix;
+        return matrix
     }
 
-    @Override
-    public boolean isCropSupported() {
-        return true;
+    override fun isCropSupported(): Boolean {
+        return true
     }
 
-    public int getDataWidth() {
-        return dataWidth;
-    }
+    fun renderCroppedGreyscaleBitmap(): Bitmap {
+        val width = getWidth()
+        val height = getHeight()
+        val pixels = IntArray(width * height)
+        val yuv = yuvData
+        var inputOffset = top * dataWidth + left
 
-    public int getDataHeight() {
-        return dataHeight;
-    }
-
-    public Bitmap renderCroppedGreyscaleBitmap() {
-        int width = getWidth();
-        int height = getHeight();
-        int[] pixels = new int[width * height];
-        byte[] yuv = yuvData;
-        int inputOffset = top * dataWidth + left;
-
-        for (int y = 0; y < height; y++) {
-            int outputOffset = y * width;
-            for (int x = 0; x < width; x++) {
-                int grey = yuv[inputOffset + x] & 0xff;
-                pixels[outputOffset + x] = 0xFF000000 | (grey * 0x00010101);
+        for (y in 0..<height) {
+            val outputOffset = y * width
+            for (x in 0..<width) {
+                val grey = yuv[inputOffset + x].toInt() and 0xff
+                pixels[outputOffset + x] = -0x1000000 or (grey * 0x00010101)
             }
-            inputOffset += dataWidth;
+            inputOffset += dataWidth
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-        return bitmap;
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        return bitmap
     }
 }
