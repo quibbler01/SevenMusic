@@ -71,7 +71,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         setContentView(R.layout.activity_singer)
 
         mArtistId = getIntent().getStringExtra("id")
-        mArtist.setId(mArtistId!!.toInt())
+        mArtist.id = mArtistId!!.toInt())
 
         init()
     }
@@ -200,10 +200,10 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                 if (singerResponseBean == null) {
                     return
                 }
-                mArtist = singerResponseBean.getArtist()
-                mMusicInfoList = singerResponseBean.getHotSongs()
+                mArtist = singerResponseBean.artist
+                mMusicInfoList = singerResponseBean.hotSongs
                 for (musicInfo in mMusicInfoList!!) {
-                    musicInfo.setSinger(musicInfo.getFirstArName())
+                    musicInfo.setSinger(musicInfo.firstArName)
                 }
                 mSingerMusicAdapter!!.updateData(mMusicInfoList)
 
@@ -220,8 +220,8 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
      */
     private fun showViewContent() {
         //显示歌手图片
-        ImageDownloadPresenter.Companion.getInstance().with(MusicApplication.Companion.getContext())
-            .load(mArtist.getPicUrl())
+        ImageDownloadPresenter.Companion.instance.with(MusicApplication.Companion.context)
+            .load(mArtist.picUrl)
             .imageStyle(ImageDownloadPresenter.Companion.STYLE_ORIGIN)
             .into(mIvSingerCover, object : ImageDownloadPresenter.ResourceCallback<Bitmap?> {
                 override fun onResourceReady(resource: Bitmap) {
@@ -256,7 +256,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
             })
 
         //显示歌手名称
-        mTvSingerName!!.setText(mArtist.getName())
+        mTvSingerName!!.setText(mArtist.name)
         //显示关注按钮
         mQueryThread = Thread(object : Runnable {
             override fun run() {
@@ -310,14 +310,14 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         if (loved) {
             //增加该数据
             val values = ContentValues()
-            values.put("id", artist.getId())
-            values.put("title", artist.getName())
+            values.put("id", artist.id)
+            values.put("title", artist.name)
             values.put("kind", SINGER_KIND)
-            values.put("description", artist.getBriefDesc())
+            values.put("description", artist.briefDesc)
             context.getContentResolver().insert(authorityUri, values)
         } else {
             //删除该数据
-            val collectionUrl = Uri.parse(authorityUri.toString() + "/" + artist.getId())
+            val collectionUrl = Uri.parse(authorityUri.toString() + "/" + artist.id)
             context.getContentResolver().delete(collectionUrl, null, null)
         }
     }

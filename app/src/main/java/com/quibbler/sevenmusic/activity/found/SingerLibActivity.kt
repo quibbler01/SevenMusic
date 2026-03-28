@@ -315,7 +315,7 @@ class SingerLibActivity : AppCompatActivity() {
                         FoundSingerLibBean::class.java
                     )
 
-                    return responseBean.getArtists()
+                    return responseBean.artists
                 }
             } catch (e: IOException) {
                 Log.e(TAG, "网络异常！")
@@ -332,7 +332,7 @@ class SingerLibActivity : AppCompatActivity() {
             val iterator = foundSingerInfoList.iterator()
             while (iterator.hasNext()) {
                 val singer = iterator.next()
-                if (singer == null || singer.getFirstPinyin() == null) {
+                if (singer == null || singer.firstPinyin == null) {
                     iterator.remove()
                 }
             }
@@ -378,7 +378,7 @@ class SingerLibActivity : AppCompatActivity() {
                         FoundSingerLibBean::class.java
                     )
 
-                    return responseBean.getArtists()
+                    return responseBean.artists
                 }
             } catch (e: IOException) {
                 Log.e(TAG, "网络异常！")
