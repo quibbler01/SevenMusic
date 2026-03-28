@@ -56,7 +56,7 @@ class MusicAlarmTipsActivity : AppCompatActivity() {
         mAlertDialog = mBuilder!!
             .setTitle(ResUtil.getString(R.string.str_alarm_tips_dialog_title))
             .setMessage(ResUtil.getString(R.string.str_alarm_tips_dialog_msg) + mSongName)
-            .setNegativeButton(
+            .negativeButton = 
                 ResUtil.getString(R.string.str_dialog_btn_cancel),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(dialogInterface: DialogInterface?, i: Int) {

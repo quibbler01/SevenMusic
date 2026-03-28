@@ -313,7 +313,7 @@ class MusicAlarmActivity : BaseActivity(), View.OnClickListener,
 
                     8 -> {
                         mSidebarRepeatValueTv!!.setText(
-                            ResUtil.getResources()
+                            ResUtil.resources
                                 .getString(R.string.str_alarm_reminder_frequency_everyday)
                         )
                         SharedPreferencesUtils.Companion.getInstance().saveData(
@@ -326,7 +326,7 @@ class MusicAlarmActivity : BaseActivity(), View.OnClickListener,
 
                     9 -> {
                         mSidebarRepeatValueTv!!.setText(
-                            ResUtil.getResources()
+                            ResUtil.resources
                                 .getString(R.string.str_alarm_reminder_frequency_once)
                         )
                         SharedPreferencesUtils.Companion.getInstance().saveData(
