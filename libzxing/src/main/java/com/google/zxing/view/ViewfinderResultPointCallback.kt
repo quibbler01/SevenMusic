@@ -1,18 +1,11 @@
-package com.google.zxing.view;
+package com.google.zxing.view
 
-import com.google.zxing.ResultPoint;
-import com.google.zxing.ResultPointCallback;
+import com.google.zxing.ResultPoint
+import com.google.zxing.ResultPointCallback
 
-public final class ViewfinderResultPointCallback implements ResultPointCallback {
-
-    private final com.google.zxing.view.ViewfinderView viewfinderView;
-
-    public ViewfinderResultPointCallback(ViewfinderView viewfinderView) {
-        this.viewfinderView = viewfinderView;
+class ViewfinderResultPointCallback(private val viewfinderView: ViewfinderView?) :
+    ResultPointCallback {
+    override fun foundPossibleResultPoint(point: ResultPoint?) {
+        // viewfinderView.addPossibleResultPoint(point);
     }
-
-    public void foundPossibleResultPoint(ResultPoint point) {
-       // viewfinderView.addPossibleResultPoint(point);
-    }
-
 }
