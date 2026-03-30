@@ -48,14 +48,14 @@ class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableLi
         convertView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
-                intent.putExtra("title", "专辑:" + mAlbumInfoList.get(position)!!.getAlbumName())
+                intent.putExtra("title", "专辑:" + mAlbumInfoList.get(position)!!.albumName)
                 val list: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
                 list.addAll(mAlbumInfoList.get(position)!!.getMusicInfoList())
                 intent.putExtra("music", list as Serializable)
                 mContext.startActivity(intent)
             }
         })
-        viewHolder!!.name!!.setText(mAlbumInfoList.get(position)!!.getAlbumName())
+        viewHolder!!.name!!.setText(mAlbumInfoList.get(position)!!.albumName)
         viewHolder.number!!.setText(
             mAlbumInfoList.get(position)!!.getMusicInfoList().size.toString() + "首"
         )

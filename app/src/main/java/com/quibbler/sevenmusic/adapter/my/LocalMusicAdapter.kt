@@ -47,14 +47,14 @@ class LocalMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
             viewHolder.playButton.setImageResource(R.drawable.my_music_play_icon)
         }
 
-        if (musicInfo.getIsMusicMatch().isMusicNameMatch()) {
+        if (musicInfo.isMusicMatch.isMusicNameMatch()) {
             val spannableString = SpannableString(musicInfo.getMusicSongName())
             val colorSpan = ForegroundColorSpan(Color.parseColor("#008AFF"))
             spannableString.setSpan(
                 colorSpan,
-                musicInfo.getIsMusicMatch().getMusicNameStart(),
-                musicInfo.getIsMusicMatch().getMusicNameStart() + musicInfo.getIsMusicMatch()
-                    .getKeyLength(),
+                musicInfo.isMusicMatch.musicNameStart,
+                musicInfo.isMusicMatch.musicNameStart + musicInfo.isMusicMatch
+                    .keyLength,
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE
             )
             viewHolder.songName.setText(spannableString)
@@ -62,14 +62,14 @@ class LocalMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
             viewHolder.songName.setText(musicInfo.getMusicSongName())
         }
 
-        if (musicInfo.getIsMusicMatch().isSingleNameMatch()) {
+        if (musicInfo.isMusicMatch.isSingleNameMatch()) {
             val spannableString = SpannableString(musicInfo.getSinger())
             val colorSpan = ForegroundColorSpan(Color.parseColor("#008AFF"))
             spannableString.setSpan(
                 colorSpan,
-                musicInfo.getIsMusicMatch().getSingleNameStart(),
-                musicInfo.getIsMusicMatch().getSingleNameStart() + musicInfo.getIsMusicMatch()
-                    .getKeyLength(),
+                musicInfo.isMusicMatch.singleNameStart,
+                musicInfo.isMusicMatch.singleNameStart + musicInfo.isMusicMatch
+                    .keyLength,
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE
             )
             viewHolder.singerName!!.setText(spannableString)
