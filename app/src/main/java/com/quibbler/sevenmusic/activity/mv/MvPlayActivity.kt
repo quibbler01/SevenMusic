@@ -144,15 +144,15 @@ class MvPlayActivity : Activity() {
             override fun onMusicInfoCompleted() {
                 runOnUiThread(object : Runnable {
                     override fun run() {
-                        if (!TextUtils.isEmpty(mMvInfo!!.getUrl())) {
-                            mVideoView!!.setVideoPath(mMvInfo!!.getUrl())
+                        if (!TextUtils.isEmpty(mMvInfo!!.url)) {
+                            mVideoView!!.setVideoPath(mMvInfo!!.url)
                         }
                         val nameView = findViewById<TextView>(R.id.mv_tv_palyname)
                         val palyCountView = findViewById<TextView>(R.id.mv_tv_count)
                         val descriptionView = findViewById<TextView>(R.id.mv_tv_description)
-                        nameView.setText(mMvInfo!!.getName())
-                        palyCountView.setText(mMvInfo!!.getPlayCount().toString() + "次播放")
-                        descriptionView.setText(mMvInfo!!.getCopyWriter())
+                        nameView.setText(mMvInfo!!.name)
+                        palyCountView.setText(mMvInfo!!.playCount.toString() + "次播放")
+                        descriptionView.setText(mMvInfo!!.copyWriter)
                         //折叠按钮的监听事件
                         val collapseButton = findViewById<ImageButton>(R.id.mv_btn_collapse)
                         collapseButton.setOnClickListener(object : View.OnClickListener {
@@ -167,16 +167,16 @@ class MvPlayActivity : Activity() {
                             }
                         })
                         //获取相似歌曲
-                        if (mMvInfo!!.getArtists().size > 0) {
-                            getSimilarSong(mMvInfo!!.getArtists().get(0).getId())
+                        if (mMvInfo!!.artists.size > 0) {
+                            getSimilarSong(mMvInfo!!.artists.get(0).id)
                         }
                     }
                 })
             }
         })
         //获取相似mv
-        getSimilarMv(mMvInfo!!.getId())
-        getMvComment(mMvInfo!!.getId())
+        getSimilarMv(mMvInfo!!.id)
+        getMvComment(mMvInfo!!.id)
     }
 
     private fun setTransparentToolbar() {
@@ -245,7 +245,7 @@ class MvPlayActivity : Activity() {
     //显示mv的缩略图
     private fun showMvPicture(mvInfo: MvInfo) {
         Glide.with(this)
-            .load(mvInfo.getPictureUrl())
+            .load(mvInfo.pictureUrl)
             .into(object : SimpleTarget<Drawable?>() {
                 override fun onResourceReady(
                     resource: Drawable?,
@@ -360,20 +360,20 @@ class MvPlayActivity : Activity() {
         )
         val videoView = view.findViewById<ImageView>(R.id.mv_iv_picture)
         val videoDescView = view.findViewById<TextView>(R.id.mv_tv_description)
-        if (!TextUtils.equals("", mvInfo.getCopyWriter()) && !TextUtils.equals(
+        if (!TextUtils.equals("", mvInfo.copyWriter) && !TextUtils.equals(
                 "null",
-                mvInfo.getCopyWriter()
+                mvInfo.copyWriter
             )
         ) {
-            videoDescView.setText(mvInfo.getName() + "，" + mvInfo.getCopyWriter())
+            videoDescView.setText(mvInfo.name + "，" + mvInfo.copyWriter)
         } else {
-            videoDescView.setText(mvInfo.getName())
+            videoDescView.setText(mvInfo.name)
         }
         fatherView.addView(view)
         videoView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 //跳转进入播放activity
-                if (mvInfo.getUrl() != null) {
+                if (mvInfo.url != null) {
                     ActivityStart.startMvPlayActivity(this@MvPlayActivity, mvInfo)
                 }
             }
@@ -385,7 +385,7 @@ class MvPlayActivity : Activity() {
         //先用glide加载
         if (!this.isFinishing()) {
             Glide.with(this)
-                .load(mvInfo.getPictureUrl())
+                .load(mvInfo.pictureUrl)
                 .apply(options)
                 .into(videoView)
         }
@@ -469,22 +469,22 @@ class MvPlayActivity : Activity() {
         //先用glide加载
         if (!this.isFinishing()) {
             Glide.with(this)
-                .load(mvMusicInfo.getPictureUrl())
+                .load(mvMusicInfo.pictureUrl)
                 .apply(options)
                 .into(albumView)
         }
-        songNameView.setText(mvMusicInfo.getName())
+        songNameView.setText(mvMusicInfo.name)
         val artistString = StringBuffer()
-        val mvArtistList = mvMusicInfo.getArtistList()
+        val mvArtistList = mvMusicInfo.artistList
         if (mvArtistList != null) {
             for (j in mvArtistList.indices) {
                 if (j == mvArtistList.size - 1) {
-                    artistString.append(mvArtistList.get(j)!!.getName())
+                    artistString.append(mvArtistList.get(j)!!.name)
                 } else {
-                    artistString.append(mvArtistList.get(j)!!.getName() + "/")
+                    artistString.append(mvArtistList.get(j)!!.name + "/")
                 }
             }
-            artistNameView.setText(artistString.toString() + "-" + mvMusicInfo.getName())
+            artistNameView.setText(artistString.toString() + "-" + mvMusicInfo.name)
         }
         fatherView.addView(view)
         //点击播放响应
@@ -492,18 +492,18 @@ class MvPlayActivity : Activity() {
         val clickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (mvMusicInfo.isCanUse()) {
-                    if (MusicPlayerService.Companion.isPlaying && MusicPlayerService.Companion.getMusicInfo() != null && TextUtils.equals(
-                            mvMusicInfo.getId().toString() + "",
-                            MusicPlayerService.Companion.getMusicInfo().getId()
+                    if (MusicPlayerService.Companion.isPlaying && MusicPlayerService.Companion.musicInfo != null && TextUtils.equals(
+                            mvMusicInfo.id.toString() + "",
+                            MusicPlayerService.Companion.musicInfo.getId()
                         )
                     ) {
                         ActivityStart.startMusicPlayActivity(this@MvPlayActivity, mvMusicInfo)
                     } else {
                         val musicInfo = MusicInfo()
-                        musicInfo.setId(mvMusicInfo.getId().toString())
-                        musicInfo.setMusicSongName(mvMusicInfo.getName())
-                        if (mvMusicInfo.getArtistList().size > 0) {
-                            musicInfo.setSinger(mvMusicInfo.getArtistList().get(0).getName())
+                        musicInfo.setId(mvMusicInfo.id.toString())
+                        musicInfo.setMusicSongName(mvMusicInfo.name)
+                        if (mvMusicInfo.artistList.size > 0) {
+                            musicInfo.setSinger(mvMusicInfo.artistList.get(0).name)
                         }
                         MusicPlayerService.Companion.playMusic(musicInfo)
                     }
@@ -570,19 +570,19 @@ class MvPlayActivity : Activity() {
         //先用glide加载
         if (this != null) {
             Glide.with(this)
-                .load(mvComment.getUerHeadUrl())
+                .load(mvComment.uerHeadUrl)
                 .apply(RequestOptions.bitmapTransform(CircleCrop()))
                 .into(userheadView)
         }
-        userameView.setText(mvComment.getUserName())
+        userameView.setText(mvComment.userName)
         try {
-            val time = DateUtil.longToString(mvComment.getDate(), "yyyy-MM-dd HH:mm:ss")
+            val time = DateUtil.longToString(mvComment.date, "yyyy-MM-dd HH:mm:ss")
             timeView.setText(time)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        contentView.setText(mvComment.getContent())
-        likeCountView.setText(mvComment.getLikeCount().toString() + "")
+        contentView.setText(mvComment.content)
+        likeCountView.setText(mvComment.likeCount.toString() + "")
         fatherView.addView(view)
     }
 
@@ -602,10 +602,10 @@ class MvPlayActivity : Activity() {
         var metadataRetriever: MediaMetadataRetriever? = null
         try {
             if (mVideoView != null && mSeekPosition > 0 && !mVideoView!!.isPlaying()) {
-                if (mMvInfo!!.getUrl() != null) {
+                if (mMvInfo!!.url != null) {
                     metadataRetriever = MediaMetadataRetriever()
                     //mPath视频地址
-                    metadataRetriever.setDataSource(mMvInfo!!.getUrl(), HashMap<String?, String?>())
+                    metadataRetriever.setDataSource(mMvInfo!!.url, HashMap<String?, String?>())
                     //获取当前视频某一时刻(毫秒*1000)的一帧
                     val bitmap = metadataRetriever.getFrameAtTime(
                         (mSeekPosition * 1000).toLong(),

@@ -109,7 +109,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         setContentView(R.layout.activity_playlist)
 
         mPlaylistId = getIntent().getStringExtra(getString(R.string.playlist_id))
-        mPlaylistInfo!!.setId(mPlaylistId)
+        mPlaylistInfo!!.id = mPlaylistId)
 
         init()
     }
@@ -253,20 +253,20 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
          */
         get() {
             val uri: Uri = MusicContentProvider.Companion.SONGLIST_URL
-            if (!TextUtils.isEmpty(mPlaylistInfo!!.getId())) {
+            if (!TextUtils.isEmpty(mPlaylistInfo!!.id)) {
                 val cursor = getContentResolver().query(
                     uri,
                     null,
                     "id = ?",
-                    arrayOf<String?>(mPlaylistInfo!!.getId()),
+                    arrayOf<String?>(mPlaylistInfo!!.id),
                     null
                 )
                 if (cursor != null && cursor.moveToFirst()) {
                     //本地收藏数据库有记录
                     mIsCollected = true
-                    mPlaylistInfo!!.setName(cursor.getString(cursor.getColumnIndex("name")))
-                    mPlaylistInfo!!.setDescription(cursor.getString(cursor.getColumnIndex("description")))
-                    mPlaylistInfo!!.setTrackCount(cursor.getInt(cursor.getColumnIndex("number")))
+                    mPlaylistInfo!!.name = cursor.getString(cursor.getColumnIndex("name")))
+                    mPlaylistInfo!!.description = cursor.getString(cursor.getColumnIndex("description")))
+                    mPlaylistInfo!!.trackCount = cursor.getInt(cursor.getColumnIndex("number")))
 
                     //            mPlaylistInfo.setCoverImgUrl(cursor.getString(cursor.getColumnIndex("coverimgurl")));
                     val creatorJson =
@@ -276,7 +276,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                             creatorJson,
                             Creator::class.java
                         )
-                    mPlaylistInfo!!.setCreator(creator)
+                    mPlaylistInfo!!.creator = creator)
 
                     val tracksJson =
                         cursor.getString(cursor.getColumnIndex("songs"))
@@ -285,7 +285,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                         object : TypeToken<MutableList<MusicInfo?>?>() {
                         }.getType()
                     )
-                    mPlaylistInfo!!.setTracks(mMusicInfoList)
+                    mPlaylistInfo!!.tracks = mMusicInfoList)
                 } else {
                     mIsCollected = false
                 }
@@ -304,16 +304,16 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
      * 将歌单数据在页面上显示
      */
     private fun showPlaylist() {
-        mTvPlaylistName!!.setText(mPlaylistInfo!!.getName())
-        val creator = mPlaylistInfo!!.getCreator()
+        mTvPlaylistName!!.setText(mPlaylistInfo!!.name)
+        val creator = mPlaylistInfo!!.creator
         if (creator != null) {
-            mTvCreator!!.setText(creator.getNickname())
+            mTvCreator!!.setText(creator.nickname)
         }
         mPlaylistAdapter!!.updateData(mMusicInfoList)
 
-        if (mPlaylistInfo!!.getCoverImgUrl() == null) {
+        if (mPlaylistInfo!!.coverImgUrl == null) {
             HttpUtil.sendOkHttpRequest(
-                REQUEST_PLAYLIST_DETAIL_URL_AUTHORITY + mPlaylistInfo!!.getId(),
+                REQUEST_PLAYLIST_DETAIL_URL_AUTHORITY + mPlaylistInfo!!.id,
                 object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                     }
@@ -327,17 +327,17 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                                 responseBody,
                                 PlaylistDetailResponseBean::class.java
                             )
-                            if (responseBean.getCode() == "200") {
-                                mPlaylistInfo!!.setCoverImgUrl(
-                                    responseBean.getPlaylist().getCoverImgUrl()
+                            if (responseBean.code == "200") {
+                                mPlaylistInfo!!.coverImgUrl = 
+                                    responseBean.playlist.coverImgUrl
                                 )
                             }
                         }
                         runOnUiThread(object : Runnable {
                             override fun run() {
-                                ImageDownloadPresenter.Companion.getInstance()
-                                    .with(MusicApplication.Companion.getContext())
-                                    .load(mPlaylistInfo!!.getCoverImgUrl())
+                                ImageDownloadPresenter.Companion.instance
+                                    .with(MusicApplication.Companion.context)
+                                    .load(mPlaylistInfo!!.coverImgUrl)
                                     .imageStyle(ImageDownloadPresenter.Companion.STYLE_ORIGIN)
                                     .into(
                                         mIvCover,
@@ -369,9 +369,9 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                     }
                 })
         } else {
-            ImageDownloadPresenter.Companion.getInstance()
-                .with(MusicApplication.Companion.getContext())
-                .load(mPlaylistInfo!!.getCoverImgUrl())
+            ImageDownloadPresenter.Companion.instance
+                .with(MusicApplication.Companion.context)
+                .load(mPlaylistInfo!!.coverImgUrl)
                 .imageStyle(ImageDownloadPresenter.Companion.STYLE_ORIGIN)
                 .into(mIvCover, object : ImageDownloadPresenter.ResourceCallback<Bitmap?> {
                     override fun onResourceReady(resource: Bitmap) {
@@ -419,13 +419,13 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                     mBtnCollect!!.setImageResource(R.drawable.playlist_btn_not_collected)
 
                     //写数据库
-                    ThreadDispatcher.Companion.getInstance().runOnWorkerThread(object : Runnable {
+                    ThreadDispatcher.Companion.instance.runOnWorkerThread(object : Runnable {
                         override fun run() {
                             val uri: Uri = MusicContentProvider.Companion.SONGLIST_URL
                             getContentResolver().delete(
                                 uri,
                                 "id = ?",
-                                arrayOf<String?>(mPlaylistInfo!!.getId())
+                                arrayOf<String?>(mPlaylistInfo!!.id)
                             )
                         }
                     })
@@ -435,19 +435,19 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                     mBtnCollect!!.setImageResource(R.drawable.playlist_btn_collected)
 
                     //写数据库
-                    ThreadDispatcher.Companion.getInstance().runOnWorkerThread(object : Runnable {
+                    ThreadDispatcher.Companion.instance.runOnWorkerThread(object : Runnable {
                         override fun run() {
                             val uri: Uri = MusicContentProvider.Companion.SONGLIST_URL
                             val values = ContentValues()
                             val gson = Gson()
-                            values.put("id", mPlaylistInfo!!.getId())
-                            values.put("name", mPlaylistInfo!!.getName())
+                            values.put("id", mPlaylistInfo!!.id)
+                            values.put("name", mPlaylistInfo!!.name)
                             values.put("type", PLAYLIST_KIND)
-                            values.put("description", mPlaylistInfo!!.getDescription())
-                            values.put("songs", gson.toJson(mPlaylistInfo!!.getTracks()))
-                            values.put("number", mPlaylistInfo!!.getTrackCount())
-                            values.put("creator", gson.toJson(mPlaylistInfo!!.getCreator()))
-                            values.put("coverimgurl", mPlaylistInfo!!.getCoverImgUrl())
+                            values.put("description", mPlaylistInfo!!.description)
+                            values.put("songs", gson.toJson(mPlaylistInfo!!.tracks))
+                            values.put("number", mPlaylistInfo!!.trackCount)
+                            values.put("creator", gson.toJson(mPlaylistInfo!!.creator))
+                            values.put("coverimgurl", mPlaylistInfo!!.coverImgUrl)
 
                             getContentResolver().insert(uri, values)
                         }
@@ -464,7 +464,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         if (mPlaylistInfo == null) {
             return
         }
-        ThreadDispatcher.Companion.getInstance().runOnWorkerThread(object : Runnable {
+        ThreadDispatcher.Companion.instance.runOnWorkerThread(object : Runnable {
             override fun run() {
                 val uri: Uri = MusicContentProvider.Companion.SONGLIST_URL
 
@@ -472,7 +472,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                     uri,
                     null,
                     "id = ?",
-                    arrayOf<String?>(mPlaylistInfo!!.getId()),
+                    arrayOf<String?>(mPlaylistInfo!!.id),
                     null
                 )
                 if (cursor != null && cursor.moveToFirst()) {
@@ -528,8 +528,8 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                             responseBody,
                             PlaylistDetailResponseBean::class.java
                         )
-                        if (responseBean.getCode() == "200") {
-                            mPlaylistInfo = responseBean.getPlaylist()
+                        if (responseBean.code == "200") {
+                            mPlaylistInfo = responseBean.playlist
                             return mPlaylistInfo
                         }
                     }
@@ -547,9 +547,9 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                 return
             }
 
-            mMusicInfoList = playlistInfo.getTracks()
+            mMusicInfoList = playlistInfo.tracks
             for (musicInfo in mMusicInfoList!!) {
-                musicInfo.setSinger(musicInfo.getFirstArName())
+                musicInfo.setSinger(musicInfo.firstArName)
             }
             showPlaylist()
             initBtnCollect()
