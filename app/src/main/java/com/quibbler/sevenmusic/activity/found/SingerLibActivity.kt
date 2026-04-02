@@ -238,9 +238,9 @@ class SingerLibActivity : AppCompatActivity() {
         mTvDialog = findViewById<TextView?>(R.id.singer_lib_tv_dialog)
         mSiderBar!!.setTextViewDialog(mTvDialog)
         mSiderBar!!.setOnTouchingLetterChangedListener(object : OnTouchingLetterChangedListener {
-            override fun onTouchingLetterChanged(s: String): Boolean {
+            override fun onTouchingLetterChanged(s: String?): Boolean {
                 // 该字母首次出现的位置
-                val position = mSingerLibSelectedAdapter!!.getPositionForSelection(s.get(0))
+                val position = mSingerLibSelectedAdapter!!.getPositionForSelection(s?.get(0) ?: 'A')
                 if (position != -1) {
                     mSelectedRecyclerView!!.getLayoutManager()!!.scrollToPosition(position)
                     return true
@@ -289,7 +289,7 @@ class SingerLibActivity : AppCompatActivity() {
      */
     private inner class RequestShowSingerAsyncTask :
         AsyncTask<String?, Void?, MutableList<FoundSingerInfo?>?>() {
-        override fun doInBackground(vararg strings: String): MutableList<FoundSingerInfo?>? {
+        override fun doInBackground(vararg strings: String?): MutableList<FoundSingerInfo?>? {
             val path: String = strings[0]
 
             //OkHttp获取网络资源
@@ -352,7 +352,7 @@ class SingerLibActivity : AppCompatActivity() {
      */
     private inner class RequestTopSingerAsyncTask :
         AsyncTask<String?, Void?, MutableList<FoundSingerInfo?>?>() {
-        override fun doInBackground(vararg strings: String): MutableList<FoundSingerInfo?>? {
+        override fun doInBackground(vararg strings: String?): MutableList<FoundSingerInfo?>? {
             val path: String = strings[0]
 
             //OkHttp获取网络资源
@@ -412,17 +412,17 @@ class SingerLibActivity : AppCompatActivity() {
 
         //歌手风格名称
         private val SINGER_STYLE: Array<String?> =
-            arrayOf<String>("华语", "欧美", "日本", "韩国", "其他")
+            arrayOf("华语", "欧美", "日本", "韩国", "其他")
 
         //歌手风格名对应的请求码
         private val SINGER_STYLE_CODE: Array<String?> =
-            arrayOf<String>("10", "20", "60", "70", "40")
+            arrayOf("10", "20", "60", "70", "40")
 
         //歌手性别名称
-        private val SINGER_GENDER: Array<String?> = arrayOf<String>("男歌手", "女歌手", "组合/乐队")
+        private val SINGER_GENDER: Array<String?> = arrayOf("男歌手", "女歌手", "组合/乐队")
 
         //歌手性别名对应的请求码
-        private val SINGER_GENDER_CODE = arrayOf<String>("01", "02", "03")
+        private val SINGER_GENDER_CODE = arrayOf("01", "02", "03")
 
         private const val REQUEST_SINGER_AUTHORITY_HEAD =
             "http://114.116.128.229:3000/artist/list?cat="

@@ -1,5 +1,6 @@
 package com.quibbler.sevenmusic.activity.found
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -29,7 +30,7 @@ import com.quibbler.sevenmusic.utils.ICallback
 
 class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
     //歌手页面标签名
-    private val SINGER_TAB_NAMES: Array<String?> = arrayOf<String>("歌曲", "简介")
+    private val SINGER_TAB_NAMES: Array<String?> = arrayOf("歌曲", "简介")
 
     private var mIvSingerCover: ImageView? = null
     private var mTvSingerName: TextView? = null
@@ -71,7 +72,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         setContentView(R.layout.activity_singer)
 
         mArtistId = getIntent().getStringExtra("id")
-        mArtist.id = mArtistId!!.toInt())
+        mArtist.id = mArtistId!!.toInt()
 
         init()
     }
@@ -147,8 +148,8 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         mTvPlayAll!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (mMusicInfoList != null && mMusicInfoList!!.size > 0) {
-                    MusicPlayerService.Companion.addToPlayerList(mMusicInfoList)
-                    MusicPlayerService.Companion.playMusic(mMusicInfoList!!.get(0))
+                    MusicPlayerService.Companion.addToPlayerList(mMusicInfoList as MutableList<MusicInfo?>)
+                    MusicPlayerService.Companion.playMusic(mMusicInfoList!![0])
                     mSingerMusicAdapter!!.setPlayingPosition(0)
                     mSingerMusicAdapter!!.notifyDataSetChanged()
                 }
@@ -157,8 +158,8 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         mIbtnPlayAll!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (mMusicInfoList != null && mMusicInfoList!!.size > 0) {
-                    MusicPlayerService.Companion.addToPlayerList(mMusicInfoList)
-                    MusicPlayerService.Companion.playMusic(mMusicInfoList!!.get(0))
+                    MusicPlayerService.Companion.addToPlayerList(mMusicInfoList as MutableList<MusicInfo?>)
+                    MusicPlayerService.Companion.playMusic(mMusicInfoList!![0])
                     mSingerMusicAdapter!!.setPlayingPosition(0)
                     mSingerMusicAdapter!!.notifyDataSetChanged()
                 }
@@ -180,7 +181,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
     private fun initRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this)
         mRecyclerView!!.setLayoutManager(linearLayoutManager)
-        mSingerMusicAdapter = PlaylistAdapter(mMusicInfoList, this)
+        mSingerMusicAdapter = PlaylistAdapter(mMusicInfoList ?: mutableListOf(), this)
 
         super.mAdapter = mSingerMusicAdapter
         mRecyclerView!!.setAdapter(mSingerMusicAdapter)
@@ -189,7 +190,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
 
     private fun requestSingerData() {
         val url: String = SINGER_URL_AUTHORITY + mArtistId
-        HttpUtil.sendOkHttpRequest(url, this, object : ICallback {
+        HttpUtil.sendOkHttpRequest(url, this as Activity, object : ICallback {
             override fun onResponse(responseText: String?) {
                 if (responseText == null) {
                     return
@@ -200,12 +201,12 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
                 if (singerResponseBean == null) {
                     return
                 }
-                mArtist = singerResponseBean.artist
-                mMusicInfoList = singerResponseBean.hotSongs
+                mArtist = singerResponseBean.artist ?: Artist(0, "")
+                mMusicInfoList = singerResponseBean.hotSongs as MutableList<MusicInfo>?
                 for (musicInfo in mMusicInfoList!!) {
                     musicInfo.setSinger(musicInfo.firstArName)
                 }
-                mSingerMusicAdapter!!.updateData(mMusicInfoList)
+                mSingerMusicAdapter!!.updateData(mMusicInfoList ?: mutableListOf())
 
                 showViewContent()
             }
@@ -220,15 +221,15 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
      */
     private fun showViewContent() {
         //显示歌手图片
-        ImageDownloadPresenter.Companion.instance.with(MusicApplication.Companion.context)
-            .load(mArtist.picUrl)
-            .imageStyle(ImageDownloadPresenter.Companion.STYLE_ORIGIN)
-            .into(mIvSingerCover, object : ImageDownloadPresenter.ResourceCallback<Bitmap?> {
-                override fun onResourceReady(resource: Bitmap) {
-                    val rgb = resource.getPixel(
-                        resource.getWidth() / 6,
-                        resource.getHeight() * 9 / 10 - 1
-                    )
+        ImageDownloadPresenter.Companion.instance?.with(MusicApplication.Companion.context)
+            ?.load(mArtist.picUrl)
+            ?.imageStyle(ImageDownloadPresenter.Companion.STYLE_ORIGIN)
+            ?.into(mIvSingerCover!!, object : ImageDownloadPresenter.ResourceCallback<Bitmap?> {
+                override fun onResourceReady(resource: Bitmap?) {
+                    val rgb = resource?.getPixel(
+                        resource?.width?.div(6) ?: 0,
+                        resource?.height?.times(9)?.div(10)?.minus(1) ?: 0
+                    ) ?: 0
                     val r = (rgb and 16711680) shr 16
                     val g = (rgb and 65280) shr 8
                     val b = (rgb and 255)
@@ -306,7 +307,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
     }
 
     private fun updateSingerLoveInThread(context: Context, artist: Artist, loved: Boolean) {
-        val authorityUri: Uri = MusicContentProvider.Companion.COLLECTION_URL
+        val authorityUri: Uri = MusicContentProvider.Companion.COLLECTION_URL!!
         if (loved) {
             //增加该数据
             val values = ContentValues()
@@ -331,7 +332,7 @@ class SingerActivity : BaseMusicListActivity<PlaylistAdapter?>() {
      */
     private fun queryIdInThread(context: Context, id: String?): Boolean {
         var result = false
-        val uri: Uri = MusicContentProvider.Companion.COLLECTION_URL
+        val uri: Uri = MusicContentProvider.Companion.COLLECTION_URL!!
         val cursor =
             context.getContentResolver().query(uri, null, "id = ?", arrayOf<String?>(id), null)
         if (cursor != null && cursor.moveToFirst()) {
