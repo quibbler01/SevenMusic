@@ -67,33 +67,33 @@ class MyCollectionAdapter(
             0 -> //                File songCache = new File(SEVEN_MUSIC_IMAGE + "/" + myCollectionsInfo.getTitle().hashCode());
 //                if (songCache.exists()) {
                 Glide.with(mContext)
-                    .load(Constant.SEVEN_MUSIC_IMAGE + "/" + myCollectionsInfo.getId())
+                    .load(Constant.SEVEN_MUSIC_IMAGE + "/" + myCollectionsInfo.id)
                     .placeholder(R.drawable.music_item_icon).into(viewHolder!!.icon!!)
 
             1 -> //                File singleCache = new File(SEVEN_MUSIC_SINGER + "/" + myCollectionsInfo.getTitle());
 //                if (singleCache.exists()) {
                 Glide.with(mContext)
-                    .load(Constant.SEVEN_MUSIC_SINGER + "/" + myCollectionsInfo.getTitle())
+                    .load(Constant.SEVEN_MUSIC_SINGER + "/" + myCollectionsInfo.title)
                     .placeholder(R.drawable.my_collection_singer_icon_item)
                     .into(viewHolder!!.icon!!)
 
             2 -> viewHolder!!.icon!!.setImageResource(R.drawable.my_collection_album_icon_item)
         }
 
-        viewHolder!!.title!!.setText(myCollectionsInfo.getTitle())
+        viewHolder!!.title!!.setText(myCollectionsInfo.title)
 
-        viewHolder.description!!.setText(myCollectionsInfo.getDescription())
+        viewHolder.description!!.setText(myCollectionsInfo.description)
 
         val star = viewHolder.start
         viewHolder.start!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
                 star!!.setImageResource(R.drawable.my_collection_un_star)
                 val collectionUrl =
-                    Uri.parse("content://" + MusicContentProvider.Companion.MUSIC_AUTHORITY + "/collection/" + myCollectionsInfo.getId())
-                MusicApplication.Companion.getContext().getContentResolver()
+                    Uri.parse("content://" + MusicContentProvider.Companion.MUSIC_AUTHORITY + "/collection/" + myCollectionsInfo.id)
+                MusicApplication.Companion.context.getContentResolver()
                     .delete(collectionUrl, null, null)
                 myCollectionsInfoList.remove(myCollectionsInfo)
-                myCollectionViewListener.removeData(myCollectionsInfo.getId())
+                myCollectionViewListener.removeData(myCollectionsInfo.id)
                 notifyDataSetChanged()
                 if (myCollectionsInfoList.size == 0) {
                     myCollectionViewListener.changeView()
@@ -102,11 +102,11 @@ class MyCollectionAdapter(
                     .setAction("撤销", object : View.OnClickListener {
                         override fun onClick(v: View?) {
                             val values = ContentValues()
-                            values.put("id", myCollectionsInfo.getId())
-                            values.put("title", myCollectionsInfo.getTitle())
-                            values.put("description", myCollectionsInfo.getDescription())
-                            values.put("kind", myCollectionsInfo.getKind())
-                            MusicApplication.Companion.getContext().getContentResolver()
+                            values.put("id", myCollectionsInfo.id)
+                            values.put("title", myCollectionsInfo.title)
+                            values.put("description", myCollectionsInfo.description)
+                            values.put("kind", myCollectionsInfo.kind)
+                            MusicApplication.Companion.context.getContentResolver()
                                 .insert(collectionUrl, values)
                             if (myCollectionsInfoList.size == 0) {
                                 myCollectionViewListener.changeView()
