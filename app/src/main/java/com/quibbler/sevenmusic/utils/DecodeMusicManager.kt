@@ -103,7 +103,8 @@ class DecodeMusicManager(mContext: Context) {
                 }
             })
         } else if (mUrl != null) {
-            HttpUtil.sendOkHttpRequest(mUrl, object : Callback {
+            val url = mUrl!!
+            HttpUtil.sendOkHttpRequest(url, object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                 }
 

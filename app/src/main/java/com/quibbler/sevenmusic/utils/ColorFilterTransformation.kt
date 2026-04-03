@@ -34,7 +34,7 @@ class ColorFilterTransformation(color: Int) : BitmapTransformation() {
         val height = toTransform.getHeight()
 
         val config =
-            if (toTransform.getConfig() != null) toTransform.getConfig() else Bitmap.Config.ARGB_8888
+            toTransform.getConfig() ?: Bitmap.Config.ARGB_8888
         var bitmap = pool.get(width, height, config)
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, config)
