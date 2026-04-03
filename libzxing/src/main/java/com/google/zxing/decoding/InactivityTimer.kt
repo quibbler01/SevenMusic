@@ -38,8 +38,9 @@ class InactivityTimer(private val activity: Activity?) {
 
     fun onActivity() {
         cancel()
+        val currentActivity = activity ?: return
         inactivityFuture = inactivityTimer.schedule(
-            FinishListener(activity),
+            FinishListener(currentActivity),
             INACTIVITY_DELAY_SECONDS.toLong(),
             TimeUnit.SECONDS
         )
