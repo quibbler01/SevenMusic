@@ -105,7 +105,7 @@ class ViewfinderView(context: Context, attrs: AttributeSet?) : View(context, att
 
     public override fun onDraw(canvas: Canvas) {
         try {
-            val frame: Rect? = CameraManager.Companion.get().getFramingRect()
+            val frame: Rect? = CameraManager.Companion.get()?.framingRect
             mFramingRect = frame
             if (mFramingRect == null) {
                 return
