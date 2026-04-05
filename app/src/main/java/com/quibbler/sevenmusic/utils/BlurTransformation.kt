@@ -94,7 +94,7 @@ internal object FastBlur {
         if (canReuseInBitmap) {
             bitmap = sentBitmap
         } else {
-            bitmap = sentBitmap.copy(sentBitmap.getConfig(), true)
+            bitmap = sentBitmap.copy(sentBitmap.getConfig() ?: Bitmap.Config.ARGB_8888, true)
         }
 
         if (radius < 1) {

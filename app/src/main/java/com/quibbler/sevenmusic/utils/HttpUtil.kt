@@ -37,7 +37,7 @@ object HttpUtil {
     fun sendOkHttpRequest(address: String, context: Activity?, callback: ICallback) {
         val request = Request.Builder().url(address).build()
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call?, e: IOException?) {
+            override fun onFailure(call: Call, e: IOException) {
                 if (context == null) return
                 context.runOnUiThread(object : Runnable {
                     override fun run() {
@@ -47,7 +47,7 @@ object HttpUtil {
             }
 
             @Throws(IOException::class)
-            override fun onResponse(call: Call?, response: Response) {
+            override fun onResponse(call: Call, response: Response) {
                 if (context == null) return
                 val responseText = response.body!!.string()
                 context.runOnUiThread(object : Runnable {
@@ -101,7 +101,7 @@ object HttpUtil {
         val handler = Handler(context.getMainLooper())
         val request = Request.Builder().url(address).build()
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call?, e: IOException?) {
+            override fun onFailure(call: Call, e: IOException) {
                 if (context == null) return
                 handler.post(object : Runnable {
                     override fun run() {
@@ -111,7 +111,7 @@ object HttpUtil {
             }
 
             @Throws(IOException::class)
-            override fun onResponse(call: Call?, response: Response) {
+            override fun onResponse(call: Call, response: Response) {
                 if (context == null) return
                 val responseText = response.body!!.string()
                 handler.post(object : Runnable {
@@ -128,7 +128,7 @@ object HttpUtil {
         val handler = Handler(context.getMainLooper())
         val request = Request.Builder().url(address).build()
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call?, e: IOException?) {
+            override fun onFailure(call: Call, e: IOException) {
                 if (context == null) return
                 handler.post(object : Runnable {
                     override fun run() {
@@ -138,7 +138,7 @@ object HttpUtil {
             }
 
             @Throws(IOException::class)
-            override fun onResponse(call: Call?, response: Response) {
+            override fun onResponse(call: Call, response: Response) {
                 if (context == null) return
                 val inputStream = response.body!!.byteStream()
                 //                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
