@@ -81,7 +81,7 @@ class SharedPreferencesUtils(context: Context) {
         /**
          * SharedPreferences全局单例
          */
-        private val mSharedPreferences: SharedPreferences
+        private lateinit var mSharedPreferences: SharedPreferences
 
         /**
          * SharedPreferencesUtils类单例

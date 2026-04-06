@@ -139,15 +139,14 @@ class IMediaController : MediaController {
 
     private val mHandler = Handler(object : Handler.Callback {
         override fun handleMessage(msg: Message): Boolean {
-            var msg = msg
             val pos: Int
             when (msg.what) {
                 FADE_OUT -> hide()
                 SHOW_PROGRESS -> {
                     pos = setProgress()
                     if (!mDragging && mShowing && mPlayer!!.isPlaying()) {
-                        msg = mHandler.obtainMessage(SHOW_PROGRESS)
-                        mHandler.sendMessageDelayed(msg, (1000 - (pos % 1000)).toLong())
+                        val newMsg = mHandler.obtainMessage(SHOW_PROGRESS)
+                        mHandler.sendMessageDelayed(newMsg, (1000 - (pos % 1000)).toLong())
                     }
                 }
             }
