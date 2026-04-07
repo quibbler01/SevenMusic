@@ -70,7 +70,7 @@ class CameraManager private constructor(val context: Context?) {
                 if (framingRect == null) {
                     return null
                 }
-                val rect = Rect(this.framingRect)
+                val rect = Rect(framingRect)
                 val cameraResolution = configManager.getCameraResolution()
                 val screenResolution = configManager.getScreenResolution()
                 if (cameraResolution == null || screenResolution == null) {
@@ -102,7 +102,7 @@ class CameraManager private constructor(val context: Context?) {
     val autoFocusCallback: AutoFocusCallback
 
     init {
-        this.configManager = CameraConfigurationManager(context)
+        this.configManager = CameraConfigurationManager(context!!)
 
         // Camera.setOneShotPreviewCallback() has a race condition in Cupcake, so we use the older
         // Camera.setPreviewCallback() on 1.5 and earlier. For Donut and later, we need to use
@@ -128,16 +128,17 @@ class CameraManager private constructor(val context: Context?) {
     fun openDriver(holder: SurfaceHolder?) {
         if (camera == null) {
             camera = Camera.open()
-            if (camera == null) {
+            val theCamera = camera
+            if (theCamera == null) {
                 throw IOException()
             }
-            camera!!.setPreviewDisplay(holder)
+            theCamera.setPreviewDisplay(holder)
 
             if (!initialized) {
                 initialized = true
-                configManager.initFromCameraParameters(camera)
+                configManager.initFromCameraParameters(theCamera)
             }
-            configManager.setDesiredCameraParameters(camera)
+            configManager.setDesiredCameraParameters(theCamera)
 
             //FIXME
             //     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -251,11 +252,11 @@ class CameraManager private constructor(val context: Context?) {
      */
     fun buildLuminanceSource(data: ByteArray?, width: Int, height: Int): PlanarYUVLuminanceSource {
         val rect = this.framingRectInPreview
-        val previewFormat = configManager.getPreviewFormat()
-        val previewFormatString = configManager.getPreviewFormatString()
+        val previewFormat = configManager.previewFormat
+        val previewFormatString = configManager.previewFormatString
         when (previewFormat) {
             PixelFormat.YCbCr_420_SP, PixelFormat.YCbCr_422_SP -> return PlanarYUVLuminanceSource(
-                data, width, height, rect!!.left, rect.top,
+                data!!, width, height, rect!!.left, rect.top,
                 rect.width(), rect.height()
             )
 
@@ -263,7 +264,7 @@ class CameraManager private constructor(val context: Context?) {
                 // Fortunately, it too has all the Y data up front, so we can read it.
                 if ("yuv420p" == previewFormatString) {
                     return PlanarYUVLuminanceSource(
-                        data, width, height, rect!!.left, rect.top,
+                        data!!, width, height, rect!!.left, rect.top,
                         rect.width(), rect.height()
                     )
                 }
