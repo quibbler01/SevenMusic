@@ -161,19 +161,20 @@ class MusicAlarmActivity : BaseActivity(), View.OnClickListener,
             android.R.style.Theme_DeviceDefault_Light_Dialog,
             object : OnTimeSetListener {
                 override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minuteOfDay: Int) {
+                    val time: String
                     if (hourOfDay < 10) {
-                        mTime = "0" + hourOfDay
+                        time = "0" + hourOfDay
                     } else {
-                        mTime = hourOfDay.toString() + ""
+                        time = hourOfDay.toString() + ""
                     }
                     if (minuteOfDay < 10) {
-                        mTime = mTime + ":0" + minuteOfDay
+                        mTime = time + ":0" + minuteOfDay
                     } else {
-                        mTime = mTime + ":" + minuteOfDay
+                        mTime = time + ":" + minuteOfDay
                     }
                     mSidebarAlarmTimeTv!!.setText(mTime) // 显示选择的时间
                     SharedPreferencesUtils.Companion.getInstance()
-                        .saveData(Constant.KEY_MUSIC_ALARM_TIME, mTime) // 保存音乐闹钟设置的时间
+                        .saveData(Constant.KEY_MUSIC_ALARM_TIME, mTime!!) // 保存音乐闹钟设置的时间
                     setClock() // 设置闹钟的方法要在点击时间对话框按钮后，自动进行设置，故放在此处
                 }
             },
