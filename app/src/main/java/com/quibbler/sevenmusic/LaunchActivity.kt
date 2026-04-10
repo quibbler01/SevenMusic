@@ -53,8 +53,8 @@ class LaunchActivity : AppCompatActivity() {
         val handler = LaunchHandler(this)
         //        Message message = new Message();
         val message = Message.obtain()
-        if (!SharedPreferencesUtils.Companion.getInstance()
-                .getData(Constant.KEY_IS_FIRST_LOGIN, false) as Boolean?
+        if (!(SharedPreferencesUtils.Companion.getInstance()
+                .getData(Constant.KEY_IS_FIRST_LOGIN, false) as Boolean?)
         ) {
             message.what = START_SPLASH_ACTIVITY
         } else {

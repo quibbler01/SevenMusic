@@ -279,7 +279,7 @@ class LrcView(context: Context?, attr: AttributeSet?) : View(context, attr), ILr
                 mPaint.setTextSize(mSeekLineTextSize.toFloat())
                 mPaint.setTextAlign(Paint.Align.LEFT)
                 canvas.drawText(
-                    time,
+                    time!!,
                     mSeekLinePaddingX.toFloat(),
                     centerY + mPaddingY - mOffsetY - 10,
                     mPaint
