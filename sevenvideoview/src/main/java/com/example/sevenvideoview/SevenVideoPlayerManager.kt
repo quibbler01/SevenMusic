@@ -1,62 +1,59 @@
-package com.example.sevenvideoview;
+package com.example.sevenvideoview
 
 /**
  * 视频播放器管理器.
  */
-public class SevenVideoPlayerManager {
+class SevenVideoPlayerManager private constructor() {
+    var currentNiceVideoPlayer: SevenVideoPlayer? = null
+        private set
 
-    private SevenVideoPlayer mVideoPlayer;
-
-    private SevenVideoPlayerManager() {
-    }
-
-    private static SevenVideoPlayerManager sInstance;
-
-    public static synchronized SevenVideoPlayerManager getInstance() {
-        if (sInstance == null) {
-            sInstance = new SevenVideoPlayerManager();
-        }
-        return sInstance;
-    }
-
-    public SevenVideoPlayer getCurrentNiceVideoPlayer() {
-        return mVideoPlayer;
-    }
-
-    public void setCurrentSevenVideoPlayer(SevenVideoPlayer videoPlayer) {
-        if (mVideoPlayer != videoPlayer) {
-            releaseSevenVideoPlayer();
-            mVideoPlayer = videoPlayer;
+    fun setCurrentSevenVideoPlayer(videoPlayer: SevenVideoPlayer?) {
+        if (this.currentNiceVideoPlayer !== videoPlayer) {
+            releaseSevenVideoPlayer()
+            this.currentNiceVideoPlayer = videoPlayer
         }
     }
 
-    public void suspendSevenVideoPlayer() {
-        if (mVideoPlayer != null && (mVideoPlayer.isPlaying() || mVideoPlayer.isBufferingPlaying())) {
-            mVideoPlayer.pause();
+    fun suspendSevenVideoPlayer() {
+        if (this.currentNiceVideoPlayer != null && (currentNiceVideoPlayer!!.isPlaying || currentNiceVideoPlayer!!.isBufferingPlaying)) {
+            currentNiceVideoPlayer!!.pause()
         }
     }
 
-    public void resumeSevenVideoPlayer() {
-        if (mVideoPlayer != null && (mVideoPlayer.isPaused() || mVideoPlayer.isBufferingPaused())) {
-            mVideoPlayer.restart();
+    fun resumeSevenVideoPlayer() {
+        if (this.currentNiceVideoPlayer != null && (currentNiceVideoPlayer!!.isPaused || currentNiceVideoPlayer!!.isBufferingPaused)) {
+            currentNiceVideoPlayer!!.restart()
         }
     }
 
-    public void releaseSevenVideoPlayer() {
-        if (mVideoPlayer != null) {
-            mVideoPlayer.release();
-            mVideoPlayer = null;
+    fun releaseSevenVideoPlayer() {
+        if (this.currentNiceVideoPlayer != null) {
+            currentNiceVideoPlayer!!.release()
+            this.currentNiceVideoPlayer = null
         }
     }
 
-    public boolean onBackPressd() {
-        if (mVideoPlayer != null) {
-            if (mVideoPlayer.isFullScreen()) {
-                return mVideoPlayer.exitFullScreen();
-            } else if (mVideoPlayer.isTinyWindow()) {
-                return mVideoPlayer.exitTinyWindow();
+    fun onBackPressd(): Boolean {
+        if (this.currentNiceVideoPlayer != null) {
+            if (currentNiceVideoPlayer!!.isFullScreen) {
+                return currentNiceVideoPlayer!!.exitFullScreen()
+            } else if (currentNiceVideoPlayer!!.isTinyWindow) {
+                return currentNiceVideoPlayer!!.exitTinyWindow()
             }
         }
-        return false;
+        return false
+    }
+
+    companion object {
+        private var sInstance: SevenVideoPlayerManager? = null
+
+        @get:Synchronized
+        val instance: SevenVideoPlayerManager
+            get() {
+                if (sInstance == null) {
+                    sInstance = SevenVideoPlayerManager()
+                }
+                return sInstance!!
+            }
     }
 }
