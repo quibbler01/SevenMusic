@@ -22,7 +22,7 @@ internal object FlashlightManager {
     private val TAG: String = FlashlightManager::class.java.getSimpleName()
 
     private val iHardwareService: Any?
-    private val setFlashEnabledMethod: Method
+    private val setFlashEnabledMethod: Method?
 
     init {
         iHardwareService = hardwareService
@@ -84,7 +84,7 @@ internal object FlashlightManager {
             return invoke(asInterfaceMethod, null, hardwareService)
         }
 
-    private fun getSetFlashEnabledMethod(iHardwareService: Any?): Method {
+    private fun getSetFlashEnabledMethod(iHardwareService: Any?): Method? {
         if (iHardwareService == null) {
             return null
         }
@@ -93,7 +93,7 @@ internal object FlashlightManager {
             proxyClass,
             "setFlashlightEnabled",
             kotlin.Boolean::class.javaPrimitiveType
-        )!!
+        )
     }
 
     private fun maybeForName(name: String): Class<*>? {
@@ -140,7 +140,7 @@ internal object FlashlightManager {
     }
 
     private fun setFlashlight(active: Boolean) {
-        if (iHardwareService != null) {
+        if (iHardwareService != null && setFlashEnabledMethod != null) {
             invoke(setFlashEnabledMethod, iHardwareService, active)
         }
     }
