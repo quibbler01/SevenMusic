@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.net.Uri
 import android.util.DisplayMetrics
-import okhttp3.Response.code
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.Constructor
