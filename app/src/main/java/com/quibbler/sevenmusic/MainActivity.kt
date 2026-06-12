@@ -255,7 +255,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mFragments.add(foundFragment)
         mFragments.add(mvFragment)
 
-        val mainAdapter = MainAdapter(getSupportFragmentManager(), mFragments) // 创建主页面适配器
+        val mainAdapter = MainAdapter(getSupportFragmentManager(), mFragments as ArrayList<Fragment>) // 创建主页面适配器
         mMainViewPager!!.setAdapter(mainAdapter)
         mMainViewPager!!.setCurrentItem(1)
         mFound!!.setSelected(true)
@@ -431,8 +431,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun startPlaybarMusic() {
         if (!MusicPlayerService.Companion.isPlaying) {   // 如果没在播放中，立刻开始播放
-            if (!mIsFirstLaunch && MusicPlayerService.Companion.getMusicInfo() != null) { // 应用内其他任何位置点击音乐播放，同步到音乐播放条显示
-                MusicPlayerService.Companion.playMusic(MusicPlayerService.Companion.getMusicInfo())
+            val currentMusicInfo = MusicPlayerService.Companion.musicInfo
+            if (!mIsFirstLaunch && currentMusicInfo != null) { // 应用内其他任何位置点击音乐播放，同步到音乐播放条显示
+                MusicPlayerService.Companion.playMusic(currentMusicInfo)
             } else { // 首次进入应用时，直接点击音乐播放条，根据SharedPreference保存的歌曲url播放当前音乐
                 val musicInfo = MusicInfo()
                 val name = SharedPreferencesUtils.Companion.getInstance()
