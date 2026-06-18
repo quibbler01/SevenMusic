@@ -140,19 +140,21 @@ class MvPlayActivity : Activity() {
         val scrollView = findViewById<ScrollView?>(R.id.mv_sv_relative)
         PageEffectUtil.setScrollViewSpringback(scrollView)
         showMvPicture(mMvInfo!!)
-        MvPresenter.getMvInfo(mMvInfo, object : MusicCallBack {
+        val mvInfo = mMvInfo
+        MvPresenter.getMvInfo(mvInfo, object : MusicCallBack {
             override fun onMusicInfoCompleted() {
                 runOnUiThread(object : Runnable {
                     override fun run() {
-                        if (!TextUtils.isEmpty(mMvInfo!!.url)) {
-                            mVideoView!!.setVideoPath(mMvInfo!!.url)
+                        val currentMvInfo = mMvInfo ?: return@run
+                        if (!TextUtils.isEmpty(currentMvInfo.url)) {
+                            mVideoView!!.setVideoPath(currentMvInfo.url)
                         }
                         val nameView = findViewById<TextView>(R.id.mv_tv_palyname)
                         val palyCountView = findViewById<TextView>(R.id.mv_tv_count)
                         val descriptionView = findViewById<TextView>(R.id.mv_tv_description)
-                        nameView.setText(mMvInfo!!.name)
-                        palyCountView.setText(mMvInfo!!.playCount.toString() + "次播放")
-                        descriptionView.setText(mMvInfo!!.copyWriter)
+                        nameView.setText(currentMvInfo.name)
+                        palyCountView.setText(currentMvInfo.playCount.toString() + "次播放")
+                        descriptionView.setText(currentMvInfo.copyWriter)
                         //折叠按钮的监听事件
                         val collapseButton = findViewById<ImageButton>(R.id.mv_btn_collapse)
                         collapseButton.setOnClickListener(object : View.OnClickListener {
@@ -167,8 +169,8 @@ class MvPlayActivity : Activity() {
                             }
                         })
                         //获取相似歌曲
-                        if (mMvInfo!!.artists.size > 0) {
-                            getSimilarSong(mMvInfo!!.artists.get(0).id)
+                        if (currentMvInfo.artists?.size ?: 0 > 0) {
+                            getSimilarSong(currentMvInfo.artists?.get(0)?.id ?: 0)
                         }
                     }
                 })
