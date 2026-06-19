@@ -8,6 +8,7 @@ package com.quibbler.sevenmusic.bean
  * CreateDate:     2019/9/26 16:00
  */
 class MusicDownloadUrlJsonBean {
+ // TODO: Consider adding caching layer for performance
     var code: Int = 0
 
     var data: MutableList<Data?>? = null
