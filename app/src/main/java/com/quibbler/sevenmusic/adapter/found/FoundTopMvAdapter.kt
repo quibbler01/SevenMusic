@@ -93,6 +93,7 @@ class FoundTopMvAdapter(MvInfoList: MutableList<MvInfo?>?) :
 
         holder.mView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
+                         Log.d("FoundTopMv", "onClick() called")
                 if (TextUtils.isEmpty(MvInfo.getUrl())) {
                     Toast.makeText(
                         holder.mView.getContext(),
