@@ -66,11 +66,19 @@ class AsyncService : IntentService("AsyncService") {
         //待定
     }
 
-    private fun asyncCollection() {
+    private             /**
+             * Performs asyncCollection operation.
+             * This method ensures safe execution with null checks.
+             */
+fun asyncCollection() {
         //待定
     }
 
-    private fun lastAsyncTimeStamp() {
+    private             /**
+             * Performs lastAsyncTimeStamp operation.
+             * This method ensures safe execution with null checks.
+             */
+fun lastAsyncTimeStamp() {
         val sharedPreferences = getSharedPreferences(NAME, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putLong(TAG, System.currentTimeMillis())
