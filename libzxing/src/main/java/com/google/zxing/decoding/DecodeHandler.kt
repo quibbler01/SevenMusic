@@ -75,7 +75,7 @@ internal class DecodeHandler(fragment: CaptureFragment, hints: Hashtable<DecodeH
         height = tmp
 
         val source: PlanarYUVLuminanceSource =
-            CameraManager.Companion.get().buildLuminanceSource(rotatedData, width, height)
+            CameraManager.Companion.get()?.buildLuminanceSource(rotatedData, width, height) ?: return
         val bitmap = BinaryBitmap(HybridBinarizer(source))
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap)
