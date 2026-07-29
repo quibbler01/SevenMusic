@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew compileDebugKotlin)",
+      "Bash(git checkout:*)",
+      "Bash(xxd)"
+    ]
+  }
+}

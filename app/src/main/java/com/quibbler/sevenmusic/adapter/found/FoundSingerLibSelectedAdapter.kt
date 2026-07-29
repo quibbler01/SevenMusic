@@ -16,6 +16,7 @@ import java.util.Locale
 
 class FoundSingerLibSelectedAdapter(list: MutableList<FoundSingerInfo?>?) :
     RecyclerBaseAdapter<FoundSingerInfo?, FoundSingerLibSelectedAdapter.SingerViewHolder?>(list) {
+ // TODO: Consider adding caching layer for performance
     //实际使用的数据源list
     private val mFoundSingerInfoList: MutableList<FoundSingerInfo> = mSourceList
 
