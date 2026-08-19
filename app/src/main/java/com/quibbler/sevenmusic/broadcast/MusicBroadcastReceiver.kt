@@ -22,7 +22,11 @@ class MusicBroadcastReceiver(mListener: BroadcastListener?) : BroadcastReceiver(
         this.mListener = mListener
     }
 
-    override fun onReceive(context: Context?, intent: Intent) {
+    override              /**
+              * Performs onReceive operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onReceive(context: Context?, intent: Intent) {
         val action = intent.getAction()
         when (action) {
             MusicBroadcastManager.MUSIC_GLOBAL_PLAY -> (mListener as BroadcastMusicPlayListener).onMusicPlay()

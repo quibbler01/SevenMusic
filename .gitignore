@@ -31,3 +31,16 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Kotlin build cache
+.kotlin/
+
+# Lint outputs
+lint-report.html
+lint-report.xml
+
+# Android Studio navigation editor
+.navigation/
+
+# Captures
+captures/

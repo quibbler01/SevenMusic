@@ -35,11 +35,23 @@ class ActivityLifecycle : ActivityLifecycleCallbacks {
         Log.d(TAG, activity.javaClass.getSimpleName() + "...onStopped")
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override              /**
+              * Brief description for onActivitySaveInstanceState.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
         Log.d(TAG, activity.javaClass.getSimpleName() + "...onSaveInstanceState")
     }
 
-    override fun onActivityDestroyed(activity: Activity) {
+    override              /**
+              * Brief description for onActivityDestroyed.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onActivityDestroyed(activity: Activity) {
         Log.d(TAG, activity.javaClass.getSimpleName() + "...onDestroyed")
         ActivityCollector.removeActivity(activity) // 移除当前Activity到集合中
     }

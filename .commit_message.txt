@@ -1,0 +1,5 @@
+refactor: apply Kotlin idiomatic patterns in add KDoc comments to MusicBroadcastReceiver.kt
+
+- add KDoc comments to ActivityLifecycle.kt
+- README.md
+- .gitignore
