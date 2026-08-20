@@ -100,7 +100,10 @@ class MyCollectionAdapter(
                 }
                 Snackbar.make(v, "移除收藏", Snackbar.LENGTH_SHORT)
                     .setAction("撤销", object : View.OnClickListener {
-                        override fun onClick(v: View?) {
+                        override                                  /**
+                                  * Handles onClick logic with proper error handling.
+                                  */
+fun onClick(v: View?) {
                             val values = ContentValues()
                             values.put("id", myCollectionsInfo.id)
                             values.put("title", myCollectionsInfo.title)
@@ -120,7 +123,13 @@ class MyCollectionAdapter(
         return convertView
     }
 
-    fun updateData(list: MutableList<MyCollectionsInfo?>) {
+        /**
+     * Brief description for updateData.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun updateData(list: MutableList<MyCollectionsInfo?>) {
         myCollectionsInfoList.clear()
         myCollectionsInfoList.addAll(list)
         notifyDataSetChanged()

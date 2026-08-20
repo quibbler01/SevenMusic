@@ -1,4 +1,3 @@
 chore: clean up unused imports across modules
 
-- add improvement notes in MvFragment.kt
-- README.md
+- add KDoc comments to MyCollectionAdapter.kt

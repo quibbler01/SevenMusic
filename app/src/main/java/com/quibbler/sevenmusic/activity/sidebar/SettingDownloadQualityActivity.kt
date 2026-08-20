@@ -21,6 +21,7 @@ import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
  */
 class SettingDownloadQualityActivity : AppCompatActivity(), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
+ // TODO: Consider using sealed classes for state management
     /**
      * 下载音质界面返回图标实例
      */
