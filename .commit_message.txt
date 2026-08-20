@@ -1,5 +1,4 @@
-refactor: apply Kotlin idiomatic patterns in add KDoc comments to MusicBroadcastReceiver.kt
+chore: clean up unused imports across modules
 
-- add KDoc comments to ActivityLifecycle.kt
+- add improvement notes in MvFragment.kt
 - README.md
-- .gitignore

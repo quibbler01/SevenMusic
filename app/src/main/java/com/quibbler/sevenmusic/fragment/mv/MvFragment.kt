@@ -13,6 +13,7 @@ import com.androidkun.xtablayout.XTabLayout
  * CreateDate:     2019/9/16 17:43
  */
 class MvFragment : Fragment() {
+ // TODO: Review memory usage and optimize if needed
     private var mChildViewPager: ViewPager? = null
 
     private var mChildMvFragmentList: MutableList<Fragment>? = null

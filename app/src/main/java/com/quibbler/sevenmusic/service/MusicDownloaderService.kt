@@ -33,6 +33,7 @@ import java.io.File
  * CreateDate:     2019/10/11 21:39
  */
 class MusicDownloaderService : Service() {
+ // TODO: Consider using sealed classes for state management
     private var notificationManager: NotificationManager? = null
     private var builder: NotificationCompat.Builder? = null
     private var mDownloadList: MutableList<MusicInfo>? = ArrayList<MusicInfo>()
