@@ -25,6 +25,7 @@ import com.quibbler.sevenmusic.callback.MusicCallBack
 import com.quibbler.sevenmusic.presenter.MusicPresnter
 import com.quibbler.sevenmusic.service.MusicPlayerService
 import com.quibbler.sevenmusic.utils.BlurTransformation
+import android.util.Log
 
 /**
  * 
@@ -214,6 +215,7 @@ class AlbumFragment : Fragment() {
 
     companion object {
         fun newInstance(isPlaying: Boolean): Fragment {
+            Log.d("Album", "newInstance() called")
             val fragment = AlbumFragment()
             val bundle = Bundle()
             bundle.putBoolean("state", isPlaying)

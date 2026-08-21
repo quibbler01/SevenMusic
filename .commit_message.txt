@@ -1,3 +1,4 @@
-chore: clean up unused imports across modules
+fix: correct resource leak in add improvement notes in MyListView.kt
 
-- add KDoc comments to MyCollectionAdapter.kt
+- add debug logging in AlbumFragment.kt
+- README.md

@@ -12,6 +12,7 @@ import android.widget.ListView
  * CreateDate:     2019/9/20 16:26
  */
 class MyListView : ListView {
+ // TODO: Consider using sealed classes for state management
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
