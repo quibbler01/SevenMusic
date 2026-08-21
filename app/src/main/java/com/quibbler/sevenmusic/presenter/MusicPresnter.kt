@@ -117,12 +117,21 @@ object MusicPresnter {
         HttpUtil.sendOkHttpRequest(
             SERVER + MUSIC_CANUSE_URL + mvMusicInfoList.get(i)!!.getId(),
             object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
+                override                          /**
+                          * Brief description for onFailure.
+                          *
+                          * @param context the operating context
+                          * @return the result of the operation
+                          */
+fun onFailure(call: Call, e: IOException) {
                     Log.d("url", "出错")
                 }
 
                 @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
+                override                          /**
+                          * Handles onResponse logic with proper error handling.
+                          */
+fun onResponse(call: Call, response: Response) {
                     try {
                         if (response.body != null) {
                             val success = JSONObject(response.body!!.string()).getString("success")
