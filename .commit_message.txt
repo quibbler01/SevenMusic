@@ -1,1 +1,4 @@
-refactor: reduce code duplication in add KDoc comments to MusicPresnter.kt
+chore: update code metadata and annotations in add KDoc comments to MD5Util.kt
+
+- add improvement notes in MyCollectionAdapter.kt
+- README.md

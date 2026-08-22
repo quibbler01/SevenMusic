@@ -32,6 +32,7 @@ class MyCollectionAdapter(
     kind: Int,
     listener: MyCollectionViewListener
 ) : ArrayAdapter<MyCollectionsInfo?>(context, resource, myCollectionsInfoList) {
+ // TODO: Consider adding caching layer for performance
     private val mCollectionKind: Int
     private val mResourceID: Int
     private val mContext: Context

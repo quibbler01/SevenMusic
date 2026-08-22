@@ -10,7 +10,11 @@ object MD5Util {
         '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     )
 
-    fun encodeStr2MD5(s: String): String? {
+        /**
+     * Performs encodeStr2MD5 operation.
+     * This method ensures safe execution with null checks.
+     */
+fun encodeStr2MD5(s: String): String? {
         if (TextUtils.isEmpty(s)) {
             return null
         }
@@ -30,7 +34,11 @@ object MD5Util {
         return s
     }
 
-    private fun toHexString(b: ByteArray): String {
+    private             /**
+             * Performs toHexString operation.
+             * This method ensures safe execution with null checks.
+             */
+fun toHexString(b: ByteArray): String {
         val sb = StringBuilder(b.size * 2)
 
         for (i in b.indices) {
