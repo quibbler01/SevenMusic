@@ -17,6 +17,7 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.bean.MyCollectionsInfo
 import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
 import com.quibbler.sevenmusic.listener.MyCollectionViewListener
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -131,6 +132,7 @@ fun onClick(v: View?) {
      * @return the result of the operation
      */
 fun updateData(list: MutableList<MyCollectionsInfo?>) {
+    Log.d("MyCollection", "updateData() called")
         myCollectionsInfoList.clear()
         myCollectionsInfoList.addAll(list)
         notifyDataSetChanged()

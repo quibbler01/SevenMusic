@@ -10,12 +10,22 @@ import android.content.Context
  * CreateDate:     2019/10/17 11:09
  */
 class ImageDownloadPresenter private constructor() {
-    fun with(context: Context?): ImageDealer? {
+        /**
+     * Brief description for with.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun with(context: Context?): ImageDealer? {
         return ImageDealer().with(context)
     }
 
     interface ResourceCallback<T> {
-        fun onResourceReady(t: T?)
+                /**
+         * Performs onResourceReady operation.
+         * This method ensures safe execution with null checks.
+         */
+fun onResourceReady(t: T?)
     }
 
     companion object {

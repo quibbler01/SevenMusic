@@ -1,4 +1,3 @@
-chore: update code metadata and annotations in add KDoc comments to MD5Util.kt
+docs: add KDoc comments to add KDoc comments to ImageDownloadPresenter.kt
 
-- add improvement notes in MyCollectionAdapter.kt
-- README.md
+- add debug logging in MyCollectionAdapter.kt
