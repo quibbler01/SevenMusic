@@ -11,6 +11,7 @@ import android.os.Parcelable
  * CreateDate:     2019/9/20 14:45
  */
 class MySongListInfo : Parcelable {
+ // TODO: Add proper error handling for edge cases
     override fun describeContents(): Int {
         return 0
     }

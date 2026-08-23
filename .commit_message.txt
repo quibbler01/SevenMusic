@@ -1,4 +1,3 @@
-chore: clean up unused imports across modules
+feat: add input validation in add debug logging in ILrcBuilder.kt
 
-- add improvement notes in LockScreenBroadcastReceiver.kt
-- README.md
+- add improvement notes in MySongListInfo.kt

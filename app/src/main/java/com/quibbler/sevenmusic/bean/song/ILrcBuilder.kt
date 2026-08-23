@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean.song
 
 import com.quibbler.sevenmusic.bean.song.impl.LrcRow
+import android.util.Log
 
 /**
  * 
