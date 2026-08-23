@@ -13,6 +13,7 @@ import com.quibbler.sevenmusic.activity.my.MyLocalMusicDetailActivity
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.bean.MusicPathInfo
 import java.io.Serializable
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -53,6 +54,7 @@ class MyFilePathListVIewAdapter(
         }
         convertView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+                         Log.d("MyFilePathListVIew", "onClick() called")
                 val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
                 intent.putExtra("title", mMusicPathInfoLists.get(position).getPathName())
                 val list: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()

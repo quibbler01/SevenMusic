@@ -15,6 +15,7 @@ import com.quibbler.sevenmusic.service.MusicPlayerService
  * CreateDate:     2019/9/27 11:41
  */
 class LockScreenBroadcastReceiver : BroadcastReceiver() {
+ // TODO: Evaluate replacing with a more efficient data structure
     override fun onReceive(context: Context, intent: Intent) {
         if (MusicPlayerService.Companion.isPlaying) {
             val action = intent.getAction()

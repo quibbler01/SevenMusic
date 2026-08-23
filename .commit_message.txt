@@ -1,3 +1,4 @@
-docs: add KDoc comments to add KDoc comments to ImageDownloadPresenter.kt
+chore: clean up unused imports across modules
 
-- add debug logging in MyCollectionAdapter.kt
+- add improvement notes in LockScreenBroadcastReceiver.kt
+- README.md
