@@ -9,6 +9,7 @@ import android.widget.TextView
 
 @SuppressLint("AppCompatCustomView")
 class MaqueeTextView : TextView {
+ // TODO: Consider using sealed classes for state management
     /**
      * 字体行宽度
      */

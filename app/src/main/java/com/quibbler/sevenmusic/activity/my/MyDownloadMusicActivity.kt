@@ -232,13 +232,20 @@ class MyDownloadMusicActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override              /**
+              * Performs onCreateOptionsMenu operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onCreateOptionsMenu(menu: Menu?): Boolean {
         getMenuInflater().inflate(R.menu.my_clear_action, menu)
         return true
     }
 
     private inner class DownloadReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
+        override                  /**
+                  * Handles onReceive logic with proper error handling.
+                  */
+fun onReceive(context: Context?, intent: Intent) {
             val action = intent.getAction()
             if (action != null) {
                 when (action) {

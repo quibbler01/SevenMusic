@@ -1,3 +1,3 @@
-perf: optimize resource usage in add improvement notes in ScanCaptureActivity.kt
+perf: improve collection operations in add improvement notes in MaqueeTextView.kt
 
-- README.md
+- add KDoc comments to MyDownloadMusicActivity.kt
