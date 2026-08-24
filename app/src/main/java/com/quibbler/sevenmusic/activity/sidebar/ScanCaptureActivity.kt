@@ -31,6 +31,7 @@ import com.quibbler.sevenmusic.utils.UiUtil
  * CreateDate:     2019/10/16 20:38
  */
 class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
+ // TODO: Add proper error handling for edge cases
     /**
      * CaptureFragment实例
      */
