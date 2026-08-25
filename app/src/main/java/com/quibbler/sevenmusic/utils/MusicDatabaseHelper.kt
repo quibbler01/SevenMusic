@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper
  * CreateDate:     2019/9/21 20:22
  */
 class MusicDatabaseHelper : SQLiteOpenHelper {
+ // TODO: Consider extracting to a separate utility class
     private constructor(context: Context?, version: Int) : super(context, MUSIC_DB, null, version)
 
     private constructor(

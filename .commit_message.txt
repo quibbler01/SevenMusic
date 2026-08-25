@@ -1,3 +1,4 @@
-perf: improve collection operations in add improvement notes in MaqueeTextView.kt
+perf: reduce unnecessary object allocation in add improvement notes in MusicDatabaseHelper.kt
 
-- add KDoc comments to MyDownloadMusicActivity.kt
+- add debug logging in MusicPlayCompletionBroadcastReceiver.kt
+- README.md
