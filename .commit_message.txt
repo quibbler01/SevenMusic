@@ -1,4 +1,3 @@
-perf: reduce unnecessary object allocation in add improvement notes in MusicDatabaseHelper.kt
+refactor: apply Kotlin idiomatic patterns in add improvement notes in AboutAppActivity.kt
 
-- add debug logging in MusicPlayCompletionBroadcastReceiver.kt
-- README.md
+- add KDoc comments to RecyclerBaseAdapter.kt

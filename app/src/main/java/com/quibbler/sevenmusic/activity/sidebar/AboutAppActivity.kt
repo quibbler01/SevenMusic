@@ -14,6 +14,7 @@ import com.quibbler.sevenmusic.R
  * CreateDate:     2019/10/26 17:11
  */
 class AboutAppActivity : AppCompatActivity() {
+ // TODO: Add analytics tracking for user interactions
     /**
      * 关于界面返回图标实例
      */

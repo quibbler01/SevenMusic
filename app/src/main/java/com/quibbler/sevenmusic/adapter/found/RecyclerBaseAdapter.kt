@@ -49,13 +49,25 @@ abstract class RecyclerBaseAdapter<T, VH : RecyclerView.ViewHolder?>(infoList: M
         mSourceList.addAll(infoList)
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
+    override              /**
+              * Brief description for onBindViewHolder.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onBindViewHolder(holder: VH, position: Int) {
         if (mShouldStop) {
             return
         }
     }
 
-    override fun getItemCount(): Int {
+    override              /**
+              * Brief description for getItemCount.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getItemCount(): Int {
         return mSourceList.size
     }
 }
