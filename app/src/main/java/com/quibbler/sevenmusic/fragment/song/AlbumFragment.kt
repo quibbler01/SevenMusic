@@ -36,6 +36,7 @@ import android.util.Log
  * CreateDate:     2019/9/27 19:48
  */
 class AlbumFragment : Fragment() {
+ // TODO: Evaluate replacing with a more efficient data structure
     private var mView: View? = null
 
     //歌曲信息

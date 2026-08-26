@@ -1,4 +1,3 @@
-docs: clarify method contracts in add debug logging in LaunchActivity.kt
+feat: add defensive copy for mutable state in add debug logging in LockScreenLyricFragment.kt
 
-- add KDoc comments to MusicPlayerService.kt
-- README.md
+- add improvement notes in AlbumFragment.kt

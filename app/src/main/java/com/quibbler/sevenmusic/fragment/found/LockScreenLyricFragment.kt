@@ -16,6 +16,7 @@ import com.quibbler.sevenmusic.utils.ThreadDispatcher
 import com.quibbler.sevenmusic.view.song.impl.LrcView
 import java.util.Timer
 import java.util.TimerTask
+import android.util.Log
 
 class LockScreenLyricFragment : Fragment() {
     private var mView: View? = null
@@ -123,6 +124,7 @@ class LockScreenLyricFragment : Fragment() {
 
     companion object {
         fun newInstance(isPlaying: Boolean): Fragment {
+            Log.d("LockScreenLyric", "newInstance() called")
             val fragment = LockScreenLyricFragment()
             val bundle = Bundle()
             bundle.putBoolean("state", isPlaying)
