@@ -65,6 +65,7 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+                 Log.d("Launch", "onDestroy() called")
         super.onDestroy()
     }
 

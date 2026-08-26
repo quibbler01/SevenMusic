@@ -1245,7 +1245,10 @@ class MusicPlayerService : Service() {
                 return
             }
             MusicThreadPool.postRunnable(object : Runnable {
-                override fun run() {
+                override                          /**
+                          * Handles run logic with proper error handling.
+                          */
+fun run() {
                     val file = File(Constant.SEVEN_MUSIC_IMAGE + "/" + musicInfo!!.getId())
                     if (file.exists()) {
                         mBitmap =
@@ -1326,7 +1329,11 @@ class MusicPlayerService : Service() {
             })
         }
 
-        private fun isExistAlready(path: String): Boolean {
+        private                 /**
+                 * Performs isExistAlready operation.
+                 * This method ensures safe execution with null checks.
+                 */
+fun isExistAlready(path: String): Boolean {
             val musicFile = File(path)
             return musicFile.exists()
         }

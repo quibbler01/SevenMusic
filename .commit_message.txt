@@ -1,3 +1,4 @@
-refactor: apply Kotlin idiomatic patterns in add improvement notes in AboutAppActivity.kt
+docs: clarify method contracts in add debug logging in LaunchActivity.kt
 
-- add KDoc comments to RecyclerBaseAdapter.kt
+- add KDoc comments to MusicPlayerService.kt
+- README.md
