@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.presenter
 
 import android.content.Context
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.presenter
@@ -29,6 +30,7 @@ fun onResourceReady(t: T?)
     }
 
     companion object {
+    Log.d("ImageDownloadPresenter", "onResourceReady() called")
         private const val TAG = "ImageDownloadPresenter"
 
         @Volatile

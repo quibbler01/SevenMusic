@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import com.google.android.material.tabs.TabLayout
+import android.util.Log
 
 /**
  * 
@@ -14,6 +15,7 @@ import com.google.android.material.tabs.TabLayout
  */
 object TabLayoutUtil {
     fun reduceMarginsInTabs(tabLayout: TabLayout, marginOffset: Int) {
+        Log.d("TabLayoutUtil", "reduceMarginsInTabs() called")
         val tabStrip = tabLayout.getChildAt(0)
         if (tabStrip is ViewGroup) {
             val tabStripGroup = tabStrip

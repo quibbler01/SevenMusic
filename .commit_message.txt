@@ -1,4 +1,3 @@
-refactor: improve code readability in add improvement notes in TopMvFragment.kt
+refactor: simplify null handling in add debug logging in TabLayoutUtil.kt
 
-- add improvement notes in PlayListMusicAdapter.kt
-- README.md
+- add debug logging in ImageDownloadPresenter.kt
