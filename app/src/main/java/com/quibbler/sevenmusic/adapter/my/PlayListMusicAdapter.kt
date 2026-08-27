@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference
 
 class PlayListMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.local_music_list_item, objects) {
+ // TODO: Consider extracting to a separate utility class
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val musicInfo = getItem(position)

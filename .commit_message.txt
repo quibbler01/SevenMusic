@@ -1,3 +1,4 @@
-feat: add defensive copy for mutable state in add debug logging in LockScreenLyricFragment.kt
+refactor: improve code readability in add improvement notes in TopMvFragment.kt
 
-- add improvement notes in AlbumFragment.kt
+- add improvement notes in PlayListMusicAdapter.kt
+- README.md

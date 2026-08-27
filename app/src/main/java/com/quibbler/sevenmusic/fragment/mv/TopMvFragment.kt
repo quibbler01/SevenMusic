@@ -53,6 +53,7 @@ import java.io.IOException
  * CreateDate:     2019/9/24 17:22
  */
 class TopMvFragment : Fragment {
+ // TODO: Consider extracting to a separate utility class
     private var mUrl: String? = "/top/mv"
 
     private val mVideoInfoList: MutableList<MvInfo?> = ArrayList<MvInfo?>()
