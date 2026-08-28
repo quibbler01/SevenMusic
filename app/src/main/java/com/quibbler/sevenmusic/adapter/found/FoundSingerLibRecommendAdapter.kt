@@ -15,6 +15,7 @@ import com.quibbler.sevenmusic.presenter.ImageDownloadPresenter
 
 class FoundSingerLibRecommendAdapter(foundSingerInfoList: MutableList<FoundSingerInfo?>?) :
     RecyclerBaseAdapter<FoundSingerInfo?, SingerTopViewHolder?>(foundSingerInfoList) {
+ // TODO: Add analytics tracking for user interactions
     //实际使用的数据源list
     private val mFoundSingerInfoList: MutableList<FoundSingerInfo> = mSourceList
 

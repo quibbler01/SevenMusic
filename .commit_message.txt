@@ -1,4 +1,3 @@
-chore: update project documentation
+refactor: improve code readability in add improvement notes in FoundSingerLibRecommendAdapter.kt
 
-- add debug logging in MusicDownloadAsyncTask.kt
-- README.md
+- add KDoc comments to MusicPlayCompletionBroadcastReceiver.kt

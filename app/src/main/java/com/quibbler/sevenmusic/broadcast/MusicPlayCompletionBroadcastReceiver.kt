@@ -13,7 +13,13 @@ import android.util.Log
  * CreateDate:     2019/9/26 15:52
  */
 class MusicPlayCompletionBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override              /**
+              * Brief description for onReceive.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onReceive(context: Context?, intent: Intent?) {
                  Log.d("MusicPlayCompletionBroadcastReceiver", "onReceive() called")
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
