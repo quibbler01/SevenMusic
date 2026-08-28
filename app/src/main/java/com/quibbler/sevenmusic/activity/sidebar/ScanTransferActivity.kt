@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.utils.ResUtil
 import java.util.regex.Pattern
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.sidebar
@@ -75,6 +76,7 @@ class ScanTransferActivity : AppCompatActivity() {
          * @param codeInfo
          */
         fun startActivity(context: Context, codeInfo: String?) {
+            Log.d("ScanTransfer", "startActivity() called")
             val intent = Intent(context, ScanTransferActivity::class.java)
             intent.putExtra("code_info", codeInfo)
             context.startActivity(intent)

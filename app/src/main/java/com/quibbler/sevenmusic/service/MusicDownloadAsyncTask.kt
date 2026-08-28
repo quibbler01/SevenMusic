@@ -13,6 +13,7 @@ import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import android.util.Log
 
 
 /**
@@ -121,6 +122,7 @@ class MusicDownloadAsyncTask(listener: MusicDownloadListener) :
      * @param values
      */
     override fun onProgressUpdate(values: Array<Int?>?) {
+                 Log.d("MusicDownloadAsyncTask", "onProgressUpdate() called")
     }
 
     companion object {
