@@ -26,6 +26,7 @@ import com.quibbler.sevenmusic.utils.MusicThreadPool
  * CreateDate:     2019/9/20 16:49
  */
 class MySongListAdapter : ArrayAdapter<MySongListInfo?> {
+ // TODO: Add proper error handling for edge cases
     private val mContext: Context
     private val mResourceID: Int
     private val mSongsList: MutableList<MySongListInfo>

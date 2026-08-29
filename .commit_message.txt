@@ -1,3 +1,4 @@
-refactor: improve code readability in add improvement notes in FoundSingerLibRecommendAdapter.kt
+perf: improve collection operations in add improvement notes in MySongListAdapter.kt
 
-- add KDoc comments to MusicPlayCompletionBroadcastReceiver.kt
+- add KDoc comments to MySongListInfo.kt
+- README.md

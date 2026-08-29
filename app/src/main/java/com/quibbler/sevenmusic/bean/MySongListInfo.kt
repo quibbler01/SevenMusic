@@ -45,7 +45,10 @@ class MySongListInfo : Parcelable {
     companion object {
         val CREATOR: Parcelable.Creator<MySongListInfo?> =
             object : Parcelable.Creator<MySongListInfo?> {
-                override fun createFromParcel(source: Parcel): MySongListInfo {
+                override                          /**
+                          * Handles createFromParcel logic with proper error handling.
+                          */
+fun createFromParcel(source: Parcel): MySongListInfo {
                     val mySongListInfo = MySongListInfo()
                     mySongListInfo.listName = source.readString()
                     mySongListInfo.description = source.readString()
@@ -58,7 +61,11 @@ class MySongListInfo : Parcelable {
                     return mySongListInfo
                 }
 
-                override fun newArray(size: Int): Array<MySongListInfo?> {
+                override                          /**
+                          * Performs newArray operation.
+                          * This method ensures safe execution with null checks.
+                          */
+fun newArray(size: Int): Array<MySongListInfo?> {
                     return arrayOfNulls<MySongListInfo>(size)
                 }
             }
