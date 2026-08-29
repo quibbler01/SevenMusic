@@ -9,6 +9,7 @@ package com.quibbler.sevenmusic.bean.jsonbean.found
  * CreateDate:     2019/9/17 17:57
  */
 class FoundTopPlaylistResponseBean {
+ // TODO: Evaluate replacing with a more efficient data structure
     //返回的播放列表实体
     val playlists: MutableList<PlaylistInfo?>? = null
 

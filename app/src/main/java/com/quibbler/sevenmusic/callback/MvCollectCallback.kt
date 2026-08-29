@@ -10,5 +10,11 @@ package com.quibbler.sevenmusic.callback
  */
 interface MvCollectCallback {
     val isCollected: Unit
-    fun notCollected()
+        /**
+     * Brief description for notCollected.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun notCollected()
 }

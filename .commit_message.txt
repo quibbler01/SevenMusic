@@ -1,4 +1,3 @@
-perf: improve collection operations in add improvement notes in MySongListAdapter.kt
+style: normalize code formatting in add KDoc comments to MvCollectCallback.kt
 
-- add KDoc comments to MySongListInfo.kt
-- README.md
+- add improvement notes in FoundTopPlaylistResponseBean.kt
