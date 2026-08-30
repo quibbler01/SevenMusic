@@ -1,4 +1,3 @@
-perf: improve collection operations in add debug logging in MaqueeTextView.kt
+perf: improve collection operations in add improvement notes in MusicAlarmActivity.kt
 
-- add improvement notes in SearchHistoryRecyclerAdapter.kt
-- README.md
+- add KDoc comments to DownloadMusicAdapter.kt

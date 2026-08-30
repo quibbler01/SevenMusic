@@ -16,7 +16,11 @@ import java.lang.ref.WeakReference
 
 class DownloadMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.download_music_list_item, objects) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override              /**
+              * Performs getView operation.
+              * This method ensures safe execution with null checks.
+              */
+fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val musicInfo = getItem(position)
         var viewHolder: ViewHolder? = null

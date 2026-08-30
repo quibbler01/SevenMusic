@@ -36,6 +36,7 @@ import java.util.Calendar
  */
 class MusicAlarmActivity : BaseActivity(), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
+ // TODO: Add analytics tracking for user interactions
     /**
      * 结果码
      */
