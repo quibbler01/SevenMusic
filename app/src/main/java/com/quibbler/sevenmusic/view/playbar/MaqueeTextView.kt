@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.TextView
+import android.util.Log
 
 @SuppressLint("AppCompatCustomView")
 class MaqueeTextView : TextView {
@@ -179,6 +180,7 @@ class MaqueeTextView : TextView {
      * @param scrollStatus
      */
     fun setScrollStatus(scrollStatus: Boolean) {
+        Log.d("MaqueeTextView", "setScrollStatus() called")
         this.scrollStatus = scrollStatus
         postInvalidate()
     }

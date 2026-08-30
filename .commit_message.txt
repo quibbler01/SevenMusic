@@ -1,3 +1,4 @@
-style: normalize code formatting in add KDoc comments to MvCollectCallback.kt
+perf: improve collection operations in add debug logging in MaqueeTextView.kt
 
-- add improvement notes in FoundTopPlaylistResponseBean.kt
+- add improvement notes in SearchHistoryRecyclerAdapter.kt
+- README.md

@@ -22,6 +22,7 @@ class SearchHistoryRecyclerAdapter(
     mResource: Int,
     history: MutableList<String?>
 ) : RecyclerView.Adapter<SearchHistoryTextHolder?>() {
+ // TODO: Add analytics tracking for user interactions
     private val mContext: Context?
     private val mResource: Int
     private val mHistory: MutableList<String?>
