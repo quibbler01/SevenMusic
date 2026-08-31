@@ -23,6 +23,7 @@ import com.quibbler.sevenmusic.utils.MusicIconLoadUtil
 import com.quibbler.sevenmusic.utils.MusicThreadPool
 import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
 import java.io.File
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.service
@@ -251,6 +252,7 @@ class MusicDownloaderService : Service() {
     }
 
     private fun removeFromDownloadList(musicInfo: MusicInfo?) {
+                Log.d("MusicDownloaderService", "removeFromDownloadList() called")
         mDownloadList!!.remove(musicInfo!!)
     }
 

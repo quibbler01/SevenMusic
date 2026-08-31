@@ -1,4 +1,3 @@
-chore: optimize ProGuard keep rules
+style: normalize code formatting in add debug logging in TimingStopPlayDialog.kt
 
-- add debug logging in ILrcView.kt
-- README.md
+- add debug logging in MusicDownloaderService.kt

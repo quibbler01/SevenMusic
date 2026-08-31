@@ -14,6 +14,7 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager
 import com.quibbler.sevenmusic.utils.ResUtil
 import java.util.Calendar
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.view.sidebar
@@ -295,6 +296,7 @@ class TimingStopPlayDialog(context: Context) : View.OnClickListener {
          * 描述：显示定时停止播放对话框
          */
         fun showTimingStopPlayDialog(context: Context) {
+            Log.d("TimingStopPlayDialog", "showTimingStopPlayDialog() called")
             val timingStopPlayDiglog = TimingStopPlayDialog(context)
         }
     }
