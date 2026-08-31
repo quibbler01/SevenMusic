@@ -1,3 +1,4 @@
-perf: improve collection operations in add improvement notes in MusicAlarmActivity.kt
+chore: optimize ProGuard keep rules
 
-- add KDoc comments to DownloadMusicAdapter.kt
+- add debug logging in ILrcView.kt
+- README.md

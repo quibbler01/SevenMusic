@@ -38,6 +38,7 @@ class MyFilePathListVIewAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                 Log.d("MyFilePathListVIew", "getView() called")
         var convertView = convertView
         val musicPathInfo = mMusicPathInfoLists.get(position)
         var viewHolder: ViewHolder? = null
