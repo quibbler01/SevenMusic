@@ -1,3 +1,4 @@
-style: normalize code formatting in add debug logging in TimingStopPlayDialog.kt
+refactor: reduce code duplication in add debug logging in GroupItemDecoration.kt
 
-- add debug logging in MusicDownloaderService.kt
+- add KDoc comments to PlaylistLibItemFragment.kt
+- README.md

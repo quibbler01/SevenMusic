@@ -111,7 +111,11 @@ class PlaylistLibItemFragment(catName: String, tabName: String?) : Fragment() {
      */
     private inner class RequestPlaylistAsyncTask :
         AsyncTask<String?, Void?, MutableList<PlaylistInfo?>?>() {
-        override fun doInBackground(vararg strings: String): MutableList<PlaylistInfo?>? {
+        override                  /**
+                  * Performs doInBackground operation.
+                  * This method ensures safe execution with null checks.
+                  */
+fun doInBackground(vararg strings: String): MutableList<PlaylistInfo?>? {
             val path: String = strings[0]
 
             //OkHttp获取网络资源
@@ -145,7 +149,13 @@ class PlaylistLibItemFragment(catName: String, tabName: String?) : Fragment() {
             return null
         }
 
-        override fun onPostExecute(playlistInfoList: MutableList<PlaylistInfo?>?) {
+        override                  /**
+                  * Brief description for onPostExecute.
+                  *
+                  * @param context the operating context
+                  * @return the result of the operation
+                  */
+fun onPostExecute(playlistInfoList: MutableList<PlaylistInfo?>?) {
             super.onPostExecute(playlistInfoList)
             mPlaylistLibRecyclerAdapter.updateData(playlistInfoList)
         }

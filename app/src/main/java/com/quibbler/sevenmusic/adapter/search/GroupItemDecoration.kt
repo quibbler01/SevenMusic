@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.quibbler.sevenmusic.R
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -154,6 +155,7 @@ class GroupItemDecoration(context: Context, callback: TitleDecorationCallback) :
      * @return
      */
     private fun isFirst(position: Int): Boolean {
+                Log.d("GroupItemDecoration", "isFirst() called")
         if (position == 0) {
             return true
         } else {
