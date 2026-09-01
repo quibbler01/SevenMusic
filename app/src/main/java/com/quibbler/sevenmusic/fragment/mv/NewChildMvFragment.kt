@@ -498,6 +498,7 @@ class NewChildMvFragment : Fragment {
         private const val MV_NUMS_OF_PAGE = 10
 
         fun newInstance(arg: String?): Fragment {
+            Log.d("NewChildMv", "newInstance() called")
             val fragment = NewChildMvFragment()
             val bundle = Bundle()
             bundle.putString("url", arg)

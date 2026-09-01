@@ -1,4 +1,3 @@
-refactor: reduce code duplication in add debug logging in GroupItemDecoration.kt
+fix: correct resource leak in add debug logging in NewChildMvFragment.kt
 
-- add KDoc comments to PlaylistLibItemFragment.kt
-- README.md
+- add improvement notes in SelectRemindCyclePopup.kt
