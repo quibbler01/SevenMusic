@@ -1,4 +1,3 @@
-perf: reduce unnecessary object allocation in add debug logging in ScanCaptureActivity.kt
+chore: improve build configuration
 
-- add improvement notes in MvUrl.kt
-- README.md
+- add debug logging in SettingActivity.kt

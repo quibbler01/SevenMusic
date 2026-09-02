@@ -2,6 +2,7 @@ package com.quibbler.sevenmusic.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 /**
  * Package:        com.quibbler.mymusicdemo.utils
@@ -127,6 +128,7 @@ class SharedPreferencesUtils(context: Context) {
          * @param key
          */
         fun remove(key: String?) {
+            Log.d("SharedPreferencesUtils", "remove() called")
             val editor: SharedPreferences.Editor = mSharedPreferences.edit()
             editor.remove(key).commit()
         }

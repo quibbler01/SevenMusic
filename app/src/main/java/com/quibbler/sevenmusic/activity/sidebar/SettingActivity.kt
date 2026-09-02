@@ -293,6 +293,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                 Log.d("Setting", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> finish()
             else -> {}
