@@ -1,3 +1,4 @@
-fix: correct resource leak in add debug logging in NewChildMvFragment.kt
+perf: reduce unnecessary object allocation in add debug logging in ScanCaptureActivity.kt
 
-- add improvement notes in SelectRemindCyclePopup.kt
+- add improvement notes in MvUrl.kt
+- README.md

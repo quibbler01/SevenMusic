@@ -22,6 +22,7 @@ import com.google.zxing.ScanCallback.AnalyzeCallback
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.utils.ResUtil
 import com.quibbler.sevenmusic.utils.UiUtil
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.sidebar
@@ -198,6 +199,7 @@ class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
          * @param context
          */
         fun startActivity(context: Context) {
+            Log.d("ScanCapture", "startActivity() called")
             val intent = Intent(context, ScanCaptureActivity::class.java)
             context.startActivity(intent)
         }

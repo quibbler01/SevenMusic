@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName
  * CreateDate:     2019/10/9 15:55
  */
 class MvUrl {
+ // TODO: Add unit tests for this module
     @SerializedName("480")
     var url: String? = null
 }
