@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean.search
 
 class SearchPlayListBean {
+ // TODO: Consider migrating to coroutines for async operations
     var code: String? = null
     var result: Result? = null
 

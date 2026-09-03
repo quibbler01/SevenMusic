@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName
  * CreateDate:     2019/9/29 10:13
  */
 class SearchSuggestionBean {
+ // TODO: Consider adding caching layer for performance
     @SerializedName("result")
     var result: Result? = null
 
