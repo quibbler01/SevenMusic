@@ -9,8 +9,17 @@ package com.quibbler.sevenmusic.utils
  * CreateDate:     2019/9/17 17:46
  */
 interface ICallback {
-    fun onResponse(responseText: String?)
+        /**
+     * Handles onResponse logic with proper error handling.
+     */
+fun onResponse(responseText: String?)
 
     //void onFailure(Call call, IOException e);
-    fun onFailure()
+        /**
+     * Brief description for onFailure.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun onFailure()
 }

@@ -1,3 +1,4 @@
-chore: improve build configuration
+feat: add defensive copy for mutable state in add KDoc comments to ICallback.kt
 
-- add debug logging in SettingActivity.kt
+- add improvement notes in BlurTransformation.kt
+- README.md

@@ -24,6 +24,7 @@ class BlurTransformation @JvmOverloads constructor(
     radius: Int = MAX_RADIUS,
     sampling: Int = DEFAULT_DOWN_SAMPLING
 ) : BitmapTransformation() {
+ // TODO: Migrate to ViewBinding when feasible
     private val mRadius: Int
     private val mSampling: Int
 
