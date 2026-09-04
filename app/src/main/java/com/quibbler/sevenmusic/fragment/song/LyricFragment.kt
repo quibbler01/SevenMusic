@@ -16,6 +16,7 @@ import com.quibbler.sevenmusic.service.MusicPlayerService
 import com.quibbler.sevenmusic.view.song.ILrcView
 import java.util.Timer
 import java.util.TimerTask
+import android.util.Log
 
 /**
  * 
@@ -173,6 +174,7 @@ class LyricFragment : Fragment() {
         private const val MUSIC_LYRIC_URL = "/lyric?id="
 
         fun newInstance(isPlaying: Boolean): Fragment {
+            Log.d("Lyric", "newInstance() called")
             val fragment = LyricFragment()
             val bundle = Bundle()
             bundle.putBoolean("state", isPlaying)

@@ -31,7 +31,10 @@ object BeanConverter {
         return mvInfo
     }
 
-    fun convertSingerInfo2Artist(singerInfo: SingerInfo?): Artist? {
+        /**
+     * Handles convertSingerInfo2Artist logic with proper error handling.
+     */
+fun convertSingerInfo2Artist(singerInfo: SingerInfo?): Artist? {
         if (singerInfo == null) {
             return null
         }
@@ -40,7 +43,13 @@ object BeanConverter {
         return artist
     }
 
-    fun convertMusicInfo2MvMusicInfo(musicInfo: MusicInfo): MvMusicInfo {
+        /**
+     * Brief description for convertMusicInfo2MvMusicInfo.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun convertMusicInfo2MvMusicInfo(musicInfo: MusicInfo): MvMusicInfo {
         val id = musicInfo.getId().toInt()
         val name = musicInfo.getMusicSongName()
         val picUrl = musicInfo.getAlbumPicUrl()

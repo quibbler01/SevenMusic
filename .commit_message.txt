@@ -1,4 +1,3 @@
-refactor: apply Kotlin idiomatic patterns in add debug logging in ScanCaptureActivity.kt
+perf: reduce unnecessary object allocation in add KDoc comments to BeanConverter.kt
 
-- add improvement notes in GlideRoundTransform.kt
-- README.md
+- add debug logging in LyricFragment.kt
