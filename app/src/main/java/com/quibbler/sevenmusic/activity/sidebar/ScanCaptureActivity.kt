@@ -161,6 +161,7 @@ class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
         permissions: Array<String?>,
         grantResults: IntArray
     ) {
+                 Log.d("ScanCapture", "onRequestPermissionsResult() called")
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_PERMISSION_CODE) {
             for (i in permissions.indices) {

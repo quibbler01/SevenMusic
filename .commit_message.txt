@@ -1,3 +1,4 @@
-chore: update project documentation
+refactor: apply Kotlin idiomatic patterns in add debug logging in ScanCaptureActivity.kt
 
-- add improvement notes in SearchSuggestionBean.kt
+- add improvement notes in GlideRoundTransform.kt
+- README.md

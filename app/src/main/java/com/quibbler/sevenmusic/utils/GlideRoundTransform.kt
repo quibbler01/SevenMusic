@@ -12,6 +12,7 @@ import java.security.MessageDigest
 
 class GlideRoundTransform @JvmOverloads constructor(context: Context?, dp: Int = 10) :
     CenterCrop() {
+ // TODO: Add analytics tracking for user interactions
     init {
         radius = dp.toFloat()
     }
