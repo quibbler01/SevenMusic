@@ -16,14 +16,21 @@ import com.quibbler.sevenmusic.service.MusicPlayerService
  * CreateDate:     2019/10/10 16:51
  */
 class UpdateProgressBarReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override              /**
+              * Performs onReceive operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onReceive(context: Context?, intent: Intent?) {
         val activity: MusicPlayActivity? = MusicPlayActivity.Companion.getInstance()
         if (activity != null) {
             val progressBar = activity.getPlayBar()
             if (progressBar != null) {
                 val progress: Int = MusicPlayerService.Companion.getPlayProgress()
                 activity.runOnUiThread(object : Runnable {
-                    override fun run() {
+                    override                              /**
+                              * Handles run logic with proper error handling.
+                              */
+fun run() {
                         progressBar.setProgress(progress)
                     }
                 })

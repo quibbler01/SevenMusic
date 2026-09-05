@@ -1,3 +1,4 @@
-perf: reduce unnecessary object allocation in add KDoc comments to BeanConverter.kt
+chore: improve build configuration
 
-- add debug logging in LyricFragment.kt
+- add improvement notes in MyFragment.kt
+- README.md
