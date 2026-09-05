@@ -23,7 +23,13 @@ object NetUtil {
     const val NETWORW_WIFI: Int = 2
 
     //获取网络启动
-    fun getNetWorkStart(context: Context): Int {
+        /**
+     * Brief description for getNetWorkStart.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun getNetWorkStart(context: Context): Int {
         val connectivityManager = context //连接服务 CONNECTIVITY_SERVICE
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         //网络信息 NetworkInfo

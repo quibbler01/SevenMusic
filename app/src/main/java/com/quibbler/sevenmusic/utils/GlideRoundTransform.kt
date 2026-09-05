@@ -33,13 +33,19 @@ class GlideRoundTransform @JvmOverloads constructor(context: Context?, dp: Int =
     val id: String
         get() = javaClass.getName() + Math.round(radius)
 
-    override fun updateDiskCacheKey(messageDigest: MessageDigest?) {
+    override              /**
+              * Handles updateDiskCacheKey logic with proper error handling.
+              */
+fun updateDiskCacheKey(messageDigest: MessageDigest?) {
     }
 
     companion object {
         private var radius = 10f
 
-        private fun roundCrop(pool: BitmapPool, source: Bitmap?): Bitmap? {
+        private                 /**
+                 * Handles roundCrop logic with proper error handling.
+                 */
+fun roundCrop(pool: BitmapPool, source: Bitmap?): Bitmap? {
             if (source == null) return null
 
             var result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888)

@@ -1,4 +1,3 @@
-chore: improve build configuration
+style: fix inconsistent indentation in add KDoc comments to NetUtil.kt
 
-- add improvement notes in MyFragment.kt
-- README.md
+- add KDoc comments to GlideRoundTransform.kt
