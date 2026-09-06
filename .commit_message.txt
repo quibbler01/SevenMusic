@@ -1,3 +1,4 @@
-style: fix inconsistent indentation in add KDoc comments to NetUtil.kt
+docs: improve code documentation in add improvement notes in FoundCustomDialog.kt
 
-- add KDoc comments to GlideRoundTransform.kt
+- add KDoc comments to BitmapUtils.kt
+- README.md

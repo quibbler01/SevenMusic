@@ -85,7 +85,13 @@ object BitmapUtils {
         return BitmapFactory.decodeByteArray(data, 0, data.size, options)
     }
 
-    fun decodeLowQualityBitmap(inputStream: InputStream, reqWidth: Int, reqHeight: Int): Bitmap? {
+        /**
+     * Brief description for decodeLowQualityBitmap.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun decodeLowQualityBitmap(inputStream: InputStream, reqWidth: Int, reqHeight: Int): Bitmap? {
         val output = ByteArrayOutputStream()
         val buffer = ByteArray(4096)
         var n = 0
@@ -101,7 +107,13 @@ object BitmapUtils {
     }
 
 
-    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        /**
+     * Brief description for calculateInSampleSize.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
         val height = options.outHeight
         val width = options.outWidth
         var inSampleSize = 1

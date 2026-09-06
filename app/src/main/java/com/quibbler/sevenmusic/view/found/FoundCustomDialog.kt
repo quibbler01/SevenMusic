@@ -29,6 +29,7 @@ import com.quibbler.sevenmusic.utils.MusicDatabaseUtils
 import com.quibbler.sevenmusic.utils.MusicThreadPool
 
 class FoundCustomDialog(context: Context, musicInfo: MusicInfo?) : Dialog(context) {
+ // TODO: Migrate to ViewBinding when feasible
     private val mContext: Context?
     private var mThread: Thread? = null
     private var mCustomMusicLists: ArrayList<CustomMusicList?>? = null
