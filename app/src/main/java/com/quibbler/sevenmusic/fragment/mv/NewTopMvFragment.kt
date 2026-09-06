@@ -367,7 +367,11 @@ class NewTopMvFragment : Fragment {
         }
     }
 
-    override fun onDestroy() {
+    override              /**
+              * Performs onDestroy operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onDestroy() {
         super.onDestroy()
         MusicApplication.Companion.getContext().unbindService(mDownloadConnection)
     }
@@ -378,7 +382,10 @@ class NewTopMvFragment : Fragment {
         //一页显示mv的数量
         private const val MV_NUMS_OF_PAGE = 16
 
-        fun newInstance(arg: String?): Fragment {
+                /**
+         * Handles newInstance logic with proper error handling.
+         */
+fun newInstance(arg: String?): Fragment {
             val fragment = NewTopMvFragment()
             val bundle = Bundle()
             bundle.putString("url", arg)

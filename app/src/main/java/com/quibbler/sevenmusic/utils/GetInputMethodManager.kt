@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import com.quibbler.sevenmusic.MusicApplication
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
