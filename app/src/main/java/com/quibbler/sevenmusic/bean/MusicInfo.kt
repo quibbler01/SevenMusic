@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import kotlin.math.min
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -314,6 +315,7 @@ class MusicInfo : Parcelable, Cloneable {
             }
 
             override fun newArray(size: Int): Array<MusicInfo?> {
+                         Log.d("MusicInfo", "newArray() called")
                 return arrayOfNulls<MusicInfo>(size)
             }
         }
