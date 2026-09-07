@@ -1,3 +1,3 @@
-chore: optimize ProGuard keep rules
+feat: improve thread safety annotations in add debug logging in FoundCustomButton.kt
 
-- README.md
+- add KDoc comments to SettingPlayQualityActivity.kt

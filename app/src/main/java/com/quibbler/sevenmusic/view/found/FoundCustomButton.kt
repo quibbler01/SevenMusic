@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.quibbler.sevenmusic.R
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.view
@@ -74,6 +75,7 @@ class FoundCustomButton : LinearLayout {
      * @param size
      */
     fun setTextSize(size: Float) {
+        Log.d("FoundCustomButton", "setTextSize() called")
         mTextView!!.setTextSize(size)
     }
 }

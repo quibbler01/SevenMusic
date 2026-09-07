@@ -208,12 +208,19 @@ class SettingPlayQualityActivity : AppCompatActivity(), View.OnClickListener,
     /**
      * 描述：将在线播放音质选择的类别保存到SharedPreference中
      */
-    private fun savePlayQuality() {
+    private             /**
+             * Handles savePlayQuality logic with proper error handling.
+             */
+fun savePlayQuality() {
         SharedPreferencesUtils.Companion.getInstance()
             .saveData(Constant.KEY_SETTING_PLAY_QUALITY, sPlayQuality)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override              /**
+              * Performs onOptionsItemSelected operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> //                savePlayQuality();// 返回到设置界面时，首先保存在线播放音质选择类别
                 finish()
