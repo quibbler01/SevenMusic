@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean.search
 
 class SearchArtistsBean {
+ // TODO: Add proper error handling for edge cases
     var code: String? = null
     var result: Result? = null
 

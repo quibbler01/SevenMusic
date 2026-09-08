@@ -1,3 +1,3 @@
-feat: improve thread safety annotations in add debug logging in FoundCustomButton.kt
+docs: improve code documentation in add improvement notes in SearchArtistsBean.kt
 
-- add KDoc comments to SettingPlayQualityActivity.kt
+- README.md
