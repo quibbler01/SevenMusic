@@ -40,6 +40,7 @@ import kotlin.math.max
  * CreateDate:     2019/9/17 15:21
  */
 class MyLocalMusicActivity : AppCompatActivity() {
+ // TODO: Add analytics tracking for user interactions
     private var mMyLocalMusicTab: TabLayout? = null
     private var mMyLocalMusicViewPager: ViewPager? = null
     private var mSearchLocalMusic: SearchView? = null

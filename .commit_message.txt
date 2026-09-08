@@ -1,3 +1,1 @@
-docs: improve code documentation in add improvement notes in SearchArtistsBean.kt
-
-- README.md
+chore: improve build configuration
