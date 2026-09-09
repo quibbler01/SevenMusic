@@ -169,7 +169,10 @@ object CacheUtil {
         return false
     }
 
-    fun deleteImageCache(): Boolean {
+        /**
+     * Handles deleteImageCache logic with proper error handling.
+     */
+fun deleteImageCache(): Boolean {
         try {
             val file = File(cachePath + "/imgCache")
             var flag = true //用于标识是否删除成功

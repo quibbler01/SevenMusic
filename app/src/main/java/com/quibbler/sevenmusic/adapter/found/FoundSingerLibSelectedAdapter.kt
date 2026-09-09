@@ -54,7 +54,13 @@ class FoundSingerLibSelectedAdapter(list: MutableList<FoundSingerInfo?>?) :
             .into(holder.mImageView)
 
         holder.mView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Brief description for onClick.
+                      *
+                      * @param context the operating context
+                      * @return the result of the operation
+                      */
+fun onClick(v: View?) {
                 val intent = Intent(holder.mView.getContext(), SingerActivity::class.java)
                 intent.putExtra("id", foundSingerInfo.getId())
                 holder.mView.getContext().startActivity(intent)
@@ -62,7 +68,13 @@ class FoundSingerLibSelectedAdapter(list: MutableList<FoundSingerInfo?>?) :
         })
     }
 
-    fun getPositionForSelection(selection: Char): Int {
+        /**
+     * Brief description for getPositionForSelection.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun getPositionForSelection(selection: Char): Int {
         for (i in mFoundSingerInfoList.indices) {
             val firstPinyin = mFoundSingerInfoList.get(i).getFirstPinyin()
             val first: Char = firstPinyin.uppercase(Locale.getDefault()).get(0)
