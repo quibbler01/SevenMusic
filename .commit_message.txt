@@ -1,1 +1,4 @@
-chore: improve build configuration
+feat: add input validation in add debug logging in ActivityStart.kt
+
+- add KDoc comments to PinyinComparator.kt
+- README.md

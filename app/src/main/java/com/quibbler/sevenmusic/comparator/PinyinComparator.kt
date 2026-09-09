@@ -5,11 +5,18 @@ import okhttp3.Response.code
 import java.util.Locale
 
 class PinyinComparator : Comparator<FoundSingerInfo?> {
-    override fun compare(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
+    override              /**
+              * Performs compare operation.
+              * This method ensures safe execution with null checks.
+              */
+fun compare(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
         return sort(leftSinger, rightSinger)
     }
 
-    private fun sort(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
+    private             /**
+             * Handles sort logic with proper error handling.
+             */
+fun sort(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
         if (leftSinger == null) {
             if (rightSinger == null) {
                 return 0

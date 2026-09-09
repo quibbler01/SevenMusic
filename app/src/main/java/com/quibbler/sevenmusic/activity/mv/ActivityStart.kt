@@ -8,6 +8,7 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.activity.song.MusicPlayActivity
 import com.quibbler.sevenmusic.bean.mv.MvInfo
 import com.quibbler.sevenmusic.bean.mv.MvMusicInfo
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.mv
@@ -70,6 +71,7 @@ object ActivityStart {
      * @param bundle  内容bundle
      */
     fun startActivity(context: Context, cls: Class<*>, bundle: Bundle) {
+        Log.d("Start", "startActivity() called")
         val intent = Intent()
         intent.setClass(context, cls)
         intent.putExtras(bundle)
