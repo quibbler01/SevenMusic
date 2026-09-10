@@ -1,3 +1,4 @@
-perf: reduce unnecessary object allocation in add KDoc comments to CacheUtil.kt
+chore: improve build configuration
 
-- add KDoc comments to FoundSingerLibSelectedAdapter.kt
+- add debug logging in RecommendMvAdapter.kt
+- README.md

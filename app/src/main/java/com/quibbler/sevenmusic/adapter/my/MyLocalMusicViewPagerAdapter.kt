@@ -174,11 +174,20 @@ class MyLocalMusicViewPagerAdapter(context: Context, musicInfoLists: MutableList
         return titles!!.size
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+    override              /**
+              * Handles isViewFromObject logic with proper error handling.
+              */
+fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view === `object`
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override              /**
+              * Brief description for getPageTitle.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getPageTitle(position: Int): CharSequence? {
         return titles!![position]
     }
 

@@ -250,6 +250,7 @@ class RecommendMvAdapter(infoList: MutableList<MvInfo?>?, topMvClickListener: To
     }
 
     override fun getItemCount(): Int {
+                 Log.d("RecommendMv", "getItemCount() called")
         if (mMvInfoList.size <= 0) {
             return 0
         } else if (mMvInfoList.size <= 4) {
