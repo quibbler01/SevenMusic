@@ -490,6 +490,7 @@ class PlaylistAdapter(musicInfoList: MutableList<MusicInfo>, context: Context) :
 
     //设置屏幕透明度,bgcolor:0-1
     private fun darkenBackground(bgcolor: Float) {
+                Log.d("Playlist", "darkenBackground() called")
         if (mContext != null) {
             val activity = mContext as Activity
             val lp = activity.getWindow().getAttributes()

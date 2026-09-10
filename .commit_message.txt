@@ -1,4 +1,3 @@
-chore: improve build configuration
+fix: address potential edge case in add debug logging in MyCollectionViewsAdapter.kt
 
-- add debug logging in RecommendMvAdapter.kt
-- README.md
+- add debug logging in PlaylistAdapter.kt

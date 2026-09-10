@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.quibbler.sevenmusic.fragment.my.MyCollectionSongFragment
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -25,6 +26,7 @@ class MyCollectionViewsAdapter(fm: FragmentManager) :
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
+                 Log.d("MyCollectionViews", "getPageTitle() called")
         return titles[position]
     }
 }
