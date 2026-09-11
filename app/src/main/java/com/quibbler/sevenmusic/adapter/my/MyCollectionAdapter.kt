@@ -106,6 +106,7 @@ class MyCollectionAdapter(
                                   * Handles onClick logic with proper error handling.
                                   */
 fun onClick(v: View?) {
+    Log.d("MyCollection", "onClick() called")
                             val values = ContentValues()
                             values.put("id", myCollectionsInfo.id)
                             values.put("title", myCollectionsInfo.title)

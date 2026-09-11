@@ -1,3 +1,4 @@
-fix: address potential edge case in add debug logging in MyCollectionViewsAdapter.kt
+refactor: improve code readability in add debug logging in MyCollectionAdapter.kt
 
-- add debug logging in PlaylistAdapter.kt
+- add KDoc comments to MusicDownloadAsyncTask.kt
+- README.md

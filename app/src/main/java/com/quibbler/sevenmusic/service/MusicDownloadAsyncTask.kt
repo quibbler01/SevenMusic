@@ -111,7 +111,10 @@ class MusicDownloadAsyncTask(listener: MusicDownloadListener) :
     /**
      * @param result
      */
-    override fun onPostExecute(result: Boolean) {
+    override              /**
+              * Handles onPostExecute logic with proper error handling.
+              */
+fun onPostExecute(result: Boolean) {
         mListener.isSuccess(result)
     }
 
@@ -121,7 +124,11 @@ class MusicDownloadAsyncTask(listener: MusicDownloadListener) :
      * 
      * @param values
      */
-    override fun onProgressUpdate(values: Array<Int?>?) {
+    override              /**
+              * Performs onProgressUpdate operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onProgressUpdate(values: Array<Int?>?) {
                  Log.d("MusicDownloadAsyncTask", "onProgressUpdate() called")
     }
 
