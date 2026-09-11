@@ -1,4 +1,3 @@
-refactor: improve code readability in add debug logging in MyCollectionAdapter.kt
+chore: update project documentation
 
-- add KDoc comments to MusicDownloadAsyncTask.kt
-- README.md
+- add debug logging in MyRecentlyPlayedMusicActivity.kt

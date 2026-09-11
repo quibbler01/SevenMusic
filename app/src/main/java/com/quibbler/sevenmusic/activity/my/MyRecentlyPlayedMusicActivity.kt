@@ -22,6 +22,7 @@ import com.quibbler.sevenmusic.adapter.my.MyRecentPlayedMusicAdapter
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
 import com.quibbler.sevenmusic.utils.MusicThreadPool
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -207,6 +208,7 @@ class MyRecentlyPlayedMusicActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+                 Log.d("MyRecentlyPlayedMusic", "onCreateOptionsMenu() called")
         getMenuInflater().inflate(R.menu.my_clear_action, menu)
         return true
     }

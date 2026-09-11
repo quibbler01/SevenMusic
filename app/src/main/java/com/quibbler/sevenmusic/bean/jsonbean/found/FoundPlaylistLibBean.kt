@@ -9,5 +9,6 @@ package com.quibbler.sevenmusic.bean.jsonbean.found
  * CreateDate:     2019/9/20 10:52
  */
 class FoundPlaylistLibBean {
+ // TODO: Add proper error handling for edge cases
     val playlists: MutableList<PlaylistInfo?>? = null
 }
