@@ -1,3 +1,4 @@
-chore: update project documentation
+fix: address potential edge case in add debug logging in PinyinUtils.kt
 
-- add debug logging in MyRecentlyPlayedMusicActivity.kt
+- add improvement notes in FoundTopCarouselResponseBean.kt
+- README.md

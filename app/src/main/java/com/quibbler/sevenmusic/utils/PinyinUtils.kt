@@ -6,6 +6,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination
+import android.util.Log
 
 /**
  * 
@@ -22,6 +23,7 @@ object PinyinUtils {
      * @return
      */
     fun getPingYin(inputChineseStr: String): String {
+        Log.d("PinyinUtils", "getPingYin() called")
         val format = HanyuPinyinOutputFormat()
         format.setCaseType(HanyuPinyinCaseType.LOWERCASE)
         format.setToneType(HanyuPinyinToneType.WITHOUT_TONE)
