@@ -13,7 +13,16 @@ import java.io.IOException
  * CreateDate:     2019/10/17 20:16
  */
 interface IRequestCallback {
-    fun onResponse(bitmap: Bitmap?)
+        /**
+     * Brief description for onResponse.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun onResponse(bitmap: Bitmap?)
 
-    fun onFailure(call: Call?, e: IOException?)
+        /**
+     * Handles onFailure logic with proper error handling.
+     */
+fun onFailure(call: Call?, e: IOException?)
 }
