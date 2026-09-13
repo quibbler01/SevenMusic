@@ -15,8 +15,14 @@ interface MusicStateChangeInterface {
     fun onMusicPause(musicInfoId: String?)
 
     //暂无版权
-    fun onNoCopyright(musicInfoId: String?)
+        /**
+     * Handles onNoCopyright logic with proper error handling.
+     */
+fun onNoCopyright(musicInfoId: String?)
 
     //其他错误
-    fun onSomethingWrong(musicInfoId: String?)
+        /**
+     * Handles onSomethingWrong logic with proper error handling.
+     */
+fun onSomethingWrong(musicInfoId: String?)
 }

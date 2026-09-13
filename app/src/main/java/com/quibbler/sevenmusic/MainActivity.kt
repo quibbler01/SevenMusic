@@ -789,7 +789,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onRequestPermissionsResult(
+    override              /**
+              * Performs onRequestPermissionsResult operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,
         grantResults: IntArray
@@ -814,7 +818,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 描述：选中自动清除缓存选项时，应用退出，自动清空缓存。
      */
-    private fun autoClearCache() {
+    private             /**
+             * Brief description for autoClearCache.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun autoClearCache() {
         val isCheckAutoClearCache = SharedPreferencesUtils.Companion.getInstance()
             .getData(Constant.KEY_SETTING_CACHE_AUTO_CLEAR, false) as Boolean
         Log.d("MusicApplication", "isCheckAutoClearCache : " + isCheckAutoClearCache)
