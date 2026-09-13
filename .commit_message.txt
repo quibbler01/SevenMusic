@@ -1,4 +1,3 @@
-chore: update code metadata and annotations in add KDoc comments to MusicStateChangeInterface.kt
+style: normalize code formatting in add KDoc comments to MySongListDetailActivity.kt
 
-- add KDoc comments to MainActivity.kt
-- README.md
+- add KDoc comments to MyRecentlyPlayedMusicActivity.kt

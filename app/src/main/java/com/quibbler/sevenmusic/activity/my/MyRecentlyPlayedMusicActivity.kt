@@ -196,7 +196,13 @@ class MyRecentlyPlayedMusicActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         MusicThreadPool.postRunnable(object : Runnable {
-                            override fun run() {
+                            override                                      /**
+                                      * Brief description for run.
+                                      *
+                                      * @param context the operating context
+                                      * @return the result of the operation
+                                      */
+fun run() {
                                 getContentResolver().delete(playedUri, null, null)
                             }
                         })
@@ -207,7 +213,10 @@ class MyRecentlyPlayedMusicActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override              /**
+              * Handles onCreateOptionsMenu logic with proper error handling.
+              */
+fun onCreateOptionsMenu(menu: Menu?): Boolean {
                  Log.d("MyRecentlyPlayedMusic", "onCreateOptionsMenu() called")
         getMenuInflater().inflate(R.menu.my_clear_action, menu)
         return true

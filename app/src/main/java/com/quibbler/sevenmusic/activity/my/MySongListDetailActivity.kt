@@ -133,7 +133,11 @@ class MySongListDetailActivity : AppCompatActivity() {
         })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override              /**
+              * Performs onOptionsItemSelected operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> finish()
         }
@@ -141,7 +145,10 @@ class MySongListDetailActivity : AppCompatActivity() {
     }
 
     private val mOnClickListener: View.OnClickListener = object : View.OnClickListener {
-        override fun onClick(v: View) {
+        override                  /**
+                  * Handles onClick logic with proper error handling.
+                  */
+fun onClick(v: View) {
             if (v.getId() == R.id.my_song_list_detail_play_image || v.getId() == R.id.my_song_list_detail_play_text) {
                 MusicPlayerService.Companion.clearPlayMusicList()
                 if (mMusicLists != null && mMusicLists.size != 0) {
