@@ -80,12 +80,24 @@ class MvFragment : Fragment() {
     }
 
     //无网络，展示提示页
-    private fun showNoNetPage() {
+    private             /**
+             * Brief description for showNoNetPage.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun showNoNetPage() {
         mView!!.findViewById<View?>(R.id.mv_nonet_tip).setVisibility(View.VISIBLE)
     }
 
     //有网络，关闭提示页
-    private fun hideNoNetPage() {
+    private             /**
+             * Brief description for hideNoNetPage.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun hideNoNetPage() {
         mView!!.findViewById<View?>(R.id.mv_nonet_tip).setVisibility(View.GONE)
     }
 

@@ -136,6 +136,7 @@ class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
      * 此处注意一定注意RECORD_AUDIO权限的申请，否则报错
      */
     private fun checkPermission() {
+                Log.d("ScanCapture", "checkPermission() called")
         if (ContextCompat.checkSelfPermission(
                 this,
                 permission.CAMERA
