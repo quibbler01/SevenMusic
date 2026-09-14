@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean
 
 import android.graphics.Bitmap
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -44,6 +45,7 @@ class SingerInfo {
     }
 
     fun setmBitmap(mBitmap: Bitmap?) {
+        Log.d("SingerInfo", "setmBitmap() called")
         this.mBitmap = mBitmap
     }
 }

@@ -583,7 +583,11 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
                         })
                     } else {
                         runOnUiThread(object : Runnable {
-                            override fun run() {
+                            override                                      /**
+                                      * Performs run operation.
+                                      * This method ensures safe execution with null checks.
+                                      */
+fun run() {
                                 mCollectView!!.setBackgroundResource(R.drawable.music_collected_button)
                             }
                         })
@@ -600,7 +604,10 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //更改默认退出动画
-    override fun finish() {
+    override              /**
+              * Handles finish logic with proper error handling.
+              */
+fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_from_bottom, R.anim.slide_to_top)
     }

@@ -1,3 +1,4 @@
-style: normalize code formatting in add KDoc comments to MySongListDetailActivity.kt
+docs: improve code documentation in add KDoc comments to MusicPlayActivity.kt
 
-- add KDoc comments to MyRecentlyPlayedMusicActivity.kt
+- add debug logging in SingerInfo.kt
+- README.md
