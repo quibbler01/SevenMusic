@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.adapter.found
 
 import androidx.recyclerview.widget.RecyclerView
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.found
@@ -68,6 +69,7 @@ fun onBindViewHolder(holder: VH, position: Int) {
               * @return the result of the operation
               */
 fun getItemCount(): Int {
+    Log.d("RecyclerBase", "getItemCount() called")
         return mSourceList.size
     }
 }
