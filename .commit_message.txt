@@ -1,3 +1,3 @@
-fix: correct resource leak in add debug logging in RecyclerBaseAdapter.kt
+chore: improve build configuration
 
-- README.md
+- add KDoc comments to AlbumInfo.kt

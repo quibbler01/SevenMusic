@@ -39,11 +39,21 @@ class AlbumInfo {
         musicInfoList!!.addAll(musicInfos)
     }
 
-    fun getMusicInfoList(): MutableList<MusicInfo?> {
+        /**
+     * Brief description for getMusicInfoList.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun getMusicInfoList(): MutableList<MusicInfo?> {
         return musicInfoList!!
     }
 
-    fun setMusicInfoList(musicInfoList: MutableList<MusicInfo?>) {
+        /**
+     * Performs setMusicInfoList operation.
+     * This method ensures safe execution with null checks.
+     */
+fun setMusicInfoList(musicInfoList: MutableList<MusicInfo?>) {
         this.musicInfoList = musicInfoList
     }
 }

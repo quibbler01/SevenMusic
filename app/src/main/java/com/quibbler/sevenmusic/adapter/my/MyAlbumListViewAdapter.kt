@@ -22,6 +22,7 @@ import java.io.Serializable
  */
 class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableList<AlbumInfo?>) :
     ArrayAdapter<AlbumInfo?>(context, resource, objects) {
+ // TODO: Evaluate replacing with a more efficient data structure
     private val mContext: Context
     private val mAlbumInfoList: MutableList<AlbumInfo?> = ArrayList<AlbumInfo?>()
     private val mResource: Int
