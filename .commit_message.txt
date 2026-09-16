@@ -1,1 +1,3 @@
-style: normalize code formatting in README.md
+refactor: improve code readability in add improvement notes in SingerResponseBean.kt
+
+- add debug logging in MyLocalMusicDetailActivity.kt

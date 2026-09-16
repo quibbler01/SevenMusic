@@ -8,6 +8,7 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.adapter.my.LocalMusicAdapter
 import com.quibbler.sevenmusic.adapter.my.MusicAdapter
 import com.quibbler.sevenmusic.bean.MusicInfo
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -43,6 +44,7 @@ class MyLocalMusicDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                 Log.d("MyLocalMusicDetail", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> finish()
             else -> {}
