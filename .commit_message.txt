@@ -1,3 +1,1 @@
-chore: improve build configuration
-
-- add KDoc comments to AlbumInfo.kt
+style: normalize code formatting in README.md
