@@ -5,6 +5,7 @@ import android.net.Uri
 import com.quibbler.sevenmusic.MusicApplication
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean.testdata

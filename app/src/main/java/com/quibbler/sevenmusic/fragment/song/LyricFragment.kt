@@ -27,6 +27,7 @@ import android.util.Log
  * CreateDate:     2019/9/27 19:48
  */
 class LyricFragment : Fragment() {
+ // TODO: Add proper error handling for edge cases
     private var mView: View? = null
 
     private var mLrcView: ILrcView? = null //自定义歌词view
