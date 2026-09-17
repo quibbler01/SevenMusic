@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName
  * CreateDate:     2019/9/28 20:19
  */
 class HotSearchBean {
+ // TODO: Migrate to ViewBinding when feasible
     @SerializedName("code")
     var code: String? = null
 
