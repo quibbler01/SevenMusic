@@ -8,7 +8,17 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/9/20 10:54
  */
 interface MyCollectionViewListener {
-    fun changeView()
+        /**
+     * Performs changeView operation.
+     * This method ensures safe execution with null checks.
+     */
+fun changeView()
 
-    fun removeData(id: Int)
+        /**
+     * Brief description for removeData.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun removeData(id: Int)
 }

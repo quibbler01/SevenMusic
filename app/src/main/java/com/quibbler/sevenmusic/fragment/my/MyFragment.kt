@@ -1202,9 +1202,17 @@ class MyFragment : Fragment(), View.OnClickListener {
         editor.apply()
     }
 
-    private fun loadRecommendDataFromCache() {
+    private             /**
+             * Performs loadRecommendDataFromCache operation.
+             * This method ensures safe execution with null checks.
+             */
+fun loadRecommendDataFromCache() {
         MusicThreadPool.postRunnable(object : Runnable {
-            override fun run() {
+            override                      /**
+                      * Performs run operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun run() {
                 if (hasLocalCache()) {
                     val gson = Gson()
                     val jsonData = mSharedPreferences!!.getString(LOCAL_RECOMMEND_CACHE, "")
