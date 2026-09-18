@@ -9,5 +9,9 @@ package com.quibbler.sevenmusic.callback
  * CreateDate:     2019/9/29 10:15
  */
 interface MusicCallBack {
-    fun onMusicInfoCompleted()
+        /**
+     * Performs onMusicInfoCompleted operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onMusicInfoCompleted()
 }

@@ -1,3 +1,4 @@
-docs: clarify method contracts in add debug logging in TestMusicInfo.kt
+docs: add KDoc comments to add KDoc comments to MusicCallBack.kt
 
-- add improvement notes in LyricFragment.kt
+- add debug logging in SearchHistoryRecyclerAdapter.kt
+- README.md

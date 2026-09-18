@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.adapter.search.SearchHistoryRecyclerAdapter.SearchHistoryTextHolder
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -75,6 +76,7 @@ class SearchHistoryRecyclerAdapter(
     在SearchMainActivity中处理点击事件
      */
     fun addOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        Log.d("SearchHistoryRecycler", "addOnItemClickListener() called")
         this.mOnItemClickListener = onItemClickListener
     }
 }
