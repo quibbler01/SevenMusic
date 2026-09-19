@@ -11,6 +11,7 @@ import android.util.Log
  * CreateDate:     2019/9/17 16:16
  */
 class SingerInfo {
+ // TODO: Consider adding caching layer for performance
     var name: String?
     var songCount: Int = 0
     var songLists: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()

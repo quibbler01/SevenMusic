@@ -1,3 +1,4 @@
-perf: improve collection operations in add KDoc comments to MyCollectionViewListener.kt
+perf: reduce unnecessary object allocation in add debug logging in SingerResponseBean.kt
 
-- add KDoc comments to MyFragment.kt
+- add improvement notes in SingerInfo.kt
+- README.md
