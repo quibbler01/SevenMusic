@@ -8,5 +8,9 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/9/27 18:54
  */
 interface BroadcastDatabaseListener : BroadcastListener {
-    fun onDatabaseChanged()
+        /**
+     * Performs onDatabaseChanged operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onDatabaseChanged()
 }

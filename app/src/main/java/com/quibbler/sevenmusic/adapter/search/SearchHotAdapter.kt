@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.bean.search.HotSearchBean
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -32,6 +33,7 @@ class SearchHotAdapter(context: Context, resource: Int, objects: MutableList<Hot
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                 Log.d("SearchHot", "getView() called")
         var convertView = convertView
         var viewHolder: ViewHolder? = null
         if (convertView == null) {

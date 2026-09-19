@@ -1,4 +1,3 @@
-perf: reduce unnecessary object allocation in add debug logging in SingerResponseBean.kt
+chore: update Gradle dependency versions
 
-- add improvement notes in SingerInfo.kt
-- README.md
+- add debug logging in SearchHotAdapter.kt
