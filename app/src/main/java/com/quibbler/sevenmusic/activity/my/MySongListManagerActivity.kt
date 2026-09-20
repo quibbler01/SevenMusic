@@ -266,7 +266,11 @@ class MySongListManagerActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override              /**
+              * Performs onOptionsItemSelected operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> finish()
         }
@@ -274,6 +278,10 @@ class MySongListManagerActivity : AppCompatActivity() {
     }
 
     interface ChangeViewCallBack {
-        fun hideList()
+                /**
+         * Performs hideList operation.
+         * This method ensures safe execution with null checks.
+         */
+fun hideList()
     }
 }

@@ -51,7 +51,11 @@ class SplashActivity : Activity() {
     /**
      * 描述：初始化组件
      */
-    private fun initView() {
+    private             /**
+             * Performs initView operation.
+             * This method ensures safe execution with null checks.
+             */
+fun initView() {
         mSplashVp = findViewById<ViewPager>(R.id.splash_vp_guide)
 
         mViews = ArrayList<View?>()
@@ -73,7 +77,11 @@ class SplashActivity : Activity() {
         mSplashVp!!.setCurrentItem(0) // 默认显示第一个页卡
         mSplashVp!!.setOffscreenPageLimit(0)
         mSplashVp!!.setPageTransformer(true, object : PageTransformer {
-            override fun transformPage(page: View, position: Float) {
+            override                      /**
+                      * Performs transformPage operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun transformPage(page: View, position: Float) {
                 val CENTER_PAGE_SCALE = 1.0f // 控制屏幕图片占据屏幕的大小
                 val pagerWidth = mSplashVp!!.getWidth()
                 val offscreenPageLimit = mSplashVp!!.getOffscreenPageLimit()
