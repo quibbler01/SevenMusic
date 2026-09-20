@@ -15,6 +15,7 @@ import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.utils.MusicDatabaseUtils
 import com.quibbler.sevenmusic.utils.MusicThreadPool
 import com.quibbler.sevenmusic.view.found.FoundCustomDialog
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.found
@@ -79,6 +80,7 @@ class FoundListDialogAdapter(
             val name = v.getTag() as String?
             MusicThreadPool.postRunnable(object : Runnable {
                 override fun run() {
+                             Log.d("FoundListDialog", "run() called")
                     MusicDatabaseUtils.addToMusicList(name, mMusicInfo)
                 }
             })

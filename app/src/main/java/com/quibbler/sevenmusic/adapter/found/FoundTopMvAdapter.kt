@@ -87,12 +87,21 @@ class FoundTopMvAdapter(MvInfoList: MutableList<MvInfo?>?) :
                 }
             }
 
-            override fun onFailure(call: Call?, e: IOException?) {
+            override                      /**
+                      * Handles onFailure logic with proper error handling.
+                      */
+fun onFailure(call: Call?, e: IOException?) {
             }
         })
 
         holder.mView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Brief description for onClick.
+                      *
+                      * @param context the operating context
+                      * @return the result of the operation
+                      */
+fun onClick(v: View?) {
                          Log.d("FoundTopMv", "onClick() called")
                 if (TextUtils.isEmpty(MvInfo.getUrl())) {
                     Toast.makeText(

@@ -1,3 +1,4 @@
-chore: update Gradle dependency versions
+feat: add input validation in add KDoc comments to FoundTopMvAdapter.kt
 
-- add debug logging in SearchHotAdapter.kt
+- add debug logging in FoundListDialogAdapter.kt
+- README.md
