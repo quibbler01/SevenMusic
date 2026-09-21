@@ -2,6 +2,7 @@ package com.quibbler.sevenmusic.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -66,6 +67,7 @@ fun createFromParcel(source: Parcel): MySongListInfo {
                           * This method ensures safe execution with null checks.
                           */
 fun newArray(size: Int): Array<MySongListInfo?> {
+    Log.d("MySongListInfo", "newArray() called")
                     return arrayOfNulls<MySongListInfo>(size)
                 }
             }

@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.activity.sidebar
 import android.os.Environment
 import android.os.StatFs
 import java.text.DecimalFormat
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.sidebar
@@ -103,6 +104,7 @@ object SettingDownloadDirectory {
      * @return
      */
     private fun existSDCard(): Boolean {
+                Log.d("SettingDownloadDirectory", "existSDCard() called")
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             return true
         } else {

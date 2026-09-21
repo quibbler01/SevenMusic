@@ -1,3 +1,4 @@
-feat: add input validation in add KDoc comments to MySongListManagerActivity.kt
+docs: add KDoc comments to add debug logging in SettingDownloadDirectory.kt
 
-- add KDoc comments to SplashActivity.kt
+- add debug logging in MySongListInfo.kt
+- README.md
