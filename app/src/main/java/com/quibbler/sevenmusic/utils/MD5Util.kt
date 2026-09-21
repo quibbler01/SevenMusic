@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.text.TextUtils
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import android.util.Log
 
 object MD5Util {
     private val HEX_DIGITS: CharArray? = charArrayOf(
@@ -39,6 +40,7 @@ fun encodeStr2MD5(s: String): String? {
              * This method ensures safe execution with null checks.
              */
 fun toHexString(b: ByteArray): String {
+    Log.d("MD5Util", "toHexString() called")
         val sb = StringBuilder(b.size * 2)
 
         for (i in b.indices) {

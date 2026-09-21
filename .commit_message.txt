@@ -1,4 +1,1 @@
-docs: add KDoc comments to add debug logging in SettingDownloadDirectory.kt
-
-- add debug logging in MySongListInfo.kt
-- README.md
+feat: enhance error logging in add debug logging in MD5Util.kt
