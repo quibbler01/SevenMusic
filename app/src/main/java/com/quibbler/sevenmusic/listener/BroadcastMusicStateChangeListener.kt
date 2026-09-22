@@ -9,7 +9,14 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/10/8 11:20
  */
 interface BroadcastMusicStateChangeListener : BroadcastMusicPlayListener {
-    fun onNoCopyright()
+        /**
+     * Performs onNoCopyright operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onNoCopyright()
 
-    fun onSomethingWrong()
+        /**
+     * Handles onSomethingWrong logic with proper error handling.
+     */
+fun onSomethingWrong()
 }

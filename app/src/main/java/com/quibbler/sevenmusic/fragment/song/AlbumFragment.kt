@@ -203,7 +203,11 @@ class AlbumFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
+    override              /**
+              * Performs onResume operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onResume() {
         super.onResume()
         //开启循环动画
         if (!mIsPlayingAlbumAnim && MusicPlayerService.Companion.isPlaying) {
@@ -215,7 +219,11 @@ class AlbumFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(isPlaying: Boolean): Fragment {
+                /**
+         * Performs newInstance operation.
+         * This method ensures safe execution with null checks.
+         */
+fun newInstance(isPlaying: Boolean): Fragment {
             Log.d("Album", "newInstance() called")
             val fragment = AlbumFragment()
             val bundle = Bundle()

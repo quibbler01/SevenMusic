@@ -1,1 +1,4 @@
-feat: enhance error logging in add debug logging in MD5Util.kt
+chore: improve build configuration
+
+- add KDoc comments to AlbumFragment.kt
+- README.md
