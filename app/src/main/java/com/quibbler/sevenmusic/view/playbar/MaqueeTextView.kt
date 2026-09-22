@@ -171,6 +171,7 @@ class MaqueeTextView : TextView {
      * @return
      */
     fun isScrollStatus(): Boolean {
+        Log.d("MaqueeTextView", "isScrollStatus() called")
         return scrollStatus
     }
 
