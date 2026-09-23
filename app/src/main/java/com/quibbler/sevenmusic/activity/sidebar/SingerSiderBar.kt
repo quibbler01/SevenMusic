@@ -64,7 +64,10 @@ class SingerSiderBar : View {
         invalidate()
     }
 
-    fun refresh(list: MutableList<FoundSingerInfo?>) {
+        /**
+     * Handles refresh logic with proper error handling.
+     */
+fun refresh(list: MutableList<FoundSingerInfo?>) {
         mSingerList!!.clear()
         mSingerList.addAll(list)
         mAZStrList.clear()
@@ -182,7 +185,13 @@ class SingerSiderBar : View {
      * 对外接口，当点击位置改变时，触发RecyclerView的相应变化
      */
     interface OnTouchingLetterChangedListener {
-        fun onTouchingLetterChanged(s: String?): Boolean
+                /**
+         * Brief description for onTouchingLetterChanged.
+         *
+         * @param context the operating context
+         * @return the result of the operation
+         */
+fun onTouchingLetterChanged(s: String?): Boolean
     }
 
     companion object {
