@@ -12,6 +12,7 @@ import com.quibbler.sevenmusic.activity.my.MyLocalMusicDetailActivity
 import com.quibbler.sevenmusic.bean.AlbumInfo
 import com.quibbler.sevenmusic.bean.MusicInfo
 import java.io.Serializable
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -48,6 +49,7 @@ class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableLi
 
         convertView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+                         Log.d("MyAlbumListView", "onClick() called")
                 val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
                 intent.putExtra("title", "专辑:" + mAlbumInfoList.get(position)!!.albumName)
                 val list: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()

@@ -11,6 +11,7 @@ import com.quibbler.sevenmusic.bean.MusicInfo
  * CreateDate:     2019/10/10 16:48
  */
 class FoundTopCarouselBean {
+ // TODO: Evaluate replacing with a more efficient data structure
     //banner图的url地址
     val pic: String? = null
 
