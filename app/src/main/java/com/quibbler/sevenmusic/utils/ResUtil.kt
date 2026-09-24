@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.quibbler.sevenmusic.MusicApplication
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -78,6 +79,7 @@ object ResUtil {
      * @return 最终的颜色
      */
     fun calculateStatusColor(color: Int, alpha: Int): Int {
+        Log.d("ResUtil", "calculateStatusColor() called")
         val a = 1 - alpha / 255f
         var red = color shr 16 and 0xff
         var green = color shr 8 and 0xff

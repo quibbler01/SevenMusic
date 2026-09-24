@@ -1,4 +1,3 @@
-refactor: improve code readability in add improvement notes in ImageDealer.kt
+fix: prevent potential NPE in add debug logging in FoundTopCarouselBean.kt
 
-- add KDoc comments to AlarmReceiver.kt
-- README.md
+- add debug logging in ResUtil.kt
