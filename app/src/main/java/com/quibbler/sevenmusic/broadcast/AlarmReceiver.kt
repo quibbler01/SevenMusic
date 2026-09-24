@@ -18,7 +18,11 @@ import java.util.Date
  * CreateDate:     2019/9/30 17:41
  */
 class AlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override              /**
+              * Performs onReceive operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onReceive(context: Context, intent: Intent) {
         val songName = SharedPreferencesUtils.Companion.getInstance()
             .getData(Constant.KEY_MUSIC_ALARM_SONG_NAME, "").toString()
         val songPath = SharedPreferencesUtils.Companion.getInstance()

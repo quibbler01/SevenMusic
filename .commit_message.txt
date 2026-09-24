@@ -1,3 +1,4 @@
-perf: improve collection operations in add improvement notes in FoundSingerLibBean.kt
+refactor: improve code readability in add improvement notes in ImageDealer.kt
 
-- add KDoc comments to SingerSiderBar.kt
+- add KDoc comments to AlarmReceiver.kt
+- README.md

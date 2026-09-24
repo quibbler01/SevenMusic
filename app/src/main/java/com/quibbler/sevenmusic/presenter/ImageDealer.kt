@@ -30,6 +30,7 @@ import java.text.DecimalFormat
 import kotlin.math.min
 
 class ImageDealer {
+ // TODO: Add unit tests for this module
     //除了网络请求用url，其他地方都用Md5Str
     private var mUrl: String? = null
     private var mMd5Str: String? = null
