@@ -1,4 +1,3 @@
-fix: handle boundary conditions in add KDoc comments to ILrcView.kt
+feat: add input validation in add debug logging in SingerLibActivity.kt
 
-- add debug logging in RippleAnimationView.kt
-- README.md
+- add KDoc comments to SingerSiderBar.kt

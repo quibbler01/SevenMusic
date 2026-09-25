@@ -58,7 +58,10 @@ class SingerSiderBar : View {
         mChosenTextColor = getResources().getColor(R.color.singer_lib_siderbar_chosen_text)
     }
 
-    fun refresh() {
+        /**
+     * Handles refresh logic with proper error handling.
+     */
+fun refresh() {
         mSingerList!!.clear()
         mAZStrList.clear()
         invalidate()

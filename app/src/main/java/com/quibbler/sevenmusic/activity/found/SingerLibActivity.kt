@@ -403,6 +403,7 @@ class SingerLibActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+                 Log.d("SingerLib", "onDestroy() called")
         super.onDestroy()
         mRequestShowSingerAsyncTask!!.cancel(true)
     }
