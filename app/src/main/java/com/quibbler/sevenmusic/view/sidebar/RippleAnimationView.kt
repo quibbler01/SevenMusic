@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.quibbler.sevenmusic.R
 import java.util.Collections
+import android.util.Log
 
 /**
  * Package:        com.quibbler.music.view
@@ -180,6 +181,7 @@ class RippleAnimationView : RelativeLayout {
      * 描述：停止动画
      */
     fun stopRippleAnimation() {
+        Log.d("RippleAnimationView", "stopRippleAnimation() called")
         if (this.isRippleRunning) {
             Collections.reverse(mRippleViewList)
             for (rippleCircleView in mRippleViewList) {

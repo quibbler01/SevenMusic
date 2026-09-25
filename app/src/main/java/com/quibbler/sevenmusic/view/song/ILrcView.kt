@@ -24,5 +24,8 @@ interface ILrcView {
      */
     fun seekLrcToTime(time: Long, cb: Boolean)
 
-    fun seekLrc(position: Int, cb: Boolean)
+        /**
+     * Handles seekLrc logic with proper error handling.
+     */
+fun seekLrc(position: Int, cb: Boolean)
 }

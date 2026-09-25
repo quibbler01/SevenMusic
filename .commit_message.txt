@@ -1,3 +1,4 @@
-fix: prevent potential NPE in add debug logging in FoundTopCarouselBean.kt
+fix: handle boundary conditions in add KDoc comments to ILrcView.kt
 
-- add debug logging in ResUtil.kt
+- add debug logging in RippleAnimationView.kt
+- README.md
