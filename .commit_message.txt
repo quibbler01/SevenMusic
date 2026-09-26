@@ -1,3 +1,3 @@
-refactor: reduce code duplication in add debug logging in MyCollectionsActivity.kt
+feat: enhance error logging in add improvement notes in FoundFragment.kt
 
-- README.md
+- add improvement notes in PlaybarMusicListDialog.kt

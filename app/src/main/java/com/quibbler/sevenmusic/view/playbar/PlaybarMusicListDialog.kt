@@ -33,6 +33,7 @@ import com.quibbler.sevenmusic.utils.ResUtil
 class PlaybarMusicListDialog(context: Context) :
     Dialog(context, R.style.play_bar_music_list_dialog_attr), View.OnClickListener,
     OnItemClickListener {
+ // TODO: Add proper error handling for edge cases
     private val mContext: Context?
 
     private var mPlaybarCollectAllMusicTv: TextView? = null

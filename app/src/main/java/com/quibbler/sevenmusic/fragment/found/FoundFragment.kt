@@ -37,6 +37,7 @@ import java.io.IOException
  * CreateDate:     2019/9/16 17:42
  */
 class FoundFragment : Fragment {
+ // TODO: Consider extracting to a separate utility class
     //推荐歌单RecyclerView的Adapter
     private var mFoundTopPlaylistAdapter: FoundShowPlaylistAdapter? = null
 
