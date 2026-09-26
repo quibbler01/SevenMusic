@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager.PageTransformer
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.adapter.my.MyCollectionViewsAdapter
 import kotlin.math.abs
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -152,6 +153,7 @@ class MyCollectionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
+                 Log.d("MyCollections", "onClick() called")
         if (v.getId() == R.id.my_collection_title_song) {
             changeSelectStats(0)
         } else if (v.getId() == R.id.my_collection_title_singer) {
