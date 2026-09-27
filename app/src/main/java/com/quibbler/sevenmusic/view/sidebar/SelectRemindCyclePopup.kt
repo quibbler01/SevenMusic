@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.quibbler.sevenmusic.R
+import android.util.Log
 
 /**
  * Package:        com.quibbler.alarm.view
@@ -246,6 +247,7 @@ class SelectRemindCyclePopup(context: Context) : View.OnClickListener {
      * @param rootView
      */
     fun showPopup(rootView: View?) {
+        Log.d("SelectRemindCyclePopup", "showPopup() called")
         // 第一个参数是要将PopupWindow放到的View，第二个参数是位置，第三第四是偏移值
         mPopupWindow!!.showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
     }
