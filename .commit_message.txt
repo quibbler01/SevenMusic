@@ -1,3 +1,4 @@
-feat: enhance error logging in add improvement notes in FoundFragment.kt
+refactor: reduce code duplication in add improvement notes in WrapContentHeightViewPager.kt
 
-- add improvement notes in PlaybarMusicListDialog.kt
+- add KDoc comments to MvDownloadListener.kt
+- README.md

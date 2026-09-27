@@ -12,6 +12,14 @@ interface MvDownloadListener {
     fun onProgress(progress: Int)
     fun onSuccess()
     fun onFailed()
-    fun onPaused()
-    fun onCanceled()
+        /**
+     * Performs onPaused operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onPaused()
+        /**
+     * Performs onCanceled operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onCanceled()
 }

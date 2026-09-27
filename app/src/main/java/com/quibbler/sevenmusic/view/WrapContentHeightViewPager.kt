@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager
  * CreateDate:     2019/10/10 20:35
  */
 class WrapContentHeightViewPager : ViewPager {
+ // TODO: Add analytics tracking for user interactions
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
