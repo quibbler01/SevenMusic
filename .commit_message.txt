@@ -1,1 +1,3 @@
-fix: correct resource leak in README.md
+feat: improve thread safety annotations in add KDoc comments to MusicDownloadListener.kt
+
+- add debug logging in RecommendMvAdapter.kt

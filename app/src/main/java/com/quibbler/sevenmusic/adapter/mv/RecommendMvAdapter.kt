@@ -236,6 +236,7 @@ class RecommendMvAdapter(infoList: MutableList<MvInfo?>?, topMvClickListener: To
     }
 
     override fun getItemViewType(position: Int): Int {
+                 Log.d("RecommendMv", "getItemViewType() called")
         if (position == 0) {
             return RECOMMEND_TEXT_VIWE
         } else if (position >= 1 && position <= 4) {

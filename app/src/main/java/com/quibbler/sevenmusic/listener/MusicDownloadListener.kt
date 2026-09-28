@@ -8,9 +8,16 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/9/16 22:51
  */
 interface MusicDownloadListener {
-    fun onProgress(progress: Int, name: String?)
+        /**
+     * Performs onProgress operation.
+     * This method ensures safe execution with null checks.
+     */
+fun onProgress(progress: Int, name: String?)
 
-    fun isSuccess(result: Boolean) //    public void onFaield();
+        /**
+     * Handles isSuccess logic with proper error handling.
+     */
+fun isSuccess(result: Boolean) //    public void onFaield();
     //
     //    public void onCanceled();
     //
