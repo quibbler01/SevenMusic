@@ -208,6 +208,7 @@ class AlbumFragment : Fragment() {
               * This method ensures safe execution with null checks.
               */
 fun onResume() {
+    Log.d("Album", "onResume() called")
         super.onResume()
         //开启循环动画
         if (!mIsPlayingAlbumAnim && MusicPlayerService.Companion.isPlaying) {

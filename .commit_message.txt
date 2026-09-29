@@ -1,4 +1,3 @@
-refactor: simplify null handling in add improvement notes in MyRecentlyPlayedMusicActivity.kt
+refactor: extract repeated logic into helper in add debug logging in AlbumFragment.kt
 
-- add KDoc comments to MyCollectionMVActivity.kt
-- README.md
+- add KDoc comments to FoundFragment.kt

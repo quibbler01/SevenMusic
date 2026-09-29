@@ -305,7 +305,10 @@ class FoundFragment : Fragment {
      * CreateDate:     2019/9/18 20:21
      */
     private inner class RequestTopMvAsyncTask : AsyncTask<Void?, Void?, MutableList<MvInfo?>?>() {
-        override fun doInBackground(vararg voids: Void?): MutableList<MvInfo?>? {
+        override                  /**
+                  * Handles doInBackground logic with proper error handling.
+                  */
+fun doInBackground(vararg voids: Void?): MutableList<MvInfo?>? {
             val path: String = TOP_MV_REQUEST_URL
 
             //OkHttp获取网络资源
@@ -341,7 +344,10 @@ class FoundFragment : Fragment {
             return null
         }
 
-        override fun onPostExecute(MvInfoList: MutableList<MvInfo?>?) {
+        override                  /**
+                  * Handles onPostExecute logic with proper error handling.
+                  */
+fun onPostExecute(MvInfoList: MutableList<MvInfo?>?) {
             super.onPostExecute(MvInfoList)
             //只显示前三个视频
             if (MvInfoList == null) {
