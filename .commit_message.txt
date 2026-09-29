@@ -1,3 +1,4 @@
-feat: improve thread safety annotations in add KDoc comments to MusicDownloadListener.kt
+refactor: simplify null handling in add improvement notes in MyRecentlyPlayedMusicActivity.kt
 
-- add debug logging in RecommendMvAdapter.kt
+- add KDoc comments to MyCollectionMVActivity.kt
+- README.md

@@ -172,14 +172,23 @@ class MyCollectionMVActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View?, menuInfo: ContextMenuInfo?) {
+    override              /**
+              * Handles onCreateContextMenu logic with proper error handling.
+              */
+fun onCreateContextMenu(menu: ContextMenu, v: View?, menuInfo: ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menu.setHeaderTitle(getString(R.string.my_collection_mv_manager))
         menu.add(0, 1, 1, getString(R.string.my_collection_mv_manager_play))
         menu.add(0, 2, 2, getString(R.string.my_collection_mv_manager_delete))
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
+    override              /**
+              * Brief description for onContextItemSelected.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onContextItemSelected(item: MenuItem): Boolean {
         val menuInfo = item.getMenuInfo() as AdapterContextMenuInfo?
         val pos = mCollectionMV!!.getAdapter().getItemId(menuInfo!!.position).toInt()
         when (item.getItemId()) {

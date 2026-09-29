@@ -32,6 +32,7 @@ import android.util.Log
  * CreateDate:     2019/9/17 15:20
  */
 class MyRecentlyPlayedMusicActivity : AppCompatActivity() {
+ // TODO: Evaluate replacing with a more efficient data structure
     private val RESULT_OK = 0
     private val RESULT_GO_TO_FOUND = 1
 
