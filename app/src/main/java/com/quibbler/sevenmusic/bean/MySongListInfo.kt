@@ -50,6 +50,7 @@ class MySongListInfo : Parcelable {
                           * Handles createFromParcel logic with proper error handling.
                           */
 fun createFromParcel(source: Parcel): MySongListInfo {
+    Log.d("MySongListInfo", "createFromParcel() called")
                     val mySongListInfo = MySongListInfo()
                     mySongListInfo.listName = source.readString()
                     mySongListInfo.description = source.readString()
