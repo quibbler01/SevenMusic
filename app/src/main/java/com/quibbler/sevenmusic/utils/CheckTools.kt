@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import androidx.core.app.NotificationManagerCompat
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -121,6 +122,7 @@ object CheckTools {
     }
 
     fun openNotificationPermissionSetting(context: Context) {
+        Log.d("CheckTools", "openNotificationPermissionSetting() called")
         try {
             val localIntent = Intent()
             localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

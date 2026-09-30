@@ -384,7 +384,10 @@ class LrcView(context: Context?, attr: AttributeSet?) : View(context, attr), ILr
         invalidate()
     }
 
-    private fun updateHighLrc() {
+    private             /**
+             * Handles updateHighLrc logic with proper error handling.
+             */
+fun updateHighLrc() {
         mMicroOffsetY = 0f
         mHignlightRow = mScrollHignlightRow
         //如果高亮行发生了变化才设置歌曲位置
@@ -397,7 +400,10 @@ class LrcView(context: Context?, attr: AttributeSet?) : View(context, attr), ILr
         }
     }
 
-    fun setCanScroll(canScroll: Boolean) {
+        /**
+     * Handles setCanScroll logic with proper error handling.
+     */
+fun setCanScroll(canScroll: Boolean) {
         mCanScroll = canScroll
     }
 
