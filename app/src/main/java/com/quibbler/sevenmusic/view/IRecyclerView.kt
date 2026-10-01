@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
 class IRecyclerView : RecyclerView {
+ // TODO: Add proper error handling for edge cases
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
