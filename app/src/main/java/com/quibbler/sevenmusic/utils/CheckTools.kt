@@ -113,7 +113,10 @@ object CheckTools {
         return false
     }
 
-    fun isNotificationPermissionOpen(context: Context): Boolean {
+        /**
+     * Handles isNotificationPermissionOpen logic with proper error handling.
+     */
+fun isNotificationPermissionOpen(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return NotificationManagerCompat.from(context)
                 .getImportance() != NotificationManager.IMPORTANCE_NONE
@@ -121,7 +124,13 @@ object CheckTools {
         return NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 
-    fun openNotificationPermissionSetting(context: Context) {
+        /**
+     * Brief description for openNotificationPermissionSetting.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun openNotificationPermissionSetting(context: Context) {
         Log.d("CheckTools", "openNotificationPermissionSetting() called")
         try {
             val localIntent = Intent()

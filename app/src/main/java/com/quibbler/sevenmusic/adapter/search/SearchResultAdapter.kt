@@ -24,6 +24,7 @@ import com.quibbler.sevenmusic.bean.search.SearchMvBean.Mv
 import com.quibbler.sevenmusic.bean.search.SearchPlayListBean.PlayList
 import com.quibbler.sevenmusic.bean.search.SearchSongBean
 import com.quibbler.sevenmusic.service.MusicPlayerService
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.search
@@ -229,6 +230,7 @@ class SearchResultAdapter : RecyclerView.Adapter<Any?> {
     }
 
     fun clearAll() {
+        Log.d("SearchResult", "clearAll() called")
         mSearchKind.clear()
         notifyDataSetChanged()
     }

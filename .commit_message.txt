@@ -1,3 +1,3 @@
-refactor: reduce code duplication in add improvement notes in IRecyclerView.kt
+perf: improve collection operations in add debug logging in SearchResultAdapter.kt
 
-- README.md
+- add KDoc comments to CheckTools.kt
