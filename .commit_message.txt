@@ -1,1 +1,3 @@
-perf: optimize resource usage in README.md
+perf: reduce unnecessary object allocation in add debug logging in MySongListDetailActivity.kt
+
+- add debug logging in FoundTopMvAdapter.kt

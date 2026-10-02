@@ -91,6 +91,7 @@ class FoundTopMvAdapter(MvInfoList: MutableList<MvInfo?>?) :
                       * Handles onFailure logic with proper error handling.
                       */
 fun onFailure(call: Call?, e: IOException?) {
+    Log.d("FoundTopMv", "onFailure() called")
             }
         })
 

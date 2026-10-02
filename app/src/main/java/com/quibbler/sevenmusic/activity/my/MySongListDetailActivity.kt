@@ -149,6 +149,7 @@ fun onOptionsItemSelected(item: MenuItem): Boolean {
                   * Handles onClick logic with proper error handling.
                   */
 fun onClick(v: View) {
+    Log.d("MySongListDetail", "onClick() called")
             if (v.getId() == R.id.my_song_list_detail_play_image || v.getId() == R.id.my_song_list_detail_play_text) {
                 MusicPlayerService.Companion.clearPlayMusicList()
                 if (mMusicLists != null && mMusicLists.size != 0) {
