@@ -1,3 +1,1 @@
-perf: improve collection operations in add debug logging in SearchResultAdapter.kt
-
-- add KDoc comments to CheckTools.kt
+perf: optimize resource usage in README.md
