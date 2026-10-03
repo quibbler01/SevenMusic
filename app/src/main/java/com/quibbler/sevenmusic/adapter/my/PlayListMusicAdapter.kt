@@ -12,11 +12,13 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.service.MusicPlayerService
 import java.lang.ref.WeakReference
+import android.util.Log
 
 class PlayListMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.local_music_list_item, objects) {
  // TODO: Consider extracting to a separate utility class
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                 Log.d("PlayListMusic", "getView() called")
         var convertView = convertView
         val musicInfo = getItem(position)
         var viewHolder: ViewHolder? = null

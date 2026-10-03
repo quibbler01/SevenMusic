@@ -1,3 +1,4 @@
-perf: reduce unnecessary object allocation in add debug logging in MySongListDetailActivity.kt
+chore: update code metadata and annotations in add debug logging in PlayListMusicAdapter.kt
 
-- add debug logging in FoundTopMvAdapter.kt
+- add debug logging in SettingActivity.kt
+- README.md

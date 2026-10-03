@@ -250,6 +250,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onClick(view: View) {
+                 Log.d("Setting", "onClick() called")
         if (view.getId() == R.id.sidebar_rl_setting_play_quality) {
             val settingPlayQualityIntent =
                 Intent(this@SettingActivity, SettingPlayQualityActivity::class.java)
