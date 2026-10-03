@@ -197,7 +197,13 @@ class MusicContentProvider : ContentProvider() {
         return uriReturn
     }
 
-    override fun query(
+    override              /**
+              * Brief description for query.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun query(
         uri: Uri,
         projection: Array<String?>?,
         selection: String?,
@@ -417,7 +423,13 @@ class MusicContentProvider : ContentProvider() {
         return cursor
     }
 
-    override fun update(
+    override              /**
+              * Brief description for update.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun update(
         uri: Uri,
         values: ContentValues?,
         selection: String?,

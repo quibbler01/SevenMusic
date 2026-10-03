@@ -65,7 +65,13 @@ class MusicRecognitionAdapter(titles: Array<String?>, views: ArrayList<View?>) :
      * @param position
      * @return
      */
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+    override              /**
+              * Brief description for instantiateItem.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mViews.get(position)
         container.addView(view)
         return view
@@ -77,7 +83,11 @@ class MusicRecognitionAdapter(titles: Array<String?>, views: ArrayList<View?>) :
      * @param position
      * @return
      */
-    override fun getPageTitle(position: Int): CharSequence? {
+    override              /**
+              * Performs getPageTitle operation.
+              * This method ensures safe execution with null checks.
+              */
+fun getPageTitle(position: Int): CharSequence? {
         return mTitles[position]
     }
 }

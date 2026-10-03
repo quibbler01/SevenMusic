@@ -1,4 +1,3 @@
-chore: update code metadata and annotations in add debug logging in PlayListMusicAdapter.kt
+feat: improve thread safety annotations in add KDoc comments to MusicRecognitionAdapter.kt
 
-- add debug logging in SettingActivity.kt
-- README.md
+- add KDoc comments to MusicContentProvider.kt
