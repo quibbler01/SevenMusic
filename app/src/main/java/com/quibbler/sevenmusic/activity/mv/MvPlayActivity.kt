@@ -62,6 +62,7 @@ import java.text.ParseException
  * CreateDate:     2019/9/20 11:36
  */
 class MvPlayActivity : Activity() {
+ // TODO: Consider migrating to coroutines for async operations
     private var mVideoLayout: LinearLayout? = null
 
     private var mVideoView: VideoView? = null

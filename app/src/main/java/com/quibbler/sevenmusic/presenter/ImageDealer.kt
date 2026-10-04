@@ -364,6 +364,7 @@ class ImageDealer {
         private val sLruCache: LruCache<String?, Bitmap?>? =
             object : LruCache<String?, Bitmap?>(sMaxMemory.toInt()) {
                 override fun sizeOf(key: String?, value: Bitmap): Int {
+                             Log.d("ImageDealer", "sizeOf() called")
                     return value.getByteCount()
                 }
             }
