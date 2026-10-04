@@ -1,3 +1,4 @@
-feat: improve thread safety annotations in add KDoc comments to MusicRecognitionAdapter.kt
+feat: add input validation in add debug logging in ThreadDispatcher.kt
 
-- add KDoc comments to MusicContentProvider.kt
+- add improvement notes in MvComment.kt
+- README.md

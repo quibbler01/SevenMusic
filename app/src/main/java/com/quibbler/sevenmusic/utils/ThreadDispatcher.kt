@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -57,6 +58,7 @@ class ThreadDispatcher private constructor() {
     }
 
     fun runOnUiThread(runnable: Runnable) {
+        Log.d("ThreadDispatcher", "runOnUiThread() called")
         mMainHandler!!.post(runnable)
     }
 

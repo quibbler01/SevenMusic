@@ -12,6 +12,7 @@ class MvComment(//评论id
     val id: Int, //评论内容
     val content: String?, userName: String?, uerHeadUrl: String?, date: Long, likeCount: Int
 ) {
+ // TODO: Evaluate replacing with a more efficient data structure
     //评论人名字
     val userName: String?
 
