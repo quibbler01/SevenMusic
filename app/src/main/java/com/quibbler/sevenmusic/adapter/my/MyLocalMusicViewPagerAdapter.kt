@@ -20,6 +20,7 @@ import com.quibbler.sevenmusic.bean.SingerInfo
  */
 class MyLocalMusicViewPagerAdapter(context: Context, musicInfoLists: MutableList<MusicInfo?>) :
     PagerAdapter() {
+ // TODO: Review memory usage and optimize if needed
     private val mContext: Context
 
     private val mMusicInfoLists: MutableList<MusicInfo> = ArrayList<MusicInfo>()

@@ -17,6 +17,7 @@ import com.quibbler.sevenmusic.utils.MusicDatabaseHelper
  * CreateDate:     2019/9/17 20:05
  */
 class MusicContentProvider : ContentProvider() {
+ // TODO: Evaluate replacing with a more efficient data structure
     private var mDBHelper: MusicDatabaseHelper? = null
 
     override fun onCreate(): Boolean {
