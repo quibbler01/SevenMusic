@@ -8,6 +8,7 @@ import com.androidkun.xtablayoutlibrary.BuildConfig
 import com.quibbler.sevenmusic.utils.ActivityLifecycle
 import com.quibbler.sevenmusic.utils.MusicThreadPool
 import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -92,6 +93,7 @@ class MusicApplication : Application() {
     }
 
     override fun onTerminate() {
+                 Log.d("MusicApplication", "onTerminate() called")
         unregisterActivityLifecycleCallbacks(mActivityLifeCycleCallback)
         super.onTerminate()
     }

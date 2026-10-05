@@ -15,6 +15,7 @@ import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
 import com.quibbler.sevenmusic.service.MusicPlayerService
 import com.quibbler.sevenmusic.utils.MusicThreadPool
 import java.lang.ref.WeakReference
+import android.util.Log
 
 class FavouriteMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.favoruite_music_list_item, objects) {
@@ -97,6 +98,7 @@ class FavouriteMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) 
 
     @Deprecated("")
     fun hasSelect(): Boolean {
+        Log.d("FavouriteMusic", "hasSelect() called")
         for (musicInfo in mList) {
             if (musicInfo.isSelect()) {
                 return true
