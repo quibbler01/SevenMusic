@@ -1,4 +1,3 @@
-chore: update Gradle dependency versions
+refactor: reduce code duplication in add debug logging in AlbumFragment.kt
 
-- add improvement notes in MusicPlayActivity.kt
-- README.md
+- add improvement notes in TimingStopPlayDialog.kt

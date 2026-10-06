@@ -196,6 +196,7 @@ class AlbumFragment : Fragment() {
     }
 
     override fun onPause() {
+                 Log.d("Album", "onPause() called")
         super.onPause()
         //需要停止循环动画
         if (mIsPlayingAlbumAnim) {
