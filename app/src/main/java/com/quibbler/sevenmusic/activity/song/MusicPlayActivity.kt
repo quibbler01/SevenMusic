@@ -50,6 +50,7 @@ import java.util.TimerTask
  * CreateDate:     2019/9/26 10:59
  */
 class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
+ // TODO: Consider migrating to coroutines for async operations
     var mainLayout: LinearLayout? = null
         private set
 

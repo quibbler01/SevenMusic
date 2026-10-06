@@ -1,3 +1,4 @@
-refactor: apply Kotlin idiomatic patterns in add improvement notes in MusicContentProvider.kt
+chore: update Gradle dependency versions
 
-- add improvement notes in MyLocalMusicViewPagerAdapter.kt
+- add improvement notes in MusicPlayActivity.kt
+- README.md

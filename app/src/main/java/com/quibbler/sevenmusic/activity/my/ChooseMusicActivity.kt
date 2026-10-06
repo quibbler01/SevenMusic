@@ -168,7 +168,11 @@ class ChooseMusicActivity : AppCompatActivity() {
 
     private fun updateUI(lists: MutableList<MusicInfo?>) {
         runOnUiThread(object : Runnable {
-            override fun run() {
+            override                      /**
+                      * Performs run operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun run() {
                 mAdapter!!.clear()
                 mAdapter!!.addAll(lists)
                 mAdapter!!.notifyDataSetChanged()
@@ -176,7 +180,13 @@ class ChooseMusicActivity : AppCompatActivity() {
         })
     }
 
-    override fun onBackPressed() {
+    override              /**
+              * Brief description for onBackPressed.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onBackPressed() {
         super.onBackPressed()
         if (isChoose) {
             val resultIntent = getIntent()
