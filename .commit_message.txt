@@ -1,4 +1,1 @@
-chore: update Gradle dependency versions
-
-- add debug logging in FoundSingerInfo.kt
-- README.md
+refactor: extract repeated logic into helper in add KDoc comments to MySongListEditListener.kt

@@ -8,5 +8,11 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/9/21 14:44
  */
 interface MySongListEditListener {
-    fun showView(show: Boolean)
+        /**
+     * Brief description for showView.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun showView(show: Boolean)
 }
