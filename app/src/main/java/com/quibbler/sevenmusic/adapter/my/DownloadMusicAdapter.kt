@@ -13,6 +13,7 @@ import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.service.MusicPlayerService
 import java.lang.ref.WeakReference
+import android.util.Log
 
 class DownloadMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.download_music_list_item, objects) {
@@ -21,6 +22,7 @@ class DownloadMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
               * This method ensures safe execution with null checks.
               */
 fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    Log.d("DownloadMusic", "getView() called")
         var convertView = convertView
         val musicInfo = getItem(position)
         var viewHolder: ViewHolder? = null

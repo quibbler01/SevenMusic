@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.bean.jsonbean.found
 import android.text.TextUtils
 import com.quibbler.sevenmusic.utils.PinyinUtils
 import java.util.Locale
+import android.util.Log
 
 class FoundSingerInfo {
     private val name: String? = null
@@ -13,6 +14,7 @@ class FoundSingerInfo {
     private var mFullPinyin: String? = null
 
     fun getName(): String {
+        Log.d("FoundSingerInfo", "getName() called")
         return name!!
     }
 
