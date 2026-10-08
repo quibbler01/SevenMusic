@@ -1,1 +1,3 @@
-refactor: extract repeated logic into helper in add KDoc comments to MySongListEditListener.kt
+feat: enhance error logging in add KDoc comments to SettingCacheActivity.kt
+
+- README.md

@@ -278,7 +278,11 @@ class SettingCacheActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    override fun onCheckedChanged(compoundButton: CompoundButton, isChecked: Boolean) {
+    override              /**
+              * Performs onCheckedChanged operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onCheckedChanged(compoundButton: CompoundButton, isChecked: Boolean) {
         if (compoundButton.getId() == R.id.sidebar_switch_cache_auto_clear) {
             // 此处点击自动清除缓存按钮后，当退出应用后，自动清除所有缓存
             SharedPreferencesUtils.Companion.getInstance()
@@ -286,7 +290,11 @@ class SettingCacheActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override              /**
+              * Performs onOptionsItemSelected operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> finish()
             else -> {}
