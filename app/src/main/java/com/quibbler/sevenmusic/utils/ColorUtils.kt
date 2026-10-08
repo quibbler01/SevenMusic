@@ -15,6 +15,7 @@ object ColorUtils {
      * @return
      */
     fun isPixelShallow(rgb: Int): Boolean {
+        Log.d("ColorUtils", "isPixelShallow() called")
         val r = (rgb and 16711680) shr 16
         val g = (rgb and 65280) shr 8
         val b = (rgb and 255)

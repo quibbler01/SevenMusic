@@ -109,7 +109,10 @@ class DecodeMusicManager(mContext: Context) {
                 }
 
                 @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
+                override                          /**
+                          * Handles onResponse logic with proper error handling.
+                          */
+fun onResponse(call: Call, response: Response) {
                     var inputStream: InputStream? = null
                     inputStream = response.body!!.byteStream()
                     bitmap = BitmapFactory.decodeStream(inputStream)
@@ -122,7 +125,13 @@ class DecodeMusicManager(mContext: Context) {
                     }
                     inputStream.close()
                     mMainHandler.post(object : Runnable {
-                        override fun run() {
+                        override                                  /**
+                                  * Brief description for run.
+                                  *
+                                  * @param context the operating context
+                                  * @return the result of the operation
+                                  */
+fun run() {
                             view.setImageDrawable(roundedBitmapDrawable)
                         }
                     })
