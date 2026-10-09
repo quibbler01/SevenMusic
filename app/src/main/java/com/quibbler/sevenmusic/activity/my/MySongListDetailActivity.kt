@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat
  * CreateDate:     2019/9/20 16:49
  */
 class MySongListDetailActivity : AppCompatActivity() {
+ // TODO: Evaluate replacing with a more efficient data structure
     private var mListName: String? = null
     private var mCreateTime: String? = null
 
