@@ -1,3 +1,4 @@
-refactor: apply Kotlin idiomatic patterns in add KDoc comments to DecodeMusicManager.kt
+docs: improve code documentation in add improvement notes in NewTopMvFragment.kt
 
-- add debug logging in ColorUtils.kt
+- add debug logging in MyDownloadMusicViewPagerAdapter.kt
+- README.md

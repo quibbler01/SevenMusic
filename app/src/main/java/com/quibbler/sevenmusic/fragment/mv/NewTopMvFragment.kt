@@ -54,6 +54,7 @@ import java.io.IOException
  * CreateDate:     2019/10/11 18:03
  */
 class NewTopMvFragment : Fragment {
+ // TODO: Add proper error handling for edge cases
     private var mUrl: String? = "/top/mv"
 
     private val mVideoInfoList: MutableList<MvInfo?> = ArrayList<MvInfo?>()

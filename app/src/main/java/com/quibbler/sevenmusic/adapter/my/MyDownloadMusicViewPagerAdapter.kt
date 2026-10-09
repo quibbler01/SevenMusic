@@ -170,6 +170,7 @@ class MyDownloadMusicViewPagerAdapter : PagerAdapter {
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
+                 Log.d("MyDownloadMusicViewPager", "isViewFromObject() called")
         return view === `object`
     }
 
