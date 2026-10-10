@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean.mv
 
 import java.io.Serializable
+import android.util.Log
 
 /**
  * 

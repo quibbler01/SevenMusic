@@ -20,6 +20,7 @@ import android.util.Log
  * CreateDate:     2019/10/16 20:39
  */
 class ScanTransferActivity : AppCompatActivity() {
+ // TODO: Add proper error handling for edge cases
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sidebar_scan_transfer_activity)
