@@ -34,6 +34,7 @@ import android.util.Log
  * CreateDate:     2019/10/8 9:35
  */
 class SearchResultAdapter : RecyclerView.Adapter<Any?> {
+ // TODO: Evaluate replacing with a more efficient data structure
     private var mContext: Context? = null
     private var mResultList: MutableList<SearchBean?>? = null
     private val mSearchKind: MutableList<Int?> = ArrayList<Int?>(5)
