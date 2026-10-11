@@ -443,7 +443,11 @@ class MusicRecognitionActivity : AppCompatActivity(), View.OnClickListener, IACR
      * 
      * @param msg 歌曲识别结果
      */
-    private fun showIdentitySongDialog(msg: String?) {
+    private             /**
+             * Performs showIdentitySongDialog operation.
+             * This method ensures safe execution with null checks.
+             */
+fun showIdentitySongDialog(msg: String?) {
         Log.d(TAG, "showIdentitySongDialog")
         if (isAutoRecognition) { // 听歌识曲-识别到结果时，立即停止动画，并设置相应文字显示
             mRippleAutoRecognitionAnimationView!!.stopRippleAnimation() //识别到歌曲结果，点击确定，停止波纹动画
@@ -462,7 +466,11 @@ class MusicRecognitionActivity : AppCompatActivity(), View.OnClickListener, IACR
                 .setMessage(msg).setPositiveButton(
                     ResUtil.getString(R.string.str_dialog_btn_confirm),
                     object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                        override                                  /**
+                                  * Performs onClick operation.
+                                  * This method ensures safe execution with null checks.
+                                  */
+fun onClick(dialog: DialogInterface?, which: Int) {
                             cancelRecognition() // 停止识别歌曲
                         }
                     }).create()

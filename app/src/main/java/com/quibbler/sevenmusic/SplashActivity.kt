@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager.PageTransformer
 import com.quibbler.sevenmusic.adapter.splash.SplashPagerAdapter
 import kotlin.math.floor
 import kotlin.math.min
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic
@@ -82,6 +83,7 @@ fun initView() {
                       * This method ensures safe execution with null checks.
                       */
 fun transformPage(page: View, position: Float) {
+    Log.d("Splash", "transformPage() called")
                 val CENTER_PAGE_SCALE = 1.0f // 控制屏幕图片占据屏幕的大小
                 val pagerWidth = mSplashVp!!.getWidth()
                 val offscreenPageLimit = mSplashVp!!.getOffscreenPageLimit()
