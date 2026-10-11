@@ -236,6 +236,7 @@ class SelectRemindCyclePopup(context: Context) : View.OnClickListener {
      * 描述：关闭弹出窗口
      */
     fun dismiss() {
+        Log.d("SelectRemindCyclePopup", "dismiss() called")
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             mPopupWindow.dismiss()
         }
