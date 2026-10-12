@@ -27,6 +27,7 @@ import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
 import com.quibbler.sevenmusic.fragment.my.MyFragment
 import com.quibbler.sevenmusic.utils.MusicDatabaseUtils
 import com.quibbler.sevenmusic.utils.MusicThreadPool
+import android.util.Log
 
 class FoundCustomDialog(context: Context, musicInfo: MusicInfo?) : Dialog(context) {
  // TODO: Migrate to ViewBinding when feasible
@@ -161,6 +162,7 @@ class FoundCustomDialog(context: Context, musicInfo: MusicInfo?) : Dialog(contex
                 }
             }).setNegativeButton("取消", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
+                             Log.d("FoundCustomDialog", "onClick() called")
                 }
             })
         val alertDialog = builder.create()
