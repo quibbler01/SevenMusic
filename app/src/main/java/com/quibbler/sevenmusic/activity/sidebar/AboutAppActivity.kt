@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.quibbler.sevenmusic.R
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.sidebar
@@ -39,6 +40,7 @@ class AboutAppActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                 Log.d("AboutApp", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> finish()
             else -> {}

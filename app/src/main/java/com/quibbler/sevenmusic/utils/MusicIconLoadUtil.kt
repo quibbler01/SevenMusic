@@ -29,6 +29,7 @@ import java.net.URL
  * CreateDate:     2019/9/29 17:18
  */
 class MusicIconLoadUtil(mContext: Context) {
+ // TODO: Migrate to ViewBinding when feasible
     private var mContext: Context? = null
     private var mHandler: Handler? = null
     private var mSingerName: String? = null

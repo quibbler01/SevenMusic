@@ -1,3 +1,4 @@
-chore: clean up unused imports across modules
+perf: optimize resource usage in add debug logging in AboutAppActivity.kt
 
-- add debug logging in SplashActivity.kt
+- add improvement notes in MusicIconLoadUtil.kt
+- README.md
