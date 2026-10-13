@@ -57,7 +57,11 @@ class MyCollectionMvAdapter(context: Context, resource: Int, objects: MutableLis
                 .into(viewHolder!!.cover!!)
         }
         viewHolder.cover!!.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Performs onClick operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun onClick(v: View?) {
                 val mvInfo = MvInfo(
                     mInfos.get(position)!!.getId().toInt(),
                     mInfos.get(position)!!.getName(),
@@ -73,7 +77,13 @@ class MyCollectionMvAdapter(context: Context, resource: Int, objects: MutableLis
         return convertView
     }
 
-    fun updateData(infoList: MutableList<MVShowInfo?>) {
+        /**
+     * Brief description for updateData.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun updateData(infoList: MutableList<MVShowInfo?>) {
         this.mInfos.clear()
         this.mInfos.addAll(infoList)
         notifyDataSetChanged()

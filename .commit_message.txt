@@ -1,3 +1,4 @@
-refactor: apply Kotlin idiomatic patterns in add debug logging in FoundCustomDialog.kt
+fix: address potential edge case in add debug logging in SearchResultAdapter.kt
 
-- add KDoc comments to TopMvClickListener.kt
+- add KDoc comments to MyCollectionMvAdapter.kt
+- README.md

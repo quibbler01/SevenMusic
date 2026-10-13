@@ -221,6 +221,7 @@ class SearchResultAdapter : RecyclerView.Adapter<Any?> {
     }
 
     fun updateDataSet(searchBeans: MutableList<SearchBean?>, integers: MutableList<Int?>) {
+        Log.d("SearchResult", "updateDataSet() called")
         mSearchKind.clear()
         mSearchKind.addAll(integers)
 
