@@ -1,4 +1,3 @@
-fix: address potential edge case in add debug logging in SearchResultAdapter.kt
+chore: update project documentation
 
-- add KDoc comments to MyCollectionMvAdapter.kt
-- README.md
+- add improvement notes in MusicAdapter.kt

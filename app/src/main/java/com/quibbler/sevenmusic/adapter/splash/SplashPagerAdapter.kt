@@ -21,6 +21,7 @@ import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
  * CreateDate:     2019/10/7 15:09
  */
 class SplashPagerAdapter(mViews: MutableList<View>?, mActivity: Activity) : PagerAdapter() {
+ // TODO: Review memory usage and optimize if needed
     private var mEnterTv: TextView? = null
 
     private val mViews: MutableList<View>?

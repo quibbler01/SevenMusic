@@ -22,6 +22,7 @@ abstract class MusicAdapter internal constructor(
     resource: Int,
     objects: MutableList<MusicInfo?>
 ) : ArrayAdapter<MusicInfo?>(context, resource, objects) {
+ // TODO: Add proper error handling for edge cases
     var mList: MutableList<MusicInfo?>
     var mContext: Context?
     var mButtonWeakReference: WeakReference<ImageView?>? = null
