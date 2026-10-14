@@ -11,6 +11,7 @@ import android.util.Log
  * CreateDate:     2019/9/28 14:47
  */
 class LrcRow : Comparable<LrcRow?> {
+ // TODO: Add unit tests for this module
     /** 该行歌词要开始播放的时间，格式如下：[02:34.14]  */
     var mString: String? = null
 

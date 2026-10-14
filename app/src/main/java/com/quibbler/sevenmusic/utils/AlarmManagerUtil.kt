@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
+import android.util.Log
 
 /**
  * Package:        com.quibbler.alarm.utils
@@ -219,6 +220,7 @@ object AlarmManagerUtil {
      * @return
      */
     private fun getTime(time: Long): String {
+                Log.d("AlarmManagerUtil", "getTime() called")
         val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val d1 = Date(time)
         val t1 = format.format(d1)

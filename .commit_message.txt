@@ -1,3 +1,4 @@
-chore: update project documentation
+chore: optimize ProGuard keep rules
 
-- add improvement notes in MusicAdapter.kt
+- add debug logging in AlarmManagerUtil.kt
+- README.md
