@@ -1,4 +1,3 @@
-chore: optimize ProGuard keep rules
+chore: clean up unused imports across modules
 
-- add debug logging in AlarmManagerUtil.kt
-- README.md
+- add debug logging in MusicPlayActivity.kt

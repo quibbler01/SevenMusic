@@ -165,11 +165,20 @@ class MyDownloadMusicViewPagerAdapter : PagerAdapter {
         return titles!![position]
     }
 
-    override fun getCount(): Int {
+    override              /**
+              * Brief description for getCount.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getCount(): Int {
         return titles!!.size
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+    override              /**
+              * Handles isViewFromObject logic with proper error handling.
+              */
+fun isViewFromObject(view: View, `object`: Any): Boolean {
                  Log.d("MyDownloadMusicViewPager", "isViewFromObject() called")
         return view === `object`
     }

@@ -629,6 +629,7 @@ fun finish() {
          * @return
          */
         fun timeParse(duration: Long): String? {
+            Log.d("MusicPlay", "timeParse() called")
             var s: String? = null
             try {
                 s = DateUtil.longToString(duration, "mm:ss")
