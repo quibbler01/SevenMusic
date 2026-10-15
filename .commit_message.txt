@@ -1,3 +1,4 @@
-chore: clean up unused imports across modules
+fix: correct resource leak in add improvement notes in SearchAlbumBean.kt
 
-- add debug logging in MusicPlayActivity.kt
+- add KDoc comments to MyFavouriteMusicActivity.kt
+- README.md

@@ -178,12 +178,21 @@ class MyFavouriteMusicActivity : AppCompatActivity(), View.OnClickListener {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override              /**
+              * Brief description for onCreateOptionsMenu.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onCreateOptionsMenu(menu: Menu?): Boolean {
         getMenuInflater().inflate(R.menu.my_music_favourite_manager, menu)
         return true
     }
 
-    override fun onBackPressed() {
+    override              /**
+              * Handles onBackPressed logic with proper error handling.
+              */
+fun onBackPressed() {
         if (mButtonView!!.getVisibility() == View.VISIBLE) {
             mAdapter!!.changeManagerState()
             mButtonView!!.setVisibility(View.GONE)
