@@ -117,6 +117,7 @@ class ScanCaptureActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
+                 Log.d("ScanCapture", "onClick() called")
         if (v.getId() == R.id.sidebar_iv_scan_open_light) {
             mCaptureFragment!!.switchFlashlight()
             if (mCaptureFragment!!.flashIsOpen()) {

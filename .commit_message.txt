@@ -1,4 +1,3 @@
-fix: correct resource leak in add improvement notes in SearchAlbumBean.kt
+style: fix inconsistent indentation in add debug logging in ScanCaptureActivity.kt
 
-- add KDoc comments to MyFavouriteMusicActivity.kt
-- README.md
+- add KDoc comments to ImageDealer.kt

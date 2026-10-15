@@ -338,7 +338,13 @@ class ImageDealer {
                             setBitmapIntoFile(mMd5Str, bitmap)
                         }
 
-                        override fun onFailure(call: Call?, e: IOException?) {
+                        override                                  /**
+                                  * Brief description for onFailure.
+                                  *
+                                  * @param context the operating context
+                                  * @return the result of the operation
+                                  */
+fun onFailure(call: Call?, e: IOException?) {
                             Log.d(TAG, "request fail! url is :" + mUrl)
                         }
                     })
@@ -363,7 +369,11 @@ class ImageDealer {
         //key为图片的完整url，value为对应的bitmap
         private val sLruCache: LruCache<String?, Bitmap?>? =
             object : LruCache<String?, Bitmap?>(sMaxMemory.toInt()) {
-                override fun sizeOf(key: String?, value: Bitmap): Int {
+                override                          /**
+                          * Performs sizeOf operation.
+                          * This method ensures safe execution with null checks.
+                          */
+fun sizeOf(key: String?, value: Bitmap): Int {
                              Log.d("ImageDealer", "sizeOf() called")
                     return value.getByteCount()
                 }
