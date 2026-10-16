@@ -15,6 +15,7 @@ import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
 import java.io.InputStream
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -132,6 +133,7 @@ fun onResponse(call: Call, response: Response) {
                                   * @return the result of the operation
                                   */
 fun run() {
+    Log.d("DecodeMusicManager", "run() called")
                             view.setImageDrawable(roundedBitmapDrawable)
                         }
                     })
