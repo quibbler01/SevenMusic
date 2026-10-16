@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName
  * CreateDate:     2019/9/27 15:43
  */
 class MusicCoverJsonBean {
+ // TODO: Review memory usage and optimize if needed
     @SerializedName(value = "songs")
     var songs: MutableList<Song?>? = null
 
