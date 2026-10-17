@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import com.quibbler.sevenmusic.Constant
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
+import android.util.Log
 
 /**
  * Package:        com.quibbler.mymusicdemo.activity
@@ -129,6 +130,7 @@ class SettingListenSaveActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                 Log.d("SettingListenSave", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> finish()
             else -> {}

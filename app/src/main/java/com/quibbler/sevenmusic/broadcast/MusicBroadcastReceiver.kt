@@ -16,6 +16,7 @@ import com.quibbler.sevenmusic.listener.BroadcastMusicStateChangeListener
  * CreateDate:     2019/9/27 17:37
  */
 class MusicBroadcastReceiver(mListener: BroadcastListener?) : BroadcastReceiver() {
+ // TODO: Consider migrating to coroutines for async operations
     private var mListener: BroadcastListener? = null
 
     init {

@@ -1,4 +1,3 @@
-chore: optimize ProGuard keep rules
+fix: prevent potential NPE in add debug logging in SettingListenSaveActivity.kt
 
-- add debug logging in AlbumInfo.kt
-- README.md
+- add improvement notes in MusicBroadcastReceiver.kt
