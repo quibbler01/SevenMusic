@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean
 
 import com.google.gson.annotations.SerializedName
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean
@@ -54,6 +55,7 @@ fun getMusicInfoList(): MutableList<MusicInfo?> {
      * This method ensures safe execution with null checks.
      */
 fun setMusicInfoList(musicInfoList: MutableList<MusicInfo?>) {
+    Log.d("AlbumInfo", "setMusicInfoList() called")
         this.musicInfoList = musicInfoList
     }
 }

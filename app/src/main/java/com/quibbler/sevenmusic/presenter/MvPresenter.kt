@@ -145,6 +145,7 @@ object MvPresenter {
     fun collectMv(mvInfo: MvInfo, mvCollectCallback: MvCollectCallback) {
         MusicThreadPool.postRunnable(object : Runnable {
             override fun run() {
+                         Log.d("MvPresenter", "run() called")
                 var cursor: Cursor? = null
                 try {
                     val id = mvInfo.getId()

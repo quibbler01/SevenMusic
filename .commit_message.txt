@@ -1,1 +1,4 @@
-perf: improve collection operations in add improvement notes in MusicCoverJsonBean.kt
+chore: optimize ProGuard keep rules
+
+- add debug logging in AlbumInfo.kt
+- README.md
