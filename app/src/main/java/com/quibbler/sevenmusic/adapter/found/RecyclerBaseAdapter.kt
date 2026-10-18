@@ -57,6 +57,7 @@ abstract class RecyclerBaseAdapter<T, VH : RecyclerView.ViewHolder?>(infoList: M
               * @return the result of the operation
               */
 fun onBindViewHolder(holder: VH, position: Int) {
+    Log.d("RecyclerBase", "onBindViewHolder() called")
         if (mShouldStop) {
             return
         }

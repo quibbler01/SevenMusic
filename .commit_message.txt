@@ -1,4 +1,3 @@
-docs: clarify method contracts in add KDoc comments to MyLocalMusicViewPagerAdapter.kt
+perf: improve collection operations in add debug logging in RecyclerBaseAdapter.kt
 
-- add improvement notes in SettingPlayQualityActivity.kt
-- README.md
+- add improvement notes in SearchMvBean.kt
