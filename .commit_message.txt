@@ -1,3 +1,4 @@
-fix: prevent potential NPE in add debug logging in SettingListenSaveActivity.kt
+docs: clarify method contracts in add KDoc comments to MyLocalMusicViewPagerAdapter.kt
 
-- add improvement notes in MusicBroadcastReceiver.kt
+- add improvement notes in SettingPlayQualityActivity.kt
+- README.md

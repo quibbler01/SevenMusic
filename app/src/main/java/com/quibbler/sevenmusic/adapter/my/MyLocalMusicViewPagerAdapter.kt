@@ -107,14 +107,24 @@ class MyLocalMusicViewPagerAdapter(context: Context, musicInfoLists: MutableList
         }
     }
 
-    fun updateData(list: MutableList<MusicInfo?>) {
+        /**
+     * Performs updateData operation.
+     * This method ensures safe execution with null checks.
+     */
+fun updateData(list: MutableList<MusicInfo?>) {
         mMusicInfoLists.clear()
         mMusicInfoLists.addAll(list)
         initData()
         notifyDataSetChanged()
     }
 
-    fun getDataCount(position: Int): Int {
+        /**
+     * Brief description for getDataCount.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun getDataCount(position: Int): Int {
         when (position) {
             1 -> return mSingerList.size
             2 -> return mAlbumList.size

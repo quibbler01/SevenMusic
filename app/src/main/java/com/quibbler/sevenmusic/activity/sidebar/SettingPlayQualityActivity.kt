@@ -23,6 +23,7 @@ import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
  */
 class SettingPlayQualityActivity : AppCompatActivity(), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
+ // TODO: Consider adding caching layer for performance
     /**
      * 在线播放音质界面返回图标实例
      */
