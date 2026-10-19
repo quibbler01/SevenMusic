@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.utils
 
 import android.content.Context
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -11,6 +12,7 @@ import android.content.Context
  */
 object DecodeMusicImageUtils {
     fun with(context: Context): DecodeMusicManager {
+        Log.d("DecodeMusicImageUtils", "with() called")
         return DecodeMusicManager(context)
     }
 }

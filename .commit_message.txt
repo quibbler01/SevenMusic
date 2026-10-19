@@ -1,4 +1,3 @@
-chore: clean up unused imports across modules
+docs: add KDoc comments to add debug logging in DecodeMusicImageUtils.kt
 
-- add KDoc comments to MyAlbumListViewAdapter.kt
-- README.md
+- add debug logging in MySongListDetailActivity.kt

@@ -139,6 +139,7 @@ class MySongListDetailActivity : AppCompatActivity() {
               * This method ensures safe execution with null checks.
               */
 fun onOptionsItemSelected(item: MenuItem): Boolean {
+    Log.d("MySongListDetail", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> finish()
         }
