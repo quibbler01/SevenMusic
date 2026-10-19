@@ -40,6 +40,7 @@ class MusicPathInfo(mPathDetail: String, mMusicInfoLists: MutableList<MusicInfo?
     }
 
     fun updateData(list: MutableList<MusicInfo?>) {
+        Log.d("MusicPathInfo", "updateData() called")
         musicInfoLists.clear()
         musicInfoLists.addAll(list)
     }

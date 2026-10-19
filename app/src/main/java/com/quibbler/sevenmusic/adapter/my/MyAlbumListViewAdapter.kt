@@ -34,7 +34,13 @@ class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableLi
         mAlbumInfoList.addAll(objects)
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override              /**
+              * Brief description for getView.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         var viewHolder: ViewHolder? = null
         if (convertView == null) {
@@ -48,7 +54,13 @@ class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableLi
         }
 
         convertView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
+            override                      /**
+                      * Brief description for onClick.
+                      *
+                      * @param context the operating context
+                      * @return the result of the operation
+                      */
+fun onClick(view: View?) {
                          Log.d("MyAlbumListView", "onClick() called")
                 val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
                 intent.putExtra("title", "专辑:" + mAlbumInfoList.get(position)!!.albumName)
