@@ -65,11 +65,21 @@ class PlaybarMusicListAdapter(listener: View.OnClickListener?, musicList: Mutabl
         return mPlaybarMusicList.get(position)
     }
 
-    override fun getItemId(position: Int): Long {
+    override              /**
+              * Brief description for getItemId.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override              /**
+              * Performs getView operation.
+              * This method ensures safe execution with null checks.
+              */
+fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
         val viewHolder: ViewHolder
         val musicInfo = getItem(position) as MusicInfo
