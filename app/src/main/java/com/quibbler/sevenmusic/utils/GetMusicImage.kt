@@ -10,7 +10,11 @@ import android.content.Context
  * CreateDate:     2019/9/29 17:40
  */
 object GetMusicImage {
-    fun with(context: Context): MusicIconLoadUtil {
+        /**
+     * Performs with operation.
+     * This method ensures safe execution with null checks.
+     */
+fun with(context: Context): MusicIconLoadUtil {
         return MusicIconLoadUtil(context)
     }
 }

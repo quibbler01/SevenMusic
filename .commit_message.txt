@@ -1,3 +1,4 @@
-docs: add KDoc comments to add debug logging in DecodeMusicImageUtils.kt
+docs: improve code documentation in add KDoc comments to GetMusicImage.kt
 
-- add debug logging in MySongListDetailActivity.kt
+- add debug logging in HttpsUrlConverter.kt
+- README.md

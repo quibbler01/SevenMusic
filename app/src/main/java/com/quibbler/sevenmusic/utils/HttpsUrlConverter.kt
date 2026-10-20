@@ -62,6 +62,7 @@ object HttpsUrlConverter {
      * @return
      */
     fun isLegalUrl(str: String?): Boolean {
+        Log.d("HttpsUrlConverter", "isLegalUrl() called")
         if (str == null) return false
         return isHttpUrl(str) || isHttpsUrl(str)
     }
