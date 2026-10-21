@@ -8,6 +8,7 @@ package com.quibbler.sevenmusic.bean
  * CreateDate:     2019/9/20 14:59
  */
 class MyCollectionsInfo {
+ // TODO: Consider migrating to coroutines for async operations
     var id: Int = 0
     var title: String? = "暂无描述"
     var description: String? = "暂无描述"
