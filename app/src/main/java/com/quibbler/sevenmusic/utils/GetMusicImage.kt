@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.utils
 
 import android.content.Context
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -15,6 +16,7 @@ object GetMusicImage {
      * This method ensures safe execution with null checks.
      */
 fun with(context: Context): MusicIconLoadUtil {
+    Log.d("GetMusicImage", "with() called")
         return MusicIconLoadUtil(context)
     }
 }

@@ -30,6 +30,7 @@ import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager
 import com.quibbler.sevenmusic.contentprovider.MusicContentProvider
 import com.quibbler.sevenmusic.utils.CloseResourceUtil
 import com.quibbler.sevenmusic.utils.MusicThreadPool
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity.my
@@ -246,6 +247,7 @@ fun onCreateOptionsMenu(menu: Menu?): Boolean {
                   * Handles onReceive logic with proper error handling.
                   */
 fun onReceive(context: Context?, intent: Intent) {
+    Log.d("MyDownloadMusic", "onReceive() called")
             val action = intent.getAction()
             if (action != null) {
                 when (action) {
