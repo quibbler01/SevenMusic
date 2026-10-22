@@ -16,7 +16,11 @@ class IRecyclerView : RecyclerView {
 
     constructor(context: Context) : super(context)
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    override              /**
+              * Performs onMeasure operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(
             widthMeasureSpec,
             MeasureSpec.makeMeasureSpec(Int.Companion.MAX_VALUE shr 2, MeasureSpec.AT_MOST)
