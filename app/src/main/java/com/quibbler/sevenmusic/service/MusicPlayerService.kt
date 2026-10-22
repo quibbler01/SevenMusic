@@ -1334,6 +1334,7 @@ fun run() {
                  * This method ensures safe execution with null checks.
                  */
 fun isExistAlready(path: String): Boolean {
+    Log.d("MusicPlayerService", "isExistAlready() called")
             val musicFile = File(path)
             return musicFile.exists()
         }

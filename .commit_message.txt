@@ -1,3 +1,3 @@
-chore: update Gradle dependency versions
+refactor: simplify null handling in add debug logging in MusicPlayerService.kt
 
-- add debug logging in GetMusicImage.kt
+- README.md
