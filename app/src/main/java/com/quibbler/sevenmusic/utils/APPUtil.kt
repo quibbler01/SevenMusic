@@ -23,6 +23,7 @@ import java.util.jar.JarFile
  * CreateDate:     2019/10/7 15:39
  */
 class APPUtil private constructor() {
+ // TODO: Consider migrating to coroutines for async operations
     /**
      * 描述：打开指定包名的APP
      * 

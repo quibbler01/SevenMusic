@@ -1,4 +1,3 @@
-refactor: reduce code duplication in add improvement notes in CustomMusicList.kt
+chore: update project documentation
 
-- add improvement notes in TopMvListAdapter.kt
-- README.md
+- add improvement notes in APPUtil.kt

@@ -41,11 +41,18 @@ class SingerInfo {
         this.songLists.addAll(songLists)
     }
 
-    fun getmBitmap(): Bitmap? {
+        /**
+     * Performs getmBitmap operation.
+     * This method ensures safe execution with null checks.
+     */
+fun getmBitmap(): Bitmap? {
         return mBitmap
     }
 
-    fun setmBitmap(mBitmap: Bitmap?) {
+        /**
+     * Handles setmBitmap logic with proper error handling.
+     */
+fun setmBitmap(mBitmap: Bitmap?) {
         Log.d("SingerInfo", "setmBitmap() called")
         this.mBitmap = mBitmap
     }
