@@ -25,6 +25,7 @@ import com.quibbler.sevenmusic.bean.mv.MvInfo
  */
 class TopMvListAdapter(infoList: MutableList<MvInfo?>?, topMvClickListener: TopMvClickListener?) :
     RecyclerBaseAdapter<MvInfo?, TopMvListAdapter.ViewHolder?>(infoList) {
+ // TODO: Consider extracting to a separate utility class
     private val mMvInfoList: MutableList<MvInfo> = mSourceList
 
     private val mTopMvClickListener: TopMvClickListener?

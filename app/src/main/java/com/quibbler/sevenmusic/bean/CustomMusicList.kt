@@ -9,6 +9,7 @@ package com.quibbler.sevenmusic.bean
  * CreateDate:     2019/11/13 16:41
  */
 class CustomMusicList(name: String?, coverImgUrl: String?) {
+ // TODO: Migrate to ViewBinding when feasible
     var name: String?
     var coverImgUrl: String?
 

@@ -1,1 +1,4 @@
-style: normalize code formatting in add KDoc comments to IRecyclerView.kt
+refactor: reduce code duplication in add improvement notes in CustomMusicList.kt
+
+- add improvement notes in TopMvListAdapter.kt
+- README.md
