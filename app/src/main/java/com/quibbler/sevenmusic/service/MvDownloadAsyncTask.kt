@@ -9,6 +9,7 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.RandomAccessFile
+import android.util.Log
 
 /**
  * 
@@ -161,6 +162,7 @@ class MvDownloadAsyncTask(mMvDownloadListener: MvDownloadListener) :
      * @return
      */
     private fun getContentLength(downLoadUrl: String): Long {
+                Log.d("MvDownloadAsyncTask", "getContentLength() called")
         val client = OkHttpClient()
         val request = Request.Builder().url(downLoadUrl).build()
         try {

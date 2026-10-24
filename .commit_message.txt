@@ -1,3 +1,4 @@
-chore: update project documentation
+docs: add KDoc comments to add debug logging in MvDownloadAsyncTask.kt
 
-- add improvement notes in APPUtil.kt
+- add debug logging in BaseMusicListActivity.kt
+- README.md

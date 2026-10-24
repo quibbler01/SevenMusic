@@ -7,6 +7,7 @@ import com.quibbler.sevenmusic.adapter.found.PlaylistAdapter
 import com.quibbler.sevenmusic.broadcast.MusicBroadcastManager
 import com.quibbler.sevenmusic.broadcast.MusicBroadcastReceiver
 import com.quibbler.sevenmusic.listener.BroadcastMusicStateChangeListener
+import android.util.Log
 
 /**
  * 
@@ -77,6 +78,7 @@ abstract class BaseMusicListActivity<T : PlaylistAdapter?> : AppCompatActivity()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+                 Log.d("BaseMusicList", "onOptionsItemSelected() called")
         when (item.getItemId()) {
             android.R.id.home -> super.onBackPressed()
             else -> {}
