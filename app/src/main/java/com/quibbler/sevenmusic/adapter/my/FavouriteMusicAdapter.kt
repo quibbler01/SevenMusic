@@ -19,6 +19,7 @@ import android.util.Log
 
 class FavouriteMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.favoruite_music_list_item, objects) {
+ // TODO: Evaluate replacing with a more efficient data structure
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val musicInfo = getItem(position)

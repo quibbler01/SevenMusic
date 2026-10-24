@@ -21,6 +21,7 @@ import android.util.Log
  * CreateDate:     2019/10/8 19:02
  */
 class GroupItemDecoration(context: Context, callback: TitleDecorationCallback) : ItemDecoration() {
+ // TODO: Consider migrating to coroutines for async operations
     private val mTitleHeight: Int
     private val mTitleTextSize: Int
     private val mPaint: Paint
