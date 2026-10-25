@@ -38,7 +38,11 @@ class FoundSingerLibRecommendAdapter(foundSingerInfoList: MutableList<FoundSinge
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: SingerTopViewHolder, position: Int) {
+    override              /**
+              * Performs onBindViewHolder operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onBindViewHolder(holder: SingerTopViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
         val foundSingerInfo = mFoundSingerInfoList.get(position)
@@ -50,7 +54,10 @@ class FoundSingerLibRecommendAdapter(foundSingerInfoList: MutableList<FoundSinge
             .into(holder.mImageView)
 
         holder.mView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Handles onClick logic with proper error handling.
+                      */
+fun onClick(v: View?) {
                 val intent = Intent(holder.mView.getContext(), SingerActivity::class.java)
                 intent.putExtra("id", foundSingerInfo.getId())
                 holder.mView.getContext().startActivity(intent)

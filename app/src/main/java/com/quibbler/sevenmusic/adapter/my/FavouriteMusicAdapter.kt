@@ -86,6 +86,7 @@ class FavouriteMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) 
         update(remain)
         MusicThreadPool.postRunnable(object : Runnable {
             override fun run() {
+                         Log.d("FavouriteMusic", "run() called")
                 for (musicInfo in delete) {
                     MusicApplication.Companion.context.getContentResolver().delete(
                         MusicContentProvider.Companion.FAVOURITE_URL,
