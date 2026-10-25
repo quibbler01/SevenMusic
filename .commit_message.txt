@@ -1,4 +1,1 @@
-refactor: improve code readability in add KDoc comments to FoundSingerLibRecommendAdapter.kt
-
-- add debug logging in FavouriteMusicAdapter.kt
-- README.md
+chore: improve build configuration
