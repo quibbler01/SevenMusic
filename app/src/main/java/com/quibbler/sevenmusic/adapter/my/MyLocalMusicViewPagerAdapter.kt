@@ -10,6 +10,7 @@ import com.quibbler.sevenmusic.bean.AlbumInfo
 import com.quibbler.sevenmusic.bean.MusicInfo
 import com.quibbler.sevenmusic.bean.MusicPathInfo
 import com.quibbler.sevenmusic.bean.SingerInfo
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter
@@ -199,6 +200,7 @@ fun isViewFromObject(view: View, `object`: Any): Boolean {
               * @return the result of the operation
               */
 fun getPageTitle(position: Int): CharSequence? {
+    Log.d("MyLocalMusicViewPager", "getPageTitle() called")
         return titles!![position]
     }
 

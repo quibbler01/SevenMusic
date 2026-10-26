@@ -114,6 +114,7 @@ fun decodeLowQualityBitmap(inputStream: InputStream, reqWidth: Int, reqHeight: I
      * @return the result of the operation
      */
 fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    Log.d("BitmapUtils", "calculateInSampleSize() called")
         val height = options.outHeight
         val width = options.outWidth
         var inSampleSize = 1

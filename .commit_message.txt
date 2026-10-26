@@ -1,4 +1,3 @@
 chore: optimize ProGuard keep rules
 
-- add improvement notes in PlaybarMusicListAdapter.kt
-- README.md
+- add debug logging in MyLocalMusicViewPagerAdapter.kt
