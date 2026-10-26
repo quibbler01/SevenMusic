@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import android.graphics.Outline
 import android.view.View
 import android.view.ViewOutlineProvider
+import android.util.Log
 
 /**
  * 
@@ -22,6 +23,7 @@ class TextureVideoViewOutlineProvider(radius: Float) : ViewOutlineProvider() {
     }
 
     override fun getOutline(view: View, outline: Outline) {
+                 Log.d("TextureVideoViewOutlineProvider", "getOutline() called")
 //        Rect rect = new Rect();
 //        view.getGlobalVisibleRect(rect);
 //        int leftMargin = 0;

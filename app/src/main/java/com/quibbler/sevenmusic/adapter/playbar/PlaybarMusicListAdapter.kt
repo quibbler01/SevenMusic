@@ -22,6 +22,7 @@ import com.quibbler.sevenmusic.service.MusicPlayerService
  */
 class PlaybarMusicListAdapter(listener: View.OnClickListener?, musicList: MutableList<MusicInfo?>) :
     BaseAdapter() {
+ // TODO: Add analytics tracking for user interactions
     /**
      * 最近音乐播放列表集合
      */

@@ -1,1 +1,4 @@
-chore: improve build configuration
+chore: optimize ProGuard keep rules
+
+- add improvement notes in PlaybarMusicListAdapter.kt
+- README.md
