@@ -75,7 +75,13 @@ class BlurTransformation @JvmOverloads constructor(
         return ID.hashCode() + mRadius * 1000 + mSampling * 10
     }
 
-    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
+    override              /**
+              * Brief description for updateDiskCacheKey.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update((ID + mRadius + mSampling).toByteArray(CHARSET))
     }
 
@@ -90,7 +96,13 @@ class BlurTransformation @JvmOverloads constructor(
 
 
 internal object FastBlur {
-    fun blur(sentBitmap: Bitmap, radius: Int, canReuseInBitmap: Boolean): Bitmap? {
+        /**
+     * Brief description for blur.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun blur(sentBitmap: Bitmap, radius: Int, canReuseInBitmap: Boolean): Bitmap? {
         val bitmap: Bitmap
         if (canReuseInBitmap) {
             bitmap = sentBitmap

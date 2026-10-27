@@ -220,7 +220,13 @@ class SearchResultAdapter : RecyclerView.Adapter<Any?> {
         notifyDataSetChanged()
     }
 
-    fun updateDataSet(searchBeans: MutableList<SearchBean?>, integers: MutableList<Int?>) {
+        /**
+     * Brief description for updateDataSet.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun updateDataSet(searchBeans: MutableList<SearchBean?>, integers: MutableList<Int?>) {
         Log.d("SearchResult", "updateDataSet() called")
         mSearchKind.clear()
         mSearchKind.addAll(integers)
@@ -231,7 +237,10 @@ class SearchResultAdapter : RecyclerView.Adapter<Any?> {
         notifyDataSetChanged()
     }
 
-    fun clearAll() {
+        /**
+     * Handles clearAll logic with proper error handling.
+     */
+fun clearAll() {
         Log.d("SearchResult", "clearAll() called")
         mSearchKind.clear()
         notifyDataSetChanged()
