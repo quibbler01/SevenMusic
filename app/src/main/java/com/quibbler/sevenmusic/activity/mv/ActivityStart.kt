@@ -58,6 +58,7 @@ object ActivityStart {
      * @param cls
      */
     fun startNewActivity(context: Context, cls: Class<*>?) {
+        Log.d("Start", "startNewActivity() called")
         val intent = Intent(context, cls)
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
