@@ -197,6 +197,7 @@ object AlarmManagerUtil {
      * @param intervalMillis
      */
     fun setAlarmLaterInMinute(context: Context, timeInMillis: Long, id: Int, intervalMillis: Int) {
+        Log.d("AlarmManagerUtil", "setAlarmLaterInMinute() called")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(ALARM_ACTION)
         val sender = PendingIntent.getBroadcast(
