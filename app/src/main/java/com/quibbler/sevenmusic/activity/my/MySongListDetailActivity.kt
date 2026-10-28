@@ -108,6 +108,7 @@ class MySongListDetailActivity : AppCompatActivity() {
     private fun updateListData(musicLists: MutableList<MusicInfo?>, bitmap: Bitmap?) {
         runOnUiThread(object : Runnable {
             override fun run() {
+                         Log.d("MySongListDetail", "run() called")
                 mAdapter!!.update(musicLists)
                 Glide.with(this@MySongListDetailActivity)
                     .load(Constant.SEVEN_MUSIC_IMAGE + "/" + musicLists.get(0)!!.getId())
