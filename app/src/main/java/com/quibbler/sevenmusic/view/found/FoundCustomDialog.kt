@@ -153,6 +153,7 @@ class FoundCustomDialog(context: Context, musicInfo: MusicInfo?) : Dialog(contex
                                 val activity = mContext
                                 activity.runOnUiThread(object : Runnable {
                                     override fun run() {
+                                                 Log.d("FoundCustomDialog", "run() called")
                                         mFoundListDialogAdapter!!.updateData(mCustomMusicLists)
                                     }
                                 })
