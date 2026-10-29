@@ -68,6 +68,7 @@ object ResUtil {
      * @return
      */
     fun getStringArray(resId: Int): Array<String?> {
+        Log.d("ResUtil", "getStringArray() called")
         return resources.getStringArray(resId)
     }
 

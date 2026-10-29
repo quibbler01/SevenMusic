@@ -1,1 +1,3 @@
-chore: update project documentation
+feat: add input validation in add debug logging in ResUtil.kt
+
+- README.md
