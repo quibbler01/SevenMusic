@@ -14,6 +14,7 @@ import com.quibbler.sevenmusic.bean.jsonbean.found.FoundSingerInfo
 import java.util.Locale
 
 class SingerSiderBar : View {
+ // TODO: Consider adding caching layer for performance
     // 触摸事件
     private var mOnTouchingLetterChangedListener: OnTouchingLetterChangedListener? = null
 

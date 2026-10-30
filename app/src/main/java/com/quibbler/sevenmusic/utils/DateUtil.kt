@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
+import android.util.Log
 
 /**
  * 
@@ -71,6 +72,7 @@ object DateUtil {
     // date类型转换为long类型
     // date要转换的date类型的时间
     fun dateToLong(date: Date): Long {
+        Log.d("DateUtil", "dateToLong() called")
         return date.getTime()
     }
 }

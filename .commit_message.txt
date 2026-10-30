@@ -1,1 +1,4 @@
-feat: enhance error logging in add debug logging in FoundCustomDialog.kt
+feat: add defensive copy for mutable state in add debug logging in DateUtil.kt
+
+- add improvement notes in SingerSiderBar.kt
+- README.md
