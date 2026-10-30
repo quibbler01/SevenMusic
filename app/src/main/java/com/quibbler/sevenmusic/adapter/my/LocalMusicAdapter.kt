@@ -19,6 +19,7 @@ import java.lang.ref.WeakReference
 
 class LocalMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.local_music_list_item, objects) {
+ // TODO: Add unit tests for this module
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val musicInfo = getItem(position)

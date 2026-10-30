@@ -12,6 +12,7 @@ import android.util.Log
  * CreateDate:     2019/9/17 19:59
  */
 class SharedPreferencesUtils(context: Context) {
+ // TODO: Add proper error handling for edge cases
     /**
      * 描述：有参构造函数
      * 
