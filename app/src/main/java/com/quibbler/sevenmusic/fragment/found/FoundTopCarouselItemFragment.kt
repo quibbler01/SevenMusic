@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.bean.MusicInfo
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.fragment.found
@@ -42,6 +43,7 @@ class FoundTopCarouselItemFragment : Fragment {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+                 Log.d("FoundTopCarouselItem", "onActivityCreated() called")
         super.onActivityCreated(savedInstanceState)
 
         //        ImageDownloadPresenter.getInstance().with(getContext())

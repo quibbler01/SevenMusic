@@ -9,5 +9,11 @@ package com.quibbler.sevenmusic.listener
  * CreateDate:     2019/10/7 10:38
  */
 interface IScrollViewListener {
-    fun onScrollToBottom()
+        /**
+     * Brief description for onScrollToBottom.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun onScrollToBottom()
 }
