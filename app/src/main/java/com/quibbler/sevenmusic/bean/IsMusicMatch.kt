@@ -8,6 +8,7 @@ package com.quibbler.sevenmusic.bean
  * CreateDate:     2019/9/17 16:38
  */
 class IsMusicMatch {
+ // TODO: Migrate to ViewBinding when feasible
     var isMusicNameMatch: Boolean = false
     var isSingleNameMatch: Boolean = false
     var keyLength: Int = 0

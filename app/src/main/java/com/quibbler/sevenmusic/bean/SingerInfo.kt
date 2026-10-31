@@ -46,6 +46,7 @@ class SingerInfo {
      * This method ensures safe execution with null checks.
      */
 fun getmBitmap(): Bitmap? {
+    Log.d("SingerInfo", "getmBitmap() called")
         return mBitmap
     }
 

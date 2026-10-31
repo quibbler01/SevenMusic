@@ -1,3 +1,4 @@
-feat: add input validation in add improvement notes in SharedPreferencesUtils.kt
+docs: improve code documentation in add improvement notes in IsMusicMatch.kt
 
-- add improvement notes in LocalMusicAdapter.kt
+- add debug logging in SingerInfo.kt
+- README.md
