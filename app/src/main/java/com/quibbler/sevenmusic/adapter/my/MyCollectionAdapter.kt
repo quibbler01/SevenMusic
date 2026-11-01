@@ -89,6 +89,7 @@ class MyCollectionAdapter(
         val star = viewHolder.start
         viewHolder.start!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
+                         Log.d("MyCollection", "onClick() called")
                 star!!.setImageResource(R.drawable.my_collection_un_star)
                 val collectionUrl =
                     Uri.parse("content://" + MusicContentProvider.Companion.MUSIC_AUTHORITY + "/collection/" + myCollectionsInfo.id)

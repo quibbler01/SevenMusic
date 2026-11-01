@@ -1,3 +1,4 @@
-chore: update Gradle dependency versions
+feat: improve thread safety annotations in add improvement notes in FoundShowPlaylistAdapter.kt
 
-- add KDoc comments to IScrollViewListener.kt
+- add debug logging in MyCollectionAdapter.kt
+- README.md

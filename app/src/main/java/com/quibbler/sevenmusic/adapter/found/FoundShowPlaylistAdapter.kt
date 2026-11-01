@@ -24,6 +24,7 @@ class FoundShowPlaylistAdapter(topPlaylistInfoList: MutableList<PlaylistInfo?>?)
     RecyclerBaseAdapter<PlaylistInfo?, FoundShowPlaylistAdapter.PlaylistViewHolder?>(
         topPlaylistInfoList
     ) {
+ // TODO: Review memory usage and optimize if needed
     //实际使用的数据源
     private val mTopPlaylistInfoList: MutableList<PlaylistInfo> = mSourceList
 
