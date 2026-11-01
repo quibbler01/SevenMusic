@@ -10,7 +10,19 @@ package com.quibbler.sevenmusic.listener
 interface BroadcastMusicPlayListener : BroadcastListener {
     fun handBroadcast()
 
-    fun onMusicPlay()
+        /**
+     * Brief description for onMusicPlay.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun onMusicPlay()
 
-    fun onMusicPause()
+        /**
+     * Brief description for onMusicPause.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun onMusicPause()
 }

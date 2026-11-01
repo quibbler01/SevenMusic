@@ -244,6 +244,7 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener,
                 ResUtil.getString(R.string.str_dialog_btn_cancel),
                 object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
+                                 Log.d("Setting", "onClick() called")
                         mSidebarSettingNetworkDownloadSwitch!!.setChecked(false)
                     }
                 }).show()
