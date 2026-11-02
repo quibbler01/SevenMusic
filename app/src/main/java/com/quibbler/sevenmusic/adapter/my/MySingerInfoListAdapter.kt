@@ -37,7 +37,10 @@ class MySingerInfoListAdapter(context: Context, resource: Int, objects: MutableL
         mViews = ArrayList<View?>(objects.size)
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override              /**
+              * Handles getView logic with proper error handling.
+              */
+fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val singerInfo = mSingerMusicInfoLists.get(position)
         var viewHolder: ViewHolder? = null
@@ -54,7 +57,13 @@ class MySingerInfoListAdapter(context: Context, resource: Int, objects: MutableL
         }
 
         convertView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
+            override                      /**
+                      * Brief description for onClick.
+                      *
+                      * @param context the operating context
+                      * @return the result of the operation
+                      */
+fun onClick(view: View?) {
                 val intent = Intent(mContext, MyLocalMusicDetailActivity::class.java)
                 intent.putExtra("title", "歌手:" + singerInfo.getName())
                 val list: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()

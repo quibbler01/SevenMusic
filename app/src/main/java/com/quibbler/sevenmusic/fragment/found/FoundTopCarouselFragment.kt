@@ -34,6 +34,7 @@ import kotlin.math.min
  * CreateDate:     2019/10/10 16:14
  */
 class FoundTopCarouselFragment : Fragment() {
+ // TODO: Add analytics tracking for user interactions
     //实际轮播图数量
     private var mRealTopCarouselNum = 0
 
