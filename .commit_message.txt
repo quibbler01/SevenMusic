@@ -1,3 +1,4 @@
-chore: update project documentation
+perf: reduce unnecessary object allocation in add improvement notes in MySongListManagerActivity.kt
 
-- add KDoc comments to BroadcastMusicPlayListener.kt
+- add debug logging in AlbumFragment.kt
+- README.md

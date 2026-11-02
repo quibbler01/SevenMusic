@@ -30,6 +30,7 @@ import com.quibbler.sevenmusic.utils.MusicThreadPool
  * CreateDate:     2019/9/21 11:12
  */
 class MySongListManagerActivity : AppCompatActivity() {
+ // TODO: Consider adding caching layer for performance
     private var mSongListView: ListView? = null
     private var mNoSongInListTextView: TextView? = null
     private val mSongListInfoList: MutableList<MySongListInfo?> = ArrayList<MySongListInfo?>()

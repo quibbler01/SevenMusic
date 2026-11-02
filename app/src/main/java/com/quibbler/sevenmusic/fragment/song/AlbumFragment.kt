@@ -191,6 +191,7 @@ class AlbumFragment : Fragment() {
     }
 
     fun stopPauseAnimator() {
+        Log.d("Album", "stopPauseAnimator() called")
         mPauseAnimator!!.cancel()
         mPauseAnimator!!.setCurrentPlayTime(0)
     }
