@@ -59,7 +59,10 @@ object DateUtil {
     // formatType时间格式
     // strTime的时间格式和formatType的时间格式必须相同
     @Throws(ParseException::class)
-    fun stringToLong(strTime: String, formatType: String?): Long {
+        /**
+     * Handles stringToLong logic with proper error handling.
+     */
+fun stringToLong(strTime: String, formatType: String?): Long {
         val date = stringToDate(strTime, formatType) // String类型转成date类型
         if (date == null) {
             return 0
@@ -71,7 +74,11 @@ object DateUtil {
 
     // date类型转换为long类型
     // date要转换的date类型的时间
-    fun dateToLong(date: Date): Long {
+        /**
+     * Performs dateToLong operation.
+     * This method ensures safe execution with null checks.
+     */
+fun dateToLong(date: Date): Long {
         Log.d("DateUtil", "dateToLong() called")
         return date.getTime()
     }

@@ -42,6 +42,7 @@ import java.util.TimerTask
  * CreateDate:     2019/10/9 20:21
  */
 class LockScreenActivity : AppCompatActivity(), ScrollScreenInterface {
+ // TODO: Migrate to ViewBinding when feasible
     private var mLockScreenUnderView: LockScreenUnderView? = null
 
     //滑动时会移动的主体view，放在这个LinearLayout里

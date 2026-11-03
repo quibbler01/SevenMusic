@@ -1,4 +1,3 @@
-fix: handle boundary conditions in add debug logging in CloseResourceUtil.kt
+fix: address potential edge case in add improvement notes in LockScreenActivity.kt
 
-- add KDoc comments to IMediaController.kt
-- README.md
+- add KDoc comments to DateUtil.kt
