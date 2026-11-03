@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.utils
 import java.io.Closeable
 import java.io.Reader
 import java.net.HttpURLConnection
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -33,6 +34,7 @@ object CloseResourceUtil {
     }
 
     fun disconnect(urlConnection: HttpURLConnection?) {
+        Log.d("CloseResourceUtil", "disconnect() called")
         if (urlConnection != null) {
             urlConnection.disconnect()
         }

@@ -272,7 +272,13 @@ class IMediaController : MediaController {
         }
     }
 
-    private fun installPrevNextListeners() {
+    private             /**
+             * Brief description for installPrevNextListeners.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun installPrevNextListeners() {
         if (mNextButton != null) {
             mNextButton!!.setOnClickListener(mNextListener)
             mNextButton!!.setEnabled(mNextListener != null)
@@ -289,7 +295,13 @@ class IMediaController : MediaController {
         }
     }
 
-    fun setPrevNextListeners(
+        /**
+     * Brief description for setPrevNextListeners.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun setPrevNextListeners(
         next: OnClickListener?,
         prev: OnClickListener?,
         fullScreen: OnClickListener?
