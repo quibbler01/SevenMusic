@@ -41,6 +41,7 @@ class MyAlbumListViewAdapter(context: Context, resource: Int, objects: MutableLi
               * @return the result of the operation
               */
 fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    Log.d("MyAlbumListView", "getView() called")
         var convertView = convertView
         var viewHolder: ViewHolder? = null
         if (convertView == null) {
