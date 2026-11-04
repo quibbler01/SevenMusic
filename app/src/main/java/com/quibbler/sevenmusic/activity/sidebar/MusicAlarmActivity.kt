@@ -441,6 +441,7 @@ class MusicAlarmActivity : BaseActivity(), View.OnClickListener,
          * @return
          */
         fun parseRepeat(repeat: Int, flag: Int): String {
+            Log.d("MusicAlarm", "parseRepeat() called")
             var repeat = repeat
             var cycle = ""
             var weeks = ""

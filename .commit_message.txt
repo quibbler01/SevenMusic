@@ -1,3 +1,3 @@
-refactor: improve code readability in add debug logging in MyAlbumListViewAdapter.kt
+perf: improve collection operations in add improvement notes in SearchMainActivity.kt
 
-- README.md
+- add debug logging in MusicAlarmActivity.kt

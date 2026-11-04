@@ -70,6 +70,7 @@ import java.util.concurrent.CountDownLatch
  * CreateDate:     2019/9/28 19:40
  */
 class SearchMainActivity : AppCompatActivity() {
+ // TODO: Review memory usage and optimize if needed
     private val mSearchHistoryContainer = StringBuilder()
 
     private var mSearchSongBeanList: MutableList<SearchSongBean.Song?>? = null
