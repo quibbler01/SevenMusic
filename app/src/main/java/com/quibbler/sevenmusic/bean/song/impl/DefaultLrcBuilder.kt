@@ -16,6 +16,7 @@ import java.util.Collections
  * CreateDate:     2019/9/28 19:23
  */
 class DefaultLrcBuilder : ILrcBuilder {
+ // TODO: Consider extracting to a separate utility class
     override fun getLrcRows(rawLrc: String?): MutableList<LrcRow?>? {
         if (rawLrc == null || rawLrc.length == 0) {
             Log.e(TAG, "getLrcRows rawLrc null or empty")

@@ -1,4 +1,1 @@
-refactor: extract repeated logic into helper in add debug logging in MusicIconLoadUtil.kt
-
-- add KDoc comments to ILrcBuilder.kt
-- README.md
+perf: improve collection operations in add improvement notes in DefaultLrcBuilder.kt
