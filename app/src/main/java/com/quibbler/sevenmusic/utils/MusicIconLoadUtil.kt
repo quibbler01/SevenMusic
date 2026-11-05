@@ -20,6 +20,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -229,6 +230,7 @@ class MusicIconLoadUtil(mContext: Context) {
 
             MusicThreadPool.postRunnable(object : Runnable {
                 override fun run() {
+                             Log.d("MusicIconLoadUtil", "run() called")
                     //先解析歌曲详细详细
                     var connection: HttpURLConnection? = null
                     var inputStream: InputStream? = null

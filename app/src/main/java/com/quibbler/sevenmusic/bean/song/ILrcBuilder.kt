@@ -12,5 +12,11 @@ import android.util.Log
  * CreateDate:     2019/9/28 14:50
  */
 interface ILrcBuilder {
-    fun getLrcRows(rawLrc: String?): MutableList<LrcRow?>?
+        /**
+     * Brief description for getLrcRows.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun getLrcRows(rawLrc: String?): MutableList<LrcRow?>?
 }
