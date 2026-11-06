@@ -33,6 +33,7 @@ import java.io.IOException
 import java.lang.ref.WeakReference
 import java.util.Timer
 import java.util.TimerTask
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.activity
@@ -312,6 +313,7 @@ class LockScreenActivity : AppCompatActivity(), ScrollScreenInterface {
 
     //仅仅为了获取歌曲的总长度
     private fun initPlayerDuration() {
+                Log.d("LockScreen", "initPlayerDuration() called")
         try {
             mMediaPlayer = MediaPlayer()
             mMediaPlayer!!.setDataSource(MUSIC_PLAY_URL + mMvMusicInfo!!.getId() + ".mp3")

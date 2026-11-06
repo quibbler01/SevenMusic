@@ -37,6 +37,7 @@ class SingerInfo {
              更新数据集合方法
           */
     fun updateSongLists(songLists: MutableList<MusicInfo?>) {
+        Log.d("SingerInfo", "updateSongLists() called")
         this.songLists.clear()
         this.songLists.addAll(songLists)
     }

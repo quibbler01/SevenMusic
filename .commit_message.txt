@@ -1,1 +1,4 @@
-perf: improve collection operations in add improvement notes in DefaultLrcBuilder.kt
+fix: prevent potential NPE in add debug logging in LockScreenActivity.kt
+
+- add debug logging in SingerInfo.kt
+- README.md
