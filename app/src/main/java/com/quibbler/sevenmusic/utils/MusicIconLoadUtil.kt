@@ -219,7 +219,13 @@ class MusicIconLoadUtil(mContext: Context) {
             })
         }
 
-        fun getMusicIcon(musicID: String?) {
+                /**
+         * Brief description for getMusicIcon.
+         *
+         * @param context the operating context
+         * @return the result of the operation
+         */
+fun getMusicIcon(musicID: String?) {
             if (musicID == null || "" == musicID) {
                 return
             }
@@ -229,7 +235,13 @@ class MusicIconLoadUtil(mContext: Context) {
             }
 
             MusicThreadPool.postRunnable(object : Runnable {
-                override fun run() {
+                override                          /**
+                          * Brief description for run.
+                          *
+                          * @param context the operating context
+                          * @return the result of the operation
+                          */
+fun run() {
                              Log.d("MusicIconLoadUtil", "run() called")
                     //先解析歌曲详细详细
                     var connection: HttpURLConnection? = null

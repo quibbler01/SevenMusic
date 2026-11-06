@@ -1,4 +1,1 @@
-fix: prevent potential NPE in add debug logging in LockScreenActivity.kt
-
-- add debug logging in SingerInfo.kt
-- README.md
+fix: handle boundary conditions in add KDoc comments to MusicIconLoadUtil.kt
