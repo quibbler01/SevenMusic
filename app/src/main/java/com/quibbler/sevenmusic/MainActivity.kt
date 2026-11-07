@@ -798,6 +798,7 @@ fun onRequestPermissionsResult(
         permissions: Array<String?>,
         grantResults: IntArray
     ) {
+    Log.d("Main", "onRequestPermissionsResult() called")
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             when (requestCode) {

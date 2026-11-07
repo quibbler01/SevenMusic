@@ -18,6 +18,7 @@ import com.quibbler.sevenmusic.activity.my.MyRecentlyPlayedMusicActivity
  * CreateDate:     2019/9/17 15:19
  */
 class MyListener : View.OnClickListener {
+ // TODO: Migrate to ViewBinding when feasible
     override fun onClick(v: View) {
         val intent: Intent?
         if (v.getId() == R.id.my_local_music_icon) {
