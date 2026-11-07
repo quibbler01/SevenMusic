@@ -1,4 +1,3 @@
-refactor: improve code readability in add improvement notes in MyListener.kt
+fix: prevent potential NPE in add improvement notes in ColorFilterTransformation.kt
 
-- add debug logging in MainActivity.kt
-- README.md
+- add debug logging in UpdateProgressBarReceiver.kt

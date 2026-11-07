@@ -18,6 +18,7 @@ import java.security.MessageDigest
  * CreateDate:     2019/10/10 10:36
  */
 class ColorFilterTransformation(color: Int) : BitmapTransformation() {
+ // TODO: Migrate to ViewBinding when feasible
     private val mColor: Int
 
     init {

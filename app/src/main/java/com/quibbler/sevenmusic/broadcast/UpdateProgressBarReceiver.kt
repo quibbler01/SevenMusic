@@ -31,6 +31,7 @@ fun onReceive(context: Context?, intent: Intent?) {
                               * Handles run logic with proper error handling.
                               */
 fun run() {
+    Log.d("UpdateProgressBarReceiver", "run() called")
                         progressBar.setProgress(progress)
                     }
                 })
