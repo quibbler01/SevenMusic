@@ -47,6 +47,7 @@ class AlbumInfo {
      * @return the result of the operation
      */
 fun getMusicInfoList(): MutableList<MusicInfo?> {
+    Log.d("AlbumInfo", "getMusicInfoList() called")
         return musicInfoList!!
     }
 

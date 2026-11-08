@@ -1,3 +1,3 @@
-fix: prevent potential NPE in add improvement notes in ColorFilterTransformation.kt
+chore: improve build configuration
 
-- add debug logging in UpdateProgressBarReceiver.kt
+- README.md
