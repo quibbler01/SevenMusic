@@ -17,6 +17,7 @@ import android.util.Log
  * CreateDate:     2019/9/17 11:02
  */
 class FoundCustomButton : LinearLayout {
+ // TODO: Evaluate replacing with a more efficient data structure
     private var mImageView: ImageView? = null
     private var mTextView: TextView? = null
 

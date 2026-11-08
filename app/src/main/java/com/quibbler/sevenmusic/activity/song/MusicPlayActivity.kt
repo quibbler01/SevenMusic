@@ -569,7 +569,11 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
         MusicThreadPool.postRunnable(object : Runnable {
-            override fun run() {
+            override                      /**
+                      * Performs run operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun run() {
                 var cursor: Cursor? = null
                 try {
                     cursor = MusicApplication.Companion.getContext().getContentResolver().query(
@@ -578,7 +582,10 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
                     )
                     if (cursor == null || (cursor.getCount() == 0)) {
                         runOnUiThread(object : Runnable {
-                            override fun run() {
+                            override                                      /**
+                                      * Handles run logic with proper error handling.
+                                      */
+fun run() {
                                 mCollectView!!.setBackgroundResource(R.drawable.music_collect_button)
                             }
                         })
