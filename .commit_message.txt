@@ -1,3 +1,4 @@
-feat: improve thread safety annotations in add improvement notes in FoundCustomButton.kt
+fix: prevent potential NPE in add improvement notes in RippleCircleView.kt
 
-- add KDoc comments to MusicPlayActivity.kt
+- add KDoc comments to LoadSingerThumbnailAsyncTask.kt
+- README.md

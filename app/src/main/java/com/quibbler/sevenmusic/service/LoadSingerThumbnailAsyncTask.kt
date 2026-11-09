@@ -61,7 +61,13 @@ class LoadSingerThumbnailAsyncTask : AsyncTask<Any?, Void?, Bitmap?> {
         return bitmap
     }
 
-    override fun onPostExecute(bitmap: Bitmap?) {
+    override              /**
+              * Brief description for onPostExecute.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onPostExecute(bitmap: Bitmap?) {
         if (bitmap == null) {
             return
         }
@@ -72,7 +78,11 @@ class LoadSingerThumbnailAsyncTask : AsyncTask<Any?, Void?, Bitmap?> {
     }
 
     companion object {
-        fun getSingerCoverUrl(name: String?): String? {
+                /**
+         * Performs getSingerCoverUrl operation.
+         * This method ensures safe execution with null checks.
+         */
+fun getSingerCoverUrl(name: String?): String? {
             var httpURLConnection: HttpURLConnection? = null
             var inputStream: InputStream? = null
             var reader: BufferedReader? = null

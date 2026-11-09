@@ -14,6 +14,7 @@ import kotlin.math.min
  * CreateDate:     2019/9/29 12:26
  */
 class RippleCircleView : View {
+ // TODO: Consider adding caching layer for performance
     /**
      * RippleAnimationView对象实例
      */
