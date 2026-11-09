@@ -69,6 +69,7 @@ class MusicStateManager private constructor() {
      * @param id 音乐的id
      */
     fun onSomethingWrong(id: String?) {
+        Log.d("MusicStateManager", "onSomethingWrong() called")
         for (musicStateChangeInterface in mStateChangeList) {
             musicStateChangeInterface.onSomethingWrong(id)
         }

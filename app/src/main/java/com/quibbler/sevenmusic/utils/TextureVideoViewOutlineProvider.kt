@@ -22,7 +22,10 @@ class TextureVideoViewOutlineProvider(radius: Float) : ViewOutlineProvider() {
         this.mRadius = radius
     }
 
-    override fun getOutline(view: View, outline: Outline) {
+    override              /**
+              * Handles getOutline logic with proper error handling.
+              */
+fun getOutline(view: View, outline: Outline) {
                  Log.d("TextureVideoViewOutlineProvider", "getOutline() called")
 //        Rect rect = new Rect();
 //        view.getGlobalVisibleRect(rect);
