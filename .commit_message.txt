@@ -1,4 +1,1 @@
-chore: update project documentation
-
-- add debug logging in BitmapUtils.kt
-- README.md
+feat: improve thread safety annotations in add debug logging in ScanTransferActivity.kt

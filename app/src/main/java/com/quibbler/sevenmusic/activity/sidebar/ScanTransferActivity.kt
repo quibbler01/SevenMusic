@@ -66,6 +66,7 @@ class ScanTransferActivity : AppCompatActivity() {
     }
 
     override fun finish() {
+                 Log.d("ScanTransfer", "finish() called")
         super.finish()
     }
 
