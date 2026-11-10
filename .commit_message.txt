@@ -1,3 +1,4 @@
 chore: update project documentation
 
-- add debug logging in MusicStateManager.kt
+- add debug logging in BitmapUtils.kt
+- README.md

@@ -114,6 +114,7 @@ class LockScreenLyricFragment : Fragment() {
                 val timePassed = MusicPlayerService.Companion.getPlayProgress().toLong()
                 getActivity()!!.runOnUiThread(object : Runnable {
                     override fun run() {
+                                 Log.d("LockScreenLyric", "run() called")
                         //滚动歌词
                         mLrcView!!.seekLrcToTime(timePassed, false)
                     }

@@ -92,6 +92,7 @@ object BitmapUtils {
      * @return the result of the operation
      */
 fun decodeLowQualityBitmap(inputStream: InputStream, reqWidth: Int, reqHeight: Int): Bitmap? {
+    Log.d("BitmapUtils", "decodeLowQualityBitmap() called")
         val output = ByteArrayOutputStream()
         val buffer = ByteArray(4096)
         var n = 0
