@@ -20,6 +20,7 @@ import com.quibbler.sevenmusic.interfaces.ScrollScreenInterface
  * CreateDate:     2019/9/27 14:19
  */
 class LockScreenUnderView : LinearLayout {
+ // TODO: Review memory usage and optimize if needed
     private val TAG = "LockScreenUnderView"
 
     //滑动操作起始x坐标

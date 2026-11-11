@@ -58,6 +58,7 @@ class MySongListDetailActivity : AppCompatActivity() {
     }
 
     fun initView() {
+        Log.d("MySongListDetail", "initView() called")
         val actionBar = getSupportActionBar()
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
