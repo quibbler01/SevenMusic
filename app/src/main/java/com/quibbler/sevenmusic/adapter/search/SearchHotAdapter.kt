@@ -32,7 +32,13 @@ class SearchHotAdapter(context: Context, resource: Int, objects: MutableList<Hot
         this.mLists = objects
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+    override              /**
+              * Brief description for getView.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                  Log.d("SearchHot", "getView() called")
         var convertView = convertView
         var viewHolder: ViewHolder? = null

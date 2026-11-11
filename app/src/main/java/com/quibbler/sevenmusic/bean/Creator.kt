@@ -8,6 +8,7 @@ package com.quibbler.sevenmusic.bean
  * CreateDate:     2019/9/24 11:23
  */
 class Creator {
+ // TODO: Evaluate replacing with a more efficient data structure
     val userId: String? = null
     val nickname: String? = null
 }

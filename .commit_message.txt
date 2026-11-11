@@ -1,1 +1,4 @@
-feat: improve thread safety annotations in add debug logging in ScanTransferActivity.kt
+feat: enhance error logging in add KDoc comments to SearchHotAdapter.kt
+
+- add improvement notes in Creator.kt
+- README.md
