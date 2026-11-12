@@ -18,6 +18,7 @@ class MySongListInfo : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
+                 Log.d("MySongListInfo", "writeToParcel() called")
         dest.writeString(listName)
         dest.writeString(description)
         dest.writeInt(type)
