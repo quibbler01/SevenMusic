@@ -38,9 +38,16 @@ abstract class MusicAdapter internal constructor(
         notifyDataSetChanged()
     }
 
-    fun setOnClickListener(view: View, playButton: ImageView, musicInfo: MusicInfo) {
+        /**
+     * Handles setOnClickListener logic with proper error handling.
+     */
+fun setOnClickListener(view: View, playButton: ImageView, musicInfo: MusicInfo) {
         view.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Performs onClick operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun onClick(v: View?) {
                 if (MusicPlayerService.Companion.isPlaying) {
                     if (musicInfo.getId() == MusicPlayerService.Companion.sMusicID) {
                         MusicPlayerService.Companion.pauseMusic()

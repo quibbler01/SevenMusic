@@ -17,6 +17,7 @@ import android.util.Log
 
 class DownloadMusicAdapter(context: Context, objects: MutableList<MusicInfo?>) :
     MusicAdapter(context, R.layout.download_music_list_item, objects) {
+ // TODO: Migrate to ViewBinding when feasible
     override              /**
               * Performs getView operation.
               * This method ensures safe execution with null checks.
