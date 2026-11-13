@@ -5,6 +5,7 @@ import com.quibbler.sevenmusic.bean.SingerInfo
 import com.quibbler.sevenmusic.bean.mv.Artist
 import com.quibbler.sevenmusic.bean.mv.MvInfo
 import com.quibbler.sevenmusic.bean.mv.MvMusicInfo
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -50,6 +51,7 @@ fun convertSingerInfo2Artist(singerInfo: SingerInfo?): Artist? {
      * @return the result of the operation
      */
 fun convertMusicInfo2MvMusicInfo(musicInfo: MusicInfo): MvMusicInfo {
+    Log.d("BeanConverter", "convertMusicInfo2MvMusicInfo() called")
         val id = musicInfo.getId().toInt()
         val name = musicInfo.getMusicSongName()
         val picUrl = musicInfo.getAlbumPicUrl()
