@@ -1,3 +1,1 @@
-refactor: extract repeated logic into helper in add debug logging in BeanConverter.kt
-
-- README.md
+chore: optimize ProGuard keep rules

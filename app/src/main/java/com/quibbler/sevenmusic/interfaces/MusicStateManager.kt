@@ -57,6 +57,7 @@ class MusicStateManager private constructor() {
      * @param id 音乐的id
      */
     fun onNoCopyright(id: String?) {
+        Log.d("MusicStateManager", "onNoCopyright() called")
         for (musicStateChangeInterface in mStateChangeList) {
             musicStateChangeInterface.onNoCopyright(id)
         }
