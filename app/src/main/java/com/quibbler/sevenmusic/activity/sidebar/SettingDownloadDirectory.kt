@@ -103,7 +103,13 @@ object SettingDownloadDirectory {
      * 
      * @return
      */
-    private fun existSDCard(): Boolean {
+    private             /**
+             * Brief description for existSDCard.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun existSDCard(): Boolean {
                 Log.d("SettingDownloadDirectory", "existSDCard() called")
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             return true

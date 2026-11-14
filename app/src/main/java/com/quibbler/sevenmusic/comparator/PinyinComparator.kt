@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.comparator
 import com.quibbler.sevenmusic.bean.jsonbean.found.FoundSingerInfo
 import okhttp3.Response.code
 import java.util.Locale
+import android.util.Log
 
 class PinyinComparator : Comparator<FoundSingerInfo?> {
     override              /**
@@ -17,6 +18,7 @@ fun compare(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
              * Handles sort logic with proper error handling.
              */
 fun sort(leftSinger: FoundSingerInfo?, rightSinger: FoundSingerInfo?): Int {
+    Log.d("PinyinComparator", "sort() called")
         if (leftSinger == null) {
             if (rightSinger == null) {
                 return 0
