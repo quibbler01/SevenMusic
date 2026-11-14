@@ -1,1 +1,3 @@
 chore: optimize ProGuard keep rules
+
+- README.md

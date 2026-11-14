@@ -13,6 +13,7 @@ import java.io.Serializable
  * CreateDate:     2019/9/19 21:44
  */
 class Artist : Serializable {
+ // TODO: Consider extracting to a separate utility class
     //歌手id
     @SerializedName("id")
     var id: Int = 0
