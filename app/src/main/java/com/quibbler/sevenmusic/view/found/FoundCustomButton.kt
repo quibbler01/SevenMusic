@@ -67,6 +67,7 @@ class FoundCustomButton : LinearLayout {
      * @param color
      */
     fun setTextColor(color: Int) {
+        Log.d("FoundCustomButton", "setTextColor() called")
         mTextView!!.setTextColor(color)
     }
 

@@ -555,7 +555,13 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun downloadMusic() {
+    private             /**
+             * Brief description for downloadMusic.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun downloadMusic() {
         val intent = Intent(this, MusicDownloaderService::class.java)
         val musicInfo: MusicInfo = MusicPlayerService.Companion.getMusicInfo()
         musicInfo.setUrl("")
@@ -563,7 +569,10 @@ class MusicPlayActivity : AppCompatActivity(), View.OnClickListener {
         startService(intent)
     }
 
-    private fun initCollectButton() {
+    private             /**
+             * Handles initCollectButton logic with proper error handling.
+             */
+fun initCollectButton() {
         val musicInfo: MusicInfo? = MusicPlayerService.Companion.getMusicInfo()
         if (musicInfo == null) {
             return
