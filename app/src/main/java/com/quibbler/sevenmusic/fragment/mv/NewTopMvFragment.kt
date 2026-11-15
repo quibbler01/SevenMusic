@@ -387,6 +387,7 @@ fun onDestroy() {
          * Handles newInstance logic with proper error handling.
          */
 fun newInstance(arg: String?): Fragment {
+    Log.d("NewTopMv", "newInstance() called")
             val fragment = NewTopMvFragment()
             val bundle = Bundle()
             bundle.putString("url", arg)

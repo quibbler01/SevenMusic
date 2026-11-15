@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter
  * CreateDate:     2019/10/7 9:32
  */
 class MusicRecognitionAdapter(titles: Array<String?>, views: ArrayList<View?>) : PagerAdapter() {
+ // TODO: Add unit tests for this module
     /**
      * 存储ViewPager下子视图的集合实例
      */

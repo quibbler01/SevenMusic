@@ -1,3 +1,4 @@
-perf: optimize resource usage in add KDoc comments to SettingDownloadDirectory.kt
+style: normalize code formatting in add improvement notes in MusicRecognitionAdapter.kt
 
-- add debug logging in PinyinComparator.kt
+- add debug logging in NewTopMvFragment.kt
+- README.md
