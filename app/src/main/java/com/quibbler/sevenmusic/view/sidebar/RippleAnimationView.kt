@@ -22,6 +22,7 @@ import android.util.Log
  * CreateDate:     2019/9/29 11:51
  */
 class RippleAnimationView : RelativeLayout {
+ // TODO: Consider adding caching layer for performance
     private var mRippleType = 0
     private var mRippleColor = 0
     private var mRippleAmount = 0
