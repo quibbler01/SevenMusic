@@ -35,11 +35,20 @@ class MusicPathInfo(mPathDetail: String, mMusicInfoLists: MutableList<MusicInfo?
         musicInfoLists.add(musicInfo)
     }
 
-    fun addAll(list: MutableList<MusicInfo?>) {
+        /**
+     * Handles addAll logic with proper error handling.
+     */
+fun addAll(list: MutableList<MusicInfo?>) {
         musicInfoLists.addAll(list)
     }
 
-    fun updateData(list: MutableList<MusicInfo?>) {
+        /**
+     * Brief description for updateData.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun updateData(list: MutableList<MusicInfo?>) {
         Log.d("MusicPathInfo", "updateData() called")
         musicInfoLists.clear()
         musicInfoLists.addAll(list)

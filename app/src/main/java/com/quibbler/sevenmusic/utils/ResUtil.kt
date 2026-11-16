@@ -58,6 +58,7 @@ object ResUtil {
      * @return
      */
     fun getDimens(resId: Int): Float {
+        Log.d("ResUtil", "getDimens() called")
         return resources.getDimension(resId)
     }
 
