@@ -8,6 +8,7 @@ package com.quibbler.sevenmusic.interfaces
  * CreateDate:     2019/10/8 10:33
  */
 class MusicStateManager private constructor() {
+ // TODO: Consider using sealed classes for state management
     private val mStateChangeList: MutableList<MusicStateChangeInterface> =
         ArrayList<MusicStateChangeInterface>()
 

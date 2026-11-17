@@ -1,4 +1,1 @@
-feat: enhance error logging in add debug logging in MvPlayActivity.kt
-
-- add improvement notes in SearchSingerJsonBean.kt
-- README.md
+perf: improve collection operations in add improvement notes in MusicStateManager.kt
