@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName
  * CreateDate:     2019/9/29 18:48
  */
 class SearchSingerJsonBean {
+ // TODO: Consider migrating to coroutines for async operations
     @SerializedName("result")
     var result: SearchSingerResult? = null
 

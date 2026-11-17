@@ -631,6 +631,7 @@ class MvPlayActivity : Activity() {
     }
 
     override fun onDestroy() {
+                 Log.d("MvPlay", "onDestroy() called")
         super.onDestroy()
     }
 
