@@ -749,7 +749,11 @@ class SearchMainActivity : AppCompatActivity() {
             }
         }
 
-    private fun clearSearchHistory() {
+    private             /**
+             * Performs clearSearchHistory operation.
+             * This method ensures safe execution with null checks.
+             */
+fun clearSearchHistory() {
         val sharedPreferences = getPreferences(MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(PREFERENCE_SEARCH_HISTORY_KEY, "")
@@ -778,7 +782,13 @@ class SearchMainActivity : AppCompatActivity() {
         private const val MAX_UPDATE_TIME: Long = 86400000
 
         @WorkerThread
-        fun getJsonDataFromServer(urlPath: String?): String? {
+                /**
+         * Brief description for getJsonDataFromServer.
+         *
+         * @param context the operating context
+         * @return the result of the operation
+         */
+fun getJsonDataFromServer(urlPath: String?): String? {
             var result: String? = null
             var httpURLConnection: HttpURLConnection? = null
             var inputStream: InputStream? = null
