@@ -1,1 +1,3 @@
-perf: improve collection operations in add improvement notes in MusicStateManager.kt
+refactor: reduce code duplication in add improvement notes in MyFavouriteMusicActivity.kt
+
+- README.md

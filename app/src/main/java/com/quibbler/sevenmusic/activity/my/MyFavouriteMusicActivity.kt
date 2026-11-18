@@ -31,6 +31,7 @@ import com.quibbler.sevenmusic.utils.MusicThreadPool
  * CreateDate:     2019/09/26 09:21
  */
 class MyFavouriteMusicActivity : AppCompatActivity(), View.OnClickListener {
+ // TODO: Consider adding caching layer for performance
     private val mFavouriteMusicLists: MutableList<MusicInfo?> = ArrayList<MusicInfo?>()
     private var mAdapter: FavouriteMusicAdapter? = null
     private var mFavouriteMusicListView: ListView? = null
