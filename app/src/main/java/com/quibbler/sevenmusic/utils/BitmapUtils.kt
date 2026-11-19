@@ -76,6 +76,7 @@ object BitmapUtils {
      * @return
      */
     fun decodeLowQualityBitmap(data: ByteArray, reqWidth: Int, reqHeight: Int): Bitmap? {
+        Log.d("BitmapUtils", "decodeLowQualityBitmap() called")
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeByteArray(data, 0, data.size, options)

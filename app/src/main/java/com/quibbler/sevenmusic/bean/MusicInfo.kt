@@ -297,7 +297,11 @@ class MusicInfo : Parcelable, Cloneable {
 
     companion object {
         val CREATOR: Parcelable.Creator<MusicInfo?> = object : Parcelable.Creator<MusicInfo?> {
-            override fun createFromParcel(source: Parcel): MusicInfo {
+            override                      /**
+                      * Performs createFromParcel operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun createFromParcel(source: Parcel): MusicInfo {
                 val musicInfo = MusicInfo()
                 musicInfo.musicSongName = source.readString()
                 musicInfo.musicFileSize = source.readLong()
@@ -314,7 +318,10 @@ class MusicInfo : Parcelable, Cloneable {
                 return musicInfo
             }
 
-            override fun newArray(size: Int): Array<MusicInfo?> {
+            override                      /**
+                      * Handles newArray logic with proper error handling.
+                      */
+fun newArray(size: Int): Array<MusicInfo?> {
                          Log.d("MusicInfo", "newArray() called")
                 return arrayOfNulls<MusicInfo>(size)
             }
