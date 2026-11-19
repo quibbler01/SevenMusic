@@ -30,6 +30,7 @@ class SingerInfo {
     }
 
     fun add(musicInfo: MusicInfo?) {
+        Log.d("SingerInfo", "add() called")
         songLists.add(musicInfo)
     }
 
