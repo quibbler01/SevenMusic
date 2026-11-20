@@ -1,4 +1,1 @@
-fix: prevent potential NPE in add improvement notes in UpdateProgressBarReceiver.kt
-
-- add debug logging in MusicRecognitionAdapter.kt
-- README.md
+perf: optimize resource usage in add debug logging in BitmapUtils.kt

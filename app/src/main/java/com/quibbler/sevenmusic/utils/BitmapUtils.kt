@@ -30,6 +30,7 @@ object BitmapUtils {
      * @return 处理后的bitmap
      */
     fun makeRoundCorner(bitmap: Bitmap): Bitmap {
+        Log.d("BitmapUtils", "makeRoundCorner() called")
         val width = bitmap.getWidth()
         val height = bitmap.getHeight()
         var left = 0
