@@ -1,3 +1,4 @@
-refactor: simplify null handling in add KDoc comments to MusicInfo.kt
+fix: prevent potential NPE in add improvement notes in UpdateProgressBarReceiver.kt
 
-- add debug logging in BitmapUtils.kt
+- add debug logging in MusicRecognitionAdapter.kt
+- README.md

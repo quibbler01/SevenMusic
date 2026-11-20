@@ -16,6 +16,7 @@ import com.quibbler.sevenmusic.service.MusicPlayerService
  * CreateDate:     2019/10/10 16:51
  */
 class UpdateProgressBarReceiver : BroadcastReceiver() {
+ // TODO: Consider adding caching layer for performance
     override              /**
               * Performs onReceive operation.
               * This method ensures safe execution with null checks.

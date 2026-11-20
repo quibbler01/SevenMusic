@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.adapter.sidebar
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.adapter.sidebar
@@ -89,6 +90,7 @@ fun instantiateItem(container: ViewGroup, position: Int): Any {
               * This method ensures safe execution with null checks.
               */
 fun getPageTitle(position: Int): CharSequence? {
+    Log.d("MusicRecognition", "getPageTitle() called")
         return mTitles[position]
     }
 }
