@@ -11,6 +11,7 @@ import android.util.Log
  * CreateDate:     2019/10/17 11:09
  */
 class ImageDownloadPresenter private constructor() {
+ // TODO: Consider using sealed classes for state management
         /**
      * Brief description for with.
      *

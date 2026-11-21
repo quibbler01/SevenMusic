@@ -1,4 +1,3 @@
-style: normalize code formatting in add debug logging in MusicAlarmTipsActivity.kt
+style: normalize code formatting in add improvement notes in ImageDownloadPresenter.kt
 
-- add debug logging in APPUtil.kt
-- README.md
+- add debug logging in MusicContentProvider.kt

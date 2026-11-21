@@ -8,6 +8,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.quibbler.sevenmusic.MusicApplication
 import com.quibbler.sevenmusic.utils.MusicDatabaseHelper
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.contentprovider
@@ -436,6 +437,7 @@ fun update(
         selection: String?,
         selectionArgs: Array<String?>?
     ): Int {
+    Log.d("MusicContentProvider", "update() called")
         val db = mDBHelper!!.getWritableDatabase()
         var updateRows = 0
         when (mUriMatcher.match(uri)) {
