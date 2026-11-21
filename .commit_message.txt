@@ -1,1 +1,4 @@
-perf: optimize resource usage in add debug logging in BitmapUtils.kt
+style: normalize code formatting in add debug logging in MusicAlarmTipsActivity.kt
+
+- add debug logging in APPUtil.kt
+- README.md

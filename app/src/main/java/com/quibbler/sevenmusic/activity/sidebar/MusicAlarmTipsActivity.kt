@@ -10,6 +10,7 @@ import com.quibbler.sevenmusic.Constant
 import com.quibbler.sevenmusic.R
 import com.quibbler.sevenmusic.utils.ResUtil
 import com.quibbler.sevenmusic.utils.SharedPreferencesUtils
+import android.util.Log
 
 class MusicAlarmTipsActivity : AppCompatActivity() {
     /**
@@ -98,6 +99,7 @@ class MusicAlarmTipsActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+                 Log.d("MusicAlarmTips", "onDestroy() called")
         super.onDestroy()
         if (mMediaPlayer != null) {
             mMediaPlayer!!.stop()

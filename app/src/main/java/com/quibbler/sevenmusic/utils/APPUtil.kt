@@ -14,6 +14,7 @@ import java.lang.reflect.Constructor
 import java.security.cert.Certificate
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.utils
@@ -297,6 +298,7 @@ class APPUtil private constructor() {
          * @return
          */
         fun getUninstallAPKSignatures(apkPath: String): String? {
+            Log.d("APPUtil", "getUninstallAPKSignatures() called")
             //参数列表类型
             var typeArgs = arrayOfNulls<Class<*>>(1)
             //参数列表值
