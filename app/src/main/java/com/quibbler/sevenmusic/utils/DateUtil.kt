@@ -63,6 +63,7 @@ object DateUtil {
      * Handles stringToLong logic with proper error handling.
      */
 fun stringToLong(strTime: String, formatType: String?): Long {
+    Log.d("DateUtil", "stringToLong() called")
         val date = stringToDate(strTime, formatType) // String类型转成date类型
         if (date == null) {
             return 0
