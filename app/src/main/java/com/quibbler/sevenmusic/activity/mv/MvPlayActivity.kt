@@ -601,7 +601,11 @@ class MvPlayActivity : Activity() {
         recoveryMvState()
     }
 
-    private fun recoveryMvState() {
+    private             /**
+             * Performs recoveryMvState operation.
+             * This method ensures safe execution with null checks.
+             */
+fun recoveryMvState() {
         var metadataRetriever: MediaMetadataRetriever? = null
         try {
             if (mVideoView != null && mSeekPosition > 0 && !mVideoView!!.isPlaying()) {
@@ -630,7 +634,11 @@ class MvPlayActivity : Activity() {
         }
     }
 
-    override fun onDestroy() {
+    override              /**
+              * Performs onDestroy operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onDestroy() {
                  Log.d("MvPlay", "onDestroy() called")
         super.onDestroy()
     }

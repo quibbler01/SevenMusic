@@ -48,6 +48,7 @@ object ResUtil {
      * @return
      */
     fun getColor(resId: Int): Int {
+        Log.d("ResUtil", "getColor() called")
         return ContextCompat.getColor(MusicApplication.Companion.getContext(), resId)
     }
 
