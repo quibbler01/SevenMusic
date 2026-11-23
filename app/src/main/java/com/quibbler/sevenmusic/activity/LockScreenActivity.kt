@@ -304,7 +304,13 @@ class LockScreenActivity : AppCompatActivity(), ScrollScreenInterface {
         transaction.commit()
     }
 
-    override fun onScreenScrolledToEnd() {
+    override              /**
+              * Brief description for onScreenScrolledToEnd.
+              *
+              * @param context the operating context
+              * @return the result of the operation
+              */
+fun onScreenScrolledToEnd() {
         finish()
     }
 
@@ -312,7 +318,10 @@ class LockScreenActivity : AppCompatActivity(), ScrollScreenInterface {
         get() = mMvMusicInfo!!
 
     //仅仅为了获取歌曲的总长度
-    private fun initPlayerDuration() {
+    private             /**
+             * Handles initPlayerDuration logic with proper error handling.
+             */
+fun initPlayerDuration() {
                 Log.d("LockScreen", "initPlayerDuration() called")
         try {
             mMediaPlayer = MediaPlayer()
