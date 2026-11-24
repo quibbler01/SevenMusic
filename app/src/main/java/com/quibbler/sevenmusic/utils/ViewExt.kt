@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.utils
 
 import android.view.View
+import android.util.Log
 
 /**
  * Extension functions for Android View classes.
@@ -43,6 +44,7 @@ fun View?.safeAction(action: View.() -> Unit) {
  * @param action the click action to perform
  */
 fun View.setDebouncedOnClickListener(delayMs: Long = 500, action: (View) -> Unit) {
+    Log.d("ViewExt", "View() called")
     var lastClickTime = 0L
     setOnClickListener { v ->
         val now = System.currentTimeMillis()

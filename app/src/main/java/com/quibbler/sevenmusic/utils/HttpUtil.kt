@@ -150,6 +150,7 @@ object HttpUtil {
                 }
                 handler.post(object : Runnable {
                     override fun run() {
+                                 Log.d("HttpUtil", "run() called")
                         callback.onResponse(bitmap)
                     }
                 })
