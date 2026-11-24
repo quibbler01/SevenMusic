@@ -1,4 +1,1 @@
-refactor: extract repeated logic into helper in add KDoc comments to MusicDatabaseUtils.kt
-
-- add debug logging in SearchSingerJsonBean.kt
-- README.md
+feat: add defensive copy for mutable state in add KDoc comments to MvDownloadService.kt

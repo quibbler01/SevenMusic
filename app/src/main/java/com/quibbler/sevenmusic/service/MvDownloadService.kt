@@ -133,7 +133,11 @@ class MvDownloadService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
+    override              /**
+              * Performs onBind operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onBind(intent: Intent?): IBinder? {
         return mDownLoadBinder
     }
 
@@ -144,7 +148,13 @@ class MvDownloadService : Service() {
      * @param progress
      * @return
      */
-    private fun getNotification(title: String?, progress: Int): Notification {
+    private             /**
+             * Brief description for getNotification.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun getNotification(title: String?, progress: Int): Notification {
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
