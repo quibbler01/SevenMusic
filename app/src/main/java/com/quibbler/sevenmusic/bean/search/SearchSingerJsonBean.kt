@@ -1,6 +1,7 @@
 package com.quibbler.sevenmusic.bean.search
 
 import com.google.gson.annotations.SerializedName
+import android.util.Log
 
 /**
  * Package:        com.quibbler.sevenmusic.bean.search

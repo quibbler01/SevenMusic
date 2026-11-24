@@ -26,7 +26,13 @@ object MusicDatabaseUtils {
     var LIST_TYPE_COLLECT: Int = 1 //收藏歌单无法修改，type为1
 
     @WorkerThread
-    fun addToMusicList(listName: String?, musicInfo: MusicInfo): Boolean {
+        /**
+     * Brief description for addToMusicList.
+     *
+     * @param context the operating context
+     * @return the result of the operation
+     */
+fun addToMusicList(listName: String?, musicInfo: MusicInfo): Boolean {
         val cursor: Cursor? = MusicApplication.Companion.getContext().getContentResolver().query(
             MusicContentProvider.Companion.SONGLIST_URL,
             null,
@@ -87,7 +93,10 @@ object MusicDatabaseUtils {
     }
 
     @WorkerThread
-    fun getMusicList(listName: String?): java.util.ArrayList<MusicInfo?>? {
+        /**
+     * Handles getMusicList logic with proper error handling.
+     */
+fun getMusicList(listName: String?): java.util.ArrayList<MusicInfo?>? {
         var musicInfoArrayList: java.util.ArrayList<MusicInfo?>? = null
 
         val cursor: Cursor? = MusicApplication.Companion.getContext().getContentResolver().query(

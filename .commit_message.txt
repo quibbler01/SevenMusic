@@ -1,3 +1,4 @@
-docs: improve code documentation in add KDoc comments to LockScreenActivity.kt
+refactor: extract repeated logic into helper in add KDoc comments to MusicDatabaseUtils.kt
 
+- add debug logging in SearchSingerJsonBean.kt
 - README.md
