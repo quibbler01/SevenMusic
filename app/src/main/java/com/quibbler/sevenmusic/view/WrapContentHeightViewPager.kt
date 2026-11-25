@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.view
 import android.content.Context
 import android.util.AttributeSet
 import androidx.viewpager.widget.ViewPager
+import android.util.Log
 
 /**
  * 
@@ -19,6 +20,7 @@ class WrapContentHeightViewPager : ViewPager {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+                 Log.d("WrapContentHeightViewPager", "onMeasure() called")
         var heightMeasureSpec = heightMeasureSpec
         var height = 0
         //下面遍历所有child的高度
