@@ -13,6 +13,7 @@ import android.util.Log
  * CreateDate:     2019/9/26 15:52
  */
 class MusicPlayCompletionBroadcastReceiver : BroadcastReceiver() {
+ // TODO: Migrate to ViewBinding when feasible
     override              /**
               * Brief description for onReceive.
               *

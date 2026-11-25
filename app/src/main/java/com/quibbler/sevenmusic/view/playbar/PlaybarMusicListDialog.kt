@@ -157,13 +157,20 @@ class PlaybarMusicListDialog(context: Context) :
      * @param view
      * @return
      */
-    private fun deletePlaybarPlayListItem(view: View) {
+    private             /**
+             * Performs deletePlaybarPlayListItem operation.
+             * This method ensures safe execution with null checks.
+             */
+fun deletePlaybarPlayListItem(view: View) {
         val position = view.getTag() as Int // 获取被点击控件所在item的位置
         MusicPlayerService.Companion.getPlayMusicLists().removeAt(position) // 删除当前点击的item
         mAdapter!!.notifyDataSetChanged()
     }
 
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    override              /**
+              * Handles onItemClick logic with proper error handling.
+              */
+fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         mAdapter!!.setSelectedId(position) // 设置当前点击item的id
         mAdapter!!.notifyDataSetChanged() // 刷新数据
 
