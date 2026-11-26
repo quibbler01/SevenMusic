@@ -227,7 +227,13 @@ class MusicDownloaderService : Service() {
             notificationManager!!.notify(DOWNLOADNOTIFY, builder!!.build())
         }
 
-        override fun isSuccess(result: Boolean) {
+        override                  /**
+                  * Brief description for isSuccess.
+                  *
+                  * @param context the operating context
+                  * @return the result of the operation
+                  */
+fun isSuccess(result: Boolean) {
             //重新发送下载状态的通知
             notificationManager!!.cancelAll()
             val intent: Intent?
@@ -251,7 +257,13 @@ class MusicDownloaderService : Service() {
         }
     }
 
-    private fun removeFromDownloadList(musicInfo: MusicInfo?) {
+    private             /**
+             * Brief description for removeFromDownloadList.
+             *
+             * @param context the operating context
+             * @return the result of the operation
+             */
+fun removeFromDownloadList(musicInfo: MusicInfo?) {
                 Log.d("MusicDownloaderService", "removeFromDownloadList() called")
         mDownloadList!!.remove(musicInfo!!)
     }
