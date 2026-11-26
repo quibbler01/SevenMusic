@@ -277,6 +277,7 @@ class APPUtil private constructor() {
          * @return
          */
         private fun toCharsString(sigBytes: ByteArray): String {
+                    Log.d("APPUtil", "toCharsString() called")
             val sig = sigBytes
             val N = sig.size
             val N2 = N * 2

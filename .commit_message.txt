@@ -1,3 +1,3 @@
-refactor: improve code readability in add improvement notes in MusicPlayCompletionBroadcastReceiver.kt
+refactor: improve code readability in add debug logging in APPUtil.kt
 
-- add KDoc comments to PlaybarMusicListDialog.kt
+- README.md
