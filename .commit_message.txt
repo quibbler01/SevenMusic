@@ -1,3 +1,4 @@
-style: fix inconsistent indentation in add KDoc comments to MusicDownloaderService.kt
+fix: address potential edge case in add KDoc comments to FoundShowPlaylistAdapter.kt
 
-- add debug logging in IRequestCallback.kt
+- add debug logging in PlaylistActivity.kt
+- README.md

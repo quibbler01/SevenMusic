@@ -542,6 +542,7 @@ class PlaylistActivity : BaseMusicListActivity<PlaylistAdapter?>() {
         }
 
         override fun onPostExecute(playlistInfo: PlaylistInfo?) {
+                     Log.d("Playlist", "onPostExecute() called")
             super.onPostExecute(playlistInfo)
             if (playlistInfo == null) {
                 return

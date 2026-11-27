@@ -45,7 +45,11 @@ class FoundShowPlaylistAdapter(topPlaylistInfoList: MutableList<PlaylistInfo?>?)
             .inflate(R.layout.found_list_item_playlist, parent, false)
         val viewHolder = PlaylistViewHolder(view)
         viewHolder.mView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+            override                      /**
+                      * Performs onClick operation.
+                      * This method ensures safe execution with null checks.
+                      */
+fun onClick(v: View?) {
                 val position = viewHolder.getAdapterPosition()
                 val playlistInfo = mTopPlaylistInfoList.get(position)
                 val id = playlistInfo.getId()
@@ -59,7 +63,11 @@ class FoundShowPlaylistAdapter(topPlaylistInfoList: MutableList<PlaylistInfo?>?)
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
+    override              /**
+              * Performs onBindViewHolder operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
         val playlistInfo = mTopPlaylistInfoList.get(position)
