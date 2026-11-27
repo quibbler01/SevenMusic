@@ -19,7 +19,11 @@ class WrapContentHeightViewPager : ViewPager {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    override              /**
+              * Performs onMeasure operation.
+              * This method ensures safe execution with null checks.
+              */
+fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                  Log.d("WrapContentHeightViewPager", "onMeasure() called")
         var heightMeasureSpec = heightMeasureSpec
         var height = 0

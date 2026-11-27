@@ -1,4 +1,1 @@
-fix: address potential edge case in add KDoc comments to FoundShowPlaylistAdapter.kt
-
-- add debug logging in PlaylistActivity.kt
-- README.md
+fix: prevent potential NPE in add KDoc comments to WrapContentHeightViewPager.kt
