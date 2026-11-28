@@ -3,6 +3,7 @@ package com.quibbler.sevenmusic.fragment.mv
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.androidkun.xtablayout.XTabLayout
+import android.util.Log
 
 /**
  * 
@@ -98,6 +99,7 @@ fun showNoNetPage() {
              * @return the result of the operation
              */
 fun hideNoNetPage() {
+    Log.d("Mv", "hideNoNetPage() called")
         mView!!.findViewById<View?>(R.id.mv_nonet_tip).setVisibility(View.GONE)
     }
 
